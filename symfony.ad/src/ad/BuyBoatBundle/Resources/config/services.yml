@@ -1,0 +1,7 @@
+parameters:
+#    ad_buy_boat.example.class: ad\BuyBoatBundle\Example
+
+services:
+#    ad_buy_boat.example:
+#        class: %ad_buy_boat.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
