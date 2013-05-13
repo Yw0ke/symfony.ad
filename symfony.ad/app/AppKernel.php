@@ -22,8 +22,11 @@ class AppKernel extends Kernel
 			
 			//ajout du bundle de migration le 10/05/2013
 			new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+        	new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new ad\BuyBoatBundle\adBuyBoatBundle(),
+            new ad\UserBundle\adUserBundle(),
         	new FOS\UserBundle\FOSUserBundle(),
+        	
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

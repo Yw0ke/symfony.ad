@@ -1,0 +1,7 @@
+parameters:
+#    ad_user.example.class: ad\UserBundle\Example
+
+services:
+#    ad_user.example:
+#        class: %ad_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
