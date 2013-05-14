@@ -1,6 +1,6 @@
 <?php
 
-namespace ad\BuyBoatBundle\Controller;
+namespace ad\ClassifiedBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
@@ -20,21 +20,28 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
+    	//Retourne les annonces r�centes.
+    	
     	$user = $this->getUser();
     	
     	$userManager = $this->get('fos_user.user_manager');
     	
-  		return $this->render('adBuyBoatBundle:Default:index.html.twig',array());
+  		return $this->render('adClassifiedBundle:Default:index.html.twig',array());
     }
-    public function ajouterAction()
-    {
-    	// On teste que l'utilisateur dispose bien du rôle ROLE_AUTEUR
-    	if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-    		// Sinon on déclenche une exception « Accès interdit »
-    		throw new AccessDeniedHttpException('Accès limité aux admins');
-    	}
     
-    	// … Ici le code d'ajout d'un article qu'on a déjà fait
+    /**
+     * @Route("", name="categoryList")
+     * @Template()
+     */
+    public function categoryListAction()
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	$category = $em->getRepository('adClassifiedBundle:Category')->getCategory();
+    	
+    	return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout � la vue.
+    			'category' => $category
+    	));
+    	
     }
     
     

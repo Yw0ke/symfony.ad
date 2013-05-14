@@ -1,10 +1,10 @@
 home:
     pattern:   /home
-    defaults:  { _controller: adBuyBoatBundle:Default:index }
+    defaults:  { _controller: adClassifiedBundle:Default:index }
 
-add:
-    pattern:   /add
-    defaults:  { _controller: adBuyBoatBundle:Default:ajouter }
+list:
+    pattern:   /list
+    defaults:  { _controller: adClassifiedBundle:Default:categoryList }
     
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

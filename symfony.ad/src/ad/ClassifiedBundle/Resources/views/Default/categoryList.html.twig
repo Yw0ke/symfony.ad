@@ -1,0 +1,16 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+
+<ul>
+{% for key,value in category %}
+	
+	{% for keyz,valuez in value %}
+			
+		{% for c in valuez %}
+    		<li>{{ c.name }}</li>
+    	{% endfor %}
+	{% endfor %}
+{% endfor %}
+</ul>
+{% endblock %}

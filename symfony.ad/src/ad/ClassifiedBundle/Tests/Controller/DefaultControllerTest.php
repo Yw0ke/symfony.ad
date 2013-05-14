@@ -1,6 +1,6 @@
 <?php
 
-namespace ad\BuyBoatBundle\Tests\Controller;
+namespace ad\ClassifiedBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

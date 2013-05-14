@@ -1,5 +1,5 @@
 parameters:
-#    ad_buy_boat.example.class: ad\BuyBoatBundle\Example
+#    ad_buy_boat.example.class: ad\ClassifiedBundle\Example
 
 services:
 #    ad_buy_boat.example:
