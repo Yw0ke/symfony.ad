@@ -24,15 +24,22 @@
 1.	Se rendre dans le dossier de l’application c:/wamp/git/symfony.ad/symfony.ad/.
 2.	Utiliser cette commande : `php composer install`
 
+*IV : Effectuer les migrations et intégrer les fixtures.*
 
-*IV : Accéder à l’application.*
+1.	Créer une base de données `symfony.ad` grâce a phpmyadmin.
+2.	Se rendre dans le dossier de l'application c:/wamp/git/symfony.ad/symfony.ad/.
+3.	Utiliser cette commande : `app/console doctrine:migrations:migrate`.
+4.	Ainsi que celle-ci : `app/console doctrine:fixtures:load`.
 
 
-1. Simplement taper symfony.ad dans la barre d’addresse pour accéder à la page d’acceuil.
+*V : Accéder à l’application.*
+
+
+1. Simplement taper symfony.ad dans la barre d’adresse pour accéder à la page d’accueil.
 
 
 
-*Exemple de virtualhost à placer à la fin de httpd-conf : 
+*Exemple de virtualhost à placer à la fin du httpd-conf : 
 
 
     #####
