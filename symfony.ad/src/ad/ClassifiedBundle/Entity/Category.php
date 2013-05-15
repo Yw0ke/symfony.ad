@@ -100,6 +100,19 @@ class Category
      */
     public function getChildren()
     {
-    	return
+    	return $this->children;
+    }
+    
+    /**
+     * Set children
+     *
+     * @param array $children
+     * @return Category
+     */
+    public function setChildren($children)
+    {
+    	$this->children = $children;
+    
+    	return $this;
     }
 }

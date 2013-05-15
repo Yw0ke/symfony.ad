@@ -3,14 +3,14 @@
 {% block body %}
 
 <ul>
-{% for key,value in category %}
-	
-	{% for keyz,valuez in value %}
-			
-		{% for c in valuez %}
-    		<li>{{ c.name }}</li>
-    	{% endfor %}
-	{% endfor %}
+{% for obj in category %}
+{{ obj.name }}
+	<ol>
+	{% for sc in obj.children %}
+    	<li>{{ sc.name }}</li>
+    {% endfor %}
+    </ol>
 {% endfor %}
 </ul>
+
 {% endblock %}

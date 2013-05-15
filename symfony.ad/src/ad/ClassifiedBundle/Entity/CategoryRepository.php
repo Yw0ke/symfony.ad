@@ -23,17 +23,15 @@ class CategoryRepository extends EntityRepository
 		
 		$response = $qb->getQuery()->getResult();
 
-		$category = array();
-		$i = 0;
+		$category = array();		
 		
 		foreach ($response as $obj)
 		{
-			$category[$i] = array($obj, self::getChildren($obj));
-			$i++;
+			$category[]= $obj->setChildren(self::getChildren($obj));
 		}
 		
-		var_dump($category);
-		die;
+		//var_dump($category);
+		//die;
 		
 		return $category;
 	}
