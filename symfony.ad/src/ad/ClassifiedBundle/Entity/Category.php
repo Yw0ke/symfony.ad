@@ -40,14 +40,19 @@ class Category
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="cascade")
      */
     private $parent;
-	
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
      * @return integer 
      */
-
-    
     public function getId()
     {
         return $this->id;
@@ -55,7 +60,8 @@ class Category
 
     /**
      * Set name
-     * 
+     *
+     * @param string $name
      * @return Category
      */
     public function setName($name)
@@ -76,49 +82,58 @@ class Category
     }
 
     /**
-     * Set Parent
+     * Add children
      *
-     * @var array
-     * 
+     * @param \ad\ClassifiedBundle\Entity\Category $children
      * @return Category
      */
-    public function setParent($parent)
+    public function addChild(\ad\ClassifiedBundle\Entity\Category $children)
     {
-        $this->parent = $parent;
-		
+        $this->children[] = $children;
+
         return $this;
     }
-    
+
+    /**
+     * Remove children
+     *
+     * @param \ad\ClassifiedBundle\Entity\Category $children
+     */
+    public function removeChild(\ad\ClassifiedBundle\Entity\Category $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \ad\ClassifiedBundle\Entity\Category $parent
+     * @return Category
+     */
+    public function setParent(\ad\ClassifiedBundle\Entity\Category $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
     /**
      * Get parent
      *
-     * @return integer 
+     * @return \ad\ClassifiedBundle\Entity\Category 
      */
     public function getParent()
     {
         return $this->parent;
-    }
-    
-    /**
-     * Get children
-     * 
-     * @return array
-     */
-    public function getChildren()
-    {
-    	return $this->children;
-    }
-    
-    /**
-     * Set children
-     *
-     * @param array $children
-     * @return Category
-     */
-    public function setChildren($children)
-    {
-    	$this->children = $children;
-    
-    	return $this;
     }
 }
