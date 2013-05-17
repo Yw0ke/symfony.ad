@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use ad\ClassifiedBundle\Entity\Repository\CategoryRepository;
 
 class DefaultController extends Controller
 {
@@ -20,7 +21,7 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
-    	//Retourne les annonces récentes.
+    	//Retourne les annonces rï¿½centes.
     	
     	$user = $this->getUser();
     	
@@ -35,10 +36,13 @@ class DefaultController extends Controller
      */
     public function categoryListAction()
     {
-    	$em = $this->getDoctrine()->getManager();
+    	$em = $this->getDoctrine()->getEntityManager();
     	$category = $em->getRepository('adClassifiedBundle:Category')->getCategory();
+		
+    	//var_dump($category);
+    	//die;
     	
-    	return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout à la vue.
+    	return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout ï¿½ la vue.
     			'category' => $category
     	));
     	

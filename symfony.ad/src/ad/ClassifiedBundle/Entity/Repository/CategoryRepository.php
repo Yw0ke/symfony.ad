@@ -1,6 +1,6 @@
 <?php
 
-namespace ad\ClassifiedBundle\Entity;
+namespace ad\ClassifiedBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -15,38 +15,44 @@ class CategoryRepository extends EntityRepository
 	public function getCategory()
 	{
 		$em = $this->getEntityManager();
-		
+
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('c');
 		$qb->from('adClassifiedBundle:Category','c');
-		$qb->where('c.parentId = 1');
+		$qb->where('c.parent is null');
 		
 		$response = $qb->getQuery()->getResult();
 
-		$category = array();		
+		var_dump($response[0]);
+		die;
 		
-		foreach ($response as $obj)
+		$category = array();
+
+		foreach ($response as $cat)
 		{
-			$category[]= $obj->setChildren(self::getChildren($obj));
+			$category[]= $cat->setChildren(self::getChildren($cat));
 		}
-		
-		//var_dump($category);
-		//die;
 		
 		return $category;
 	}
-	
+
 	public function getChildren($cat)
 	{
-		$em = $this->getEntityManager();
+		//var_dump($cat);
+		//die;
 		
+		$em = $this->getEntityManager();
+
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('c');
 		$qb->from('adClassifiedBundle:Category','c');
-		$qb->where('c.parentId = :id');
+		$qb->where('c.parent = :parents');
+
+		$qb->setParameter('parents', $cat->getParent());
+
+		//var_dump($qb->getQuery()->getResult());
+		//die;
 		
-		$qb->setParameter('id', $cat->getId());
-		
-		return $response = $qb->getQuery()->getResult();	
+		return $response = $qb->getQuery()->getResult();
 	}
 }
