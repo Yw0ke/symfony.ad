@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<!-- meta -->
+    <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  
+ 	<!-- include -->
+    <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/style.css') }}" type="text/css" />
+    
     <title>{% block title %}ad{% endblock %}</title>
  
     {% block stylesheets %}
-      <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
-    {% endblock %}
+        <link rel="stylesheet" href="{{ asset('bundles/cnamcatclinic/css/style.css') }}" type="text/css" media="all" />
+	{% endblock %}
   </head>
- 
   <body>
-    <div class="container">
-      <div id="header" class="hero-unit">
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-	    Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-	{% else %}
-	    <p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
-	{% endif %}
-        <h1>Acheter un bateau !</h1>
-        <p>Acheter, vendre, louer un bateau ou jet-ski</p>
-      </div>
- 
-      <div class="row">
-        <div id="menu" class="span3">
-          <h2>Menu</h2>
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="{{ path('home') }}">Acceuil</a></li>
-            <li><a href="{{ path('list') }}">Catégories</a></li>
-            <li><a href="">Acheter un bateau ?</a></li>
-            <li><a href="">Actualité</a></li>
-            <li><a href="">Votre publicité</a></li>
-          </ul>
-                     
+  	<header>
+  		<div id="header_top">
+	  		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+		    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
+			{% else %}
+		    	<p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
+			{% endif %}
+		</div>
+		<div id="header_main">
+			<h1>Acheter un bateau !</h1>
+        	<p>Acheter, vendre, louer un bateau ou jet-ski</p>
         </div>
-        <div id="content" class="span9">
-          {% block body %}
-          {% endblock %}
+        <div id="header_menu">
+          	<ul>
+	            <li><a href="{{ path('home') }}">Acceuil</a></li>
+	            <li><a href="{{ path('list') }}">Catégories</a></li>
+	            <li><a href="">Acheter un bateau ?</a></li>
+	            <li><a href="">Actualité</a></li>
+	            <li><a href="">Votre publicité</a></li>
+         	</ul>
         </div>
-      </div>
-
-    </div>
+  	</header>
+  	<div id="search_bar">
+  		<form method="post" action="">
+  			<input type="text" />
+       		<select name="category" id="category">
+           	<option value="category">Categories</option>
+       		</select>
+  			<input type="submit" />
+  		</form>
+  	</div>
+	<div id="content">
+		{% block body %}
+		{% endblock %}
+	</div>
+	<div id="footer">
+		<p>footer</p>
+	</div>
  
-  {% block javascripts %}
-    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
-  {% endblock %}
+	{% block javascripts %}
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	{% endblock %}
  
   </body>
 </html>

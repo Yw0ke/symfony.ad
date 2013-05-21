@@ -1,0 +1,25 @@
+header{
+	color:white;
+}
+#header_top{
+	width:940px;
+	margin: 0 auto;
+	background-color:#4F4F4F;
+}
+
+#header_main{
+	width:940px;
+	margin: 0 auto;
+	background-color:#313131;
+}
+
+#header_menu{
+	width:940px;
+	margin: 0 auto;
+	background-color:#3E9286;
+}
+
+#header_menu li{
+	display:inline-block;
+	margin:5px;
+}

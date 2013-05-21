@@ -3,10 +3,10 @@
 {% block body %}
 
 <ul>
-{% for obj in category %}
-{{ obj.name }}
+{% for c in category %}
+{{ c.name }}
 	<ol>
-	{% for sc in obj.children %}
+	{% for sc in c.__children %}
     	<li>{{ sc.name }}</li>
     {% endfor %}
     </ol>

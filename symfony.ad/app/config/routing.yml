@@ -10,6 +10,10 @@ list:
     pattern:   /list
     defaults:  { _controller: adClassifiedBundle:Default:categoryList }
     
+dashboard:
+    pattern:   /dashboard
+    defaults: { _controller: adClassifiedBundle:Default:dashboard }
+    
 #FoSUserBundle routes
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

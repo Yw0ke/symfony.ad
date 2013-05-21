@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new ad\ClassifiedBundle\adClassifiedBundle(),
             new ad\UserBundle\adUserBundle(),
         	new FOS\UserBundle\FOSUserBundle(),
+        	new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         	
         );
 

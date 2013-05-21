@@ -21,56 +21,56 @@ class LoadCategoryData implements FixtureInterface, ContainerAwareInterface
     
 	public function load(ObjectManager $manager)
 	{
-		//Ajout des catï¿½gories primaires.
+		//Ajout des catégories primaires.
 		$maincategory = array("Bateaux d'occasion", "Bateaux neuf", "Jets skis", "Bateaux en location", "Divers", "Moteurs");
+		
+		$manager = $this->container->get('doctrine')->getEntityManager();
 		
 		foreach($maincategory as $name)
 		{
 			$cat = new Category();
-			$cat->setName($name);
+			$cat->setName(utf8_encode($name));
 			
+						
 			$manager->persist($cat);
 			$manager->flush();
+			
 		}
 		
-		//Ajout des catï¿½gories secondaire.
-		$manager = $this->container->get('doctrine')->getEntityManager();
-				
+		//Ajout des catï¿½gories secondaire.				
 		$categoryX = array(
-	    	"Bateaux de travail" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 1)),
-	    	"Bateaux fluviaux" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 1)),
-	    	"Bateaux Ã  moteur" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array(	'id' => array(1, 2, 4))),	//array si sous-catï¿½gorie disponible sur plusieurs catï¿½gorie
-	    	"Voiliers" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array( 'id' => array(2, 4))),			//array si sous-catï¿½gorie disponible sur plusieurs catï¿½gorie
-	    	"Jets-skis Ã  bras" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 3)),
-	    	"Jets-skis Ã  selle" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 3)),
-	    	"Accastillages" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 5)),
-	    	"Autres" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 5)),
-	    	"Places de port" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 5)),
-	    	"Moteurs d'occasion" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 6)),
-	    	"Moteurs neufs" => $manager->getRepository('adClassifiedBundle:Category')->findBy(array('id' => 6)),
+	    	"Bateaux de travail" => $maincategory[0],
+	    	"Bateaux fluviaux" => $maincategory[0],
+	    	"Bateaux à moteur" => $maincategory[0],	//array si sous-catï¿½gorie disponible sur plusieurs catï¿½gorie
+	    	"Bateaux à moteur" => $maincategory[1],
+			"Bateaux à moteur" =>$maincategory[3],
+	    	"Voiliers" => $maincategory[1],			//array si sous-catï¿½gorie disponible sur plusieurs catï¿½gorie
+	    	"Voiliers" => $maincategory[3],
+	    	"Jets-skis à  bras" => $maincategory[2],
+	    	"Jets-skis à  selle" => $maincategory[2],
+	    	"Accastillages" => $maincategory[4],
+	    	"Autres" => $maincategory[4],
+	    	"Places de port" => $maincategory[4],
+	    	"Moteurs d'occasion" => $maincategory[5],
+	    	"Moteurs neufs" => $maincategory[5],
     	);
-		
+
 		foreach ($categoryX as $name => $parent)
 		{
-			if (!is_array(($parent)))	//Si il n'y en a pas plusieurs on persist l'entitï¿½ directement.
-			{
-				$cat = new Category();
-				$cat->setName(utf8_encode($name));
-				$cat->setParent($parent);
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('c');
+			$qb->from('adClassifiedBundle:Category','c');
+			$qb->where("c.name = :name");
 				
-				$manager->persist($cat);
-			}
-			else 	//Sinon on boucle sur le "tableau" et on persisit une entitï¿½ a chaque boucle.
-			{				
-				foreach ($parent as $id)
-				{	
-					$cate = new Category();
-					$cate->setName(utf8_encode($name));
-					$cate->setParent($parent);
-					
-					$manager->persist($cate);
-				}
-			}
+			$qb->setParameter('name', $parent);
+			
+			$dad = $qb->getQuery()->getResult();
+			
+			$cat = new Category();
+			$cat->setName(utf8_encode($name));
+			$cat->setParent($dad[0]);
+			
+			$manager->persist($cat);
 			$manager->flush();
 		}
 	}
