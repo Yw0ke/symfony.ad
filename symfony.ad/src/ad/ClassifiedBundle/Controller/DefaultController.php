@@ -24,9 +24,9 @@ class DefaultController extends Controller
     {
     	//Retourne les annonces r�centes.
     	
-    	$user = $this->getUser();
+    	/*$user = $this->getUser();
     	
-    	$userManager = $this->get('fos_user.user_manager');
+    	$userManager = $this->get('fos_user.user_manager');*/
     	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array());
     }
@@ -50,10 +50,10 @@ class DefaultController extends Controller
     	//var_dump($test);
     	//die;
     	
-    	if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+    	/*if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
     		// Sinon on déclenche une exception « Accès interdit »
     		throw new AccessDeniedHttpException('Accès limité aux admins');
-    	}
+    	}*/
     	
     	return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout � la vue.
     			'category' => $arrayTree

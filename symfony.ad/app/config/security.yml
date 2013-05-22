@@ -4,9 +4,8 @@ security:
         ad\UserBundle\Entity\User: sha512
         
     role_hierarchy:
-        ROLE_MODERATEUR:  ROLE_USER
-        ROLE_ADMIN:       [ROLE_USER, ROLE_MODERATEUR]
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_MODERATEUR, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         fos_userbundle:

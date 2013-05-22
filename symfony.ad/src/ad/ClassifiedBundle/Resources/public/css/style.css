@@ -1,25 +1,53 @@
+body{
+		width:940px;
+	margin: 0 auto;
+}
+
 header{
 	color:white;
 }
 #header_top{
-	width:940px;
-	margin: 0 auto;
 	background-color:#4F4F4F;
 }
 
+#header_top a{
+	color:#6DBD9D;
+	text-decoration:none;
+}
+
+#header_top p{
+	text-align:right;
+}
+
 #header_main{
-	width:940px;
-	margin: 0 auto;
 	background-color:#313131;
 }
 
 #header_menu{
-	width:940px;
-	margin: 0 auto;
 	background-color:#3E9286;
+}
+
+#header_menu a{
+	text-decoration:none;
+	color:white;
 }
 
 #header_menu li{
 	display:inline-block;
 	margin:5px;
+}
+
+#content{
+	min-height:300px;
+}
+
+#footer{
+	height:80px;
+	background-color:#4F4F4F;
+}
+
+#footer p{
+	font-size:3em;
+	color:white;
+	text-align:center;
 }

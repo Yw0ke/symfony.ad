@@ -26,7 +26,7 @@ class Ads
      *
      * @ORM\Column(name="owner_name", type="string", length=42)
      */
-    private $ownerName;
+    private $title;
 
     /**
      * @var string
@@ -75,7 +75,7 @@ class Ads
      *
      * @ORM\Column(name="owner_comment", type="text")
      */
-    private $ownerComment;
+    private $comment;
 
     /**
      * @var integer
@@ -110,26 +110,26 @@ class Ads
     }
 
     /**
-     * Set ownerName
+     * Set title
      *
-     * @param string $ownerName
+     * @param string $title
      * @return Ads
      */
-    public function setOwnerName($ownerName)
+    public function setTitle($title)
     {
-        $this->ownerName = $ownerName;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get ownerName
+     * Get title
      *
      * @return string 
      */
-    public function getOwnerName()
+    public function getTitle()
     {
-        return $this->ownerName;
+        return $this->title;
     }
 
     /**
@@ -271,26 +271,26 @@ class Ads
     }
 
     /**
-     * Set ownerComment
+     * Set comment
      *
-     * @param string $ownerComment
+     * @param string $comment
      * @return Ads
      */
-    public function setOwnerComment($ownerComment)
+    public function setComment($comment)
     {
-        $this->ownerComment = $ownerComment;
+        $this->comment = $comment;
 
         return $this;
     }
 
     /**
-     * Get ownerComment
+     * Get comment
      *
      * @return string 
      */
-    public function getOwnerComment()
+    public function getComment()
     {
-        return $this->ownerComment;
+        return $this->comment;
     }
 
     /**

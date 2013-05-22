@@ -4,21 +4,23 @@
   	<!-- meta -->
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- 
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	
  	<!-- include -->
-    <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/style.css') }}" type="text/css" />
-    
-    <title>{% block title %}ad{% endblock %}</title>
- 
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('bundles/cnamcatclinic/css/style.css') }}" type="text/css" media="all" />
+  	{% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-responsive.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/style.css') }}" type="text/css" />
 	{% endblock %}
+	
+	
+    <title>{% block title %}ad{% endblock %}</title>
   </head>
   <body>
   	<header>
   		<div id="header_top">
 	  		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-		    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
+		    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('dashboard') }}">Dashboard</a> - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
 			{% else %}
 		    	<p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
 			{% endif %}
@@ -37,7 +39,7 @@
          	</ul>
         </div>
   	</header>
-  	<div id="search_bar">
+  	<!-- <div id="search_bar">
   		<form method="post" action="">
   			<input type="text" />
        		<select name="category" id="category">
@@ -45,7 +47,7 @@
        		</select>
   			<input type="submit" />
   		</form>
-  	</div>
+  	</div> -->
 	<div id="content">
 		{% block body %}
 		{% endblock %}

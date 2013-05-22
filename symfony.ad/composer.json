@@ -23,7 +23,10 @@
 		"doctrine/data-fixtures": "@dev",
 		"doctrine/doctrine-fixtures-bundle": "dev-master",
 		"gedmo/doctrine-extensions": "dev-master",
-		"stof/doctrine-extensions-bundle": "1.1.*@dev"
+		"stof/doctrine-extensions-bundle": "1.1.*@dev",
+		"braincrafted/bootstrap-bundle": "dev-master",
+		"twitter/bootstrap": "2.3.*",
+		"jquery/jquery": "1.9.*"
 		
     },
     "scripts": {
@@ -50,5 +53,18 @@
         "branch-alias": {
             "dev-master": "2.2-dev"
         }
-    }
+    },
+     "repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "jquery/jquery",
+				"version": "1.9.1",
+				"dist": {
+					"url": "http://code.jquery.com/jquery-1.9.1.js",
+					"type": "file"
+				}
+			}
+		}
+		]
 }

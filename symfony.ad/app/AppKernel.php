@@ -20,13 +20,16 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
 			
-			//ajout du bundle de migration le 10/05/2013
+        	//Bundle perso du projet	
+        	new ad\ClassifiedBundle\adClassifiedBundle(),
+        	new ad\UserBundle\adUserBundle(),
+        		
+			//Bundle nécessaire au projet
 			new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         	new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new ad\ClassifiedBundle\adClassifiedBundle(),
-            new ad\UserBundle\adUserBundle(),
         	new FOS\UserBundle\FOSUserBundle(),
         	new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+        	new Bc\Bundle\BootstrapBundle\BcBootstrapBundle()
         	
         );
 
