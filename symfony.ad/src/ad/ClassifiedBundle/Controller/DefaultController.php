@@ -17,7 +17,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class DefaultController extends Controller
 {
 	/**
-	 * @Route("", name="index")
+	 * @Route("/", name="ad_index")
 	 * @Template()
 	 */
     public function indexAction()
@@ -31,46 +31,16 @@ class DefaultController extends Controller
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array());
     }
     
-    /**
-     * @Route("", name="categoryList")
-     * @Template()
-     */
-    public function categoryListAction()
-    {
-    	$em = $this->getDoctrine()->getManager();
-    	$repo = $em->getRepository('adClassifiedBundle:Category');
-    	
-    	$arrayTree = $repo->childrenHierarchy();
-    	
-    	//$userManager = $this->get('fos_user.user_manager');
-    	//$user = $userManager->findUserByUsername('admin');
-    	//$user->setRoles(array('ROLE_ADMIN'));
-    	//$test = $userManager->updateUser($user);
-    	
-    	//var_dump($test);
-    	//die;
-    	
-    	/*if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-    		// Sinon on déclenche une exception « Accès interdit »
-    		throw new AccessDeniedHttpException('Accès limité aux admins');
-    	}*/
-    	
-    	return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout � la vue.
-    			'category' => $arrayTree
-    	));
-    	
-    }
-    
-    /**
-     * @Route("", name="dashboardAction")
-     * @Template()
-     */
+ 	/**
+	 * @Route("/dashboard/", name="ad_dashboard")
+	 * @Template()
+	 */
     public function dashboardAction()
     {
     	//$userManager = $this->get('fos_user.user_manager');
     	//$user = $userManager->findUserByUsername('admin');
     	
-    	if ($this->get('security.context')->isGranted('ROLE_ADMIN')) 
+    	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array(  //Et on passe le tout � la vue.
     			));

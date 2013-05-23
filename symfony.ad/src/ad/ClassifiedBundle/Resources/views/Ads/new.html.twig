@@ -1,0 +1,11 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+	<h1>Enregistrer une nouvelle annonce</h1>
+	<div class="well">
+		<form action="{{ path('catclinic_enregistrer_visite') }}" method="post" {{ form_enctype(form) }}>
+			{{ form_widget(form) }}
+			<input type="submit" />
+		</form>
+	</div>
+{% endblock %}

@@ -4,8 +4,8 @@ security:
         ad\UserBundle\Entity\User: sha512
         
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_MODO:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_MODO, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         fos_userbundle:
@@ -22,7 +22,7 @@ security:
                 default_target_path:    /dashboard
             logout:
                 path:       fos_user_security_logout
-                target:     /home
+                target:     /
             anonymous:    true
 
     access_control:

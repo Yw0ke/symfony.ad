@@ -1,19 +1,8 @@
-home:
-    pattern:   /
-    defaults:  { _controller: adClassifiedBundle:Default:index }
+ad:
+    resource: "@adClassifiedBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
-home_index:
-    pattern:   /home
-    defaults:  { _controller: adClassifiedBundle:Default:index }
-
-list:
-    pattern:   /list
-    defaults:  { _controller: adClassifiedBundle:Default:categoryList }
-    
-dashboard:
-    pattern:   /dashboard
-    defaults: { _controller: adClassifiedBundle:Default:dashboard }
-    
 #FoSUserBundle routes
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

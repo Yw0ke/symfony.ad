@@ -24,7 +24,7 @@ class Ads
     /**
      * @var string
      *
-     * @ORM\Column(name="owner_name", type="string", length=42)
+     * @ORM\Column(name="title", type="string", length=80)
      */
     private $title;
 
@@ -73,7 +73,7 @@ class Ads
     /**
      * @var string
      *
-     * @ORM\Column(name="owner_comment", type="text")
+     * @ORM\Column(name="comment", type="text")
      */
     private $comment;
 
@@ -86,15 +86,15 @@ class Ads
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="category_id", type="integer")
+  	 * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Category")
+	 * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private $categoryId;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="ad\UserBundle\Entity\User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $userId;
 
@@ -317,29 +317,6 @@ class Ads
     }
 
     /**
-     * Set categoryId
-     *
-     * @param integer $categoryId
-     * @return Ads
-     */
-    public function setCategoryId($categoryId)
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
-    }
-
-    /**
-     * Get categoryId
-     *
-     * @return integer 
-     */
-    public function getCategoryId()
-    {
-        return $this->categoryId;
-    }
-
-    /**
      * Set userId
      *
      * @param integer $userId
@@ -360,5 +337,28 @@ class Ads
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set categoryId
+     *
+     * @param \ad\ClassifiedBundle\Entity\Category $categoryId
+     * @return Ads
+     */
+    public function setCategoryId(\ad\ClassifiedBundle\Entity\Category $categoryId)
+    {
+        $this->categoryId = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryId
+     *
+     * @return \ad\ClassifiedBundle\Entity\Category 
+     */
+    public function getCategoryId()
+    {
+        return $this->categoryId;
     }
 }

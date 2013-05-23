@@ -24,7 +24,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$userManager = $this->container->get('fos_user.user_manager');
 		
 		$userSAdmin = $userManager->createUser();
-		$userAdmin = $userManager->createUser();
+		$userModo = $userManager->createUser();
 		$userUser = $userManager->createUser();
 		
 		$encoder = $this->container
@@ -41,13 +41,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$userManager->updateUser($userSAdmin, true);
 		
 		//Enregistrement de l'admin
-		$userAdmin->setUsername('admin');
-		$userAdmin->setPassword($encoder
-				  ->encodePassword('admin', $userAdmin->getSalt()));
-		$userAdmin->setEmail('admin@admin.com');
-		$userAdmin->setEnabled(true);
-		$userAdmin->setRoles(array('ROLE_ADMIN'));
-		$userManager->updateUser($userAdmin, true);
+		$userModo->setUsername('modo');
+		$userModo->setPassword($encoder
+				  ->encodePassword('modo', $userModo->getSalt()));
+		$userModo->setEmail('modo@modo.com');
+		$userModo->setEnabled(true);
+		$userModo->setRoles(array('ROLE_MODO'));
+		$userManager->updateUser($userModo, true);
 		
 		//Enregistrement de user
 		$userUser->setUsername('user');
