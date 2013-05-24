@@ -33,6 +33,7 @@ class DefaultController extends Controller
     
  	/**
 	 * @Route("/dashboard/", name="ad_dashboard")
+	 * @Secure(roles="ROLE_USER")
 	 * @Template()
 	 */
     public function dashboardAction()
@@ -42,13 +43,15 @@ class DefaultController extends Controller
     	
     	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
-    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array(  //Et on passe le tout � la vue.
-    			));
+    		$em = $this->getDoctrine()->getEntityManager();
+		
+			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
+    		
+    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('ads' => $ads));
     	}
     	else 
     	{
-    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array(  //Et on passe le tout � la vue.
-    				));
+    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array());
     	}
     	
     	//$user = $this->container->get('security.context')->getToken()->getUser();

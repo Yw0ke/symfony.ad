@@ -9,8 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use ad\ClassifiedBundle\Form\AdsType;
 use ad\ClassifiedBundle\Entity\Ads;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class AdsController extends Controller
 {
@@ -24,9 +26,6 @@ class AdsController extends Controller
 		
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->findAll();
 		
-		//var_dump($ads);
-		//die;
-		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:list.html.twig', array(
 				'ads' => $ads
 		));
@@ -39,9 +38,57 @@ class AdsController extends Controller
 	 */
 	public function newAction()
 	{
-		$form = $this->createForm(new AdsType, new Ads);
+		if (!$this->get('security.context')->isGranted('ROLE_USER'))
+		{
+			throw new AccessDeniedHttpException('Accès limité aux utilisateurs inscrit !');	// Sinon on déclenche une exception « Accès interdit »
+		}
+		$formAds = $this->createForm(new AdsType, new Ads);
+		$formBoat = $this->createForm(new BoatType, new Boat);
 		
-		return $this->render('CnamCatClinicBundle:visite:new.html.twig', array('form' => $form->createView()));
+		return $this->render('adClassifiedBundle:Ads:new.html.twig', array('form' => $formAds->createView()));
 	}
+	
+	
+	/**
+	 * @Route("/ads/create", name="ad_save_ads")
+	 */
+	public function createAction(Request $request)
+	{
+		$form = $this->createForm(new AdsType, new Ads);
+	
+		if ('POST' == $request->getMethod())
+		{
+			$form->bind($request);
+	
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+				$em = $this->getDoctrine()->getEntityManager();
+				$em->persist($data);
+				$em->flush();
+	
+				return $this->redirect($this->generateUrl('ad_list_ads'));
+			}
+		}
+	
+		return $this->render('adClassifiedBundle:Ads:new.html.twig', array('form' => $form->createView()));
+	}
+	
+	/**
+	 * @Route("/ads/manage", name="ad_manage_ads")
+	 * @Secure(roles="ROLE_SUPER_ADMIN")
+	 */
+	public function manageAdsAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$ads = $em->getRepository('adClassifiedBundle:Ads')->findAll();
+		
+		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:manage.html.twig', array(
+				'ads' => $ads
+		));
+	}
+	
+	
 }
 	

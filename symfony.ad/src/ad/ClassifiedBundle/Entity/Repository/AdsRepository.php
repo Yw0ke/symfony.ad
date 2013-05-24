@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class AdsRepository extends EntityRepository
 {
+	/**
+	 * Get ads waiting for confimation from admin.
+	 *
+	 * @return string
+	 */
+	public function getUnconfirmedAds()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('a');
+		$qb->from('adClassifiedBundle:Ads','a');
+		$qb->where('a.confirmed = 0');
+	
+		return $response = $qb->getQuery()->getResult();
+	}
 }

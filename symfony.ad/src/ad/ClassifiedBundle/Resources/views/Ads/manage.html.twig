@@ -1,0 +1,9 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+<ul>
+{% for ad in ads %}
+	<li>{{ ad.title }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -3,12 +3,19 @@
 {% block body %}
 <div class="row">
 	<div class="span9">
-		Annonces en attente de confirmations.
+	Annonces en attentes de confirmation de votre part.
+		<ul>
+		{% for ad in ads %}
+			<li>{{ ad.title }}</li>
+			<li>{{ ad.price }}</li>
+			<li>{{ ad.ownerType }}</li>
+		{% endfor %}
+		</ul>
 	</div>
 	
 	<aside class="span3">
 		<ul>
-			<li>Gérer les annonces</li>
+			<li><a href="{{ path('ad_manage_ads') }}">Gérer les annonces</a></li>
 			<li>Gérer les catégories</li>
 			<li>Gérer les utilisateurs</li>
 		</ul>

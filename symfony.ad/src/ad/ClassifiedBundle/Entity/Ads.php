@@ -29,6 +29,20 @@ class Ads
     private $title;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="price", type="integer", length=12)
+     */
+    private $price;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="confirmed", type="integer", length=1, nullable=true)
+     */
+    private $confirmed;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="owner_type", type="string", length=42)
@@ -97,7 +111,7 @@ class Ads
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $userId;
-
+	
 
     /**
      * Get id
@@ -130,6 +144,52 @@ class Ads
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     * @return Ads
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer 
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set confirmed
+     *
+     * @param integer $confirmed
+     * @return Ads
+     */
+    public function setConfirmed($confirmed)
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmed
+     *
+     * @return integer 
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
     }
 
     /**
@@ -317,29 +377,6 @@ class Ads
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return Ads
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return integer 
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
      * Set categoryId
      *
      * @param \ad\ClassifiedBundle\Entity\Category $categoryId
@@ -360,5 +397,28 @@ class Ads
     public function getCategoryId()
     {
         return $this->categoryId;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \ad\UserBundle\Entity\User $userId
+     * @return Ads
+     */
+    public function setUserId(\ad\UserBundle\Entity\User $userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \ad\UserBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }
