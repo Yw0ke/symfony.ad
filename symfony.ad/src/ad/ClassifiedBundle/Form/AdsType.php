@@ -12,6 +12,8 @@ class AdsType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('price')
+            ->add('confirmed')
             ->add('ownerType')
             ->add('ownerAdress')
             ->add('ownerCity')
@@ -20,6 +22,7 @@ class AdsType extends AbstractType
             ->add('ownerPhone')
             ->add('comment')
             ->add('boatId')
+            ->add('file')
             ->add('categoryId')
             ->add('userId')
         ;

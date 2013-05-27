@@ -34,44 +34,35 @@ class AdsController extends Controller
 	
 	/**
 	 * @Route("/ads/new/", name="ad_new_ads")
+	 * @Secure(roles="ROLE_USER")
 	 * @Template()
 	 */
 	public function newAction()
 	{
-		if (!$this->get('security.context')->isGranted('ROLE_USER'))
-		{
-			throw new AccessDeniedHttpException('Accès limité aux utilisateurs inscrit !');	// Sinon on déclenche une exception « Accès interdit »
-		}
-		$formAds = $this->createForm(new AdsType, new Ads);
-		$formBoat = $this->createForm(new BoatType, new Boat);
-		
-		return $this->render('adClassifiedBundle:Ads:new.html.twig', array('form' => $formAds->createView()));
-	}
-	
-	
-	/**
-	 * @Route("/ads/create", name="ad_save_ads")
-	 */
-	public function createAction(Request $request)
-	{
-		$form = $this->createForm(new AdsType, new Ads);
-	
-		if ('POST' == $request->getMethod())
-		{
-			$form->bind($request);
-	
-			if ($form->isValid())
-			{
-				$data = $form->getData();
-				$em = $this->getDoctrine()->getEntityManager();
-				$em->persist($data);
-				$em->flush();
-	
-				return $this->redirect($this->generateUrl('ad_list_ads'));
-			}
-		}
-	
-		return $this->render('adClassifiedBundle:Ads:new.html.twig', array('form' => $form->createView()));
+		$ads = new Ads();
+           
+        $form = $this->createForm(new AdsType(), $ads);
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+               
+                $ads->uploadPicture();
+               
+                $em->persist($ads);
+                $em->flush();
+
+                $this->redirect($this->generateUrl('ad_list_ads'));
+            }
+        }
+        
+        return $this->render('adClassifiedBundle:Ads:new.html.twig',
+                array (
+                    'ads' => $ads,
+                    'form' => $form->createView()
+                    )
+                );
 	}
 	
 	/**
@@ -89,6 +80,57 @@ class AdsController extends Controller
 		));
 	}
 	
+	/**
+	 * @Route("/ads/delete/{id}", name="ad_delete_ads")
+	 * @Secure(roles="ROLE_SUPER_ADMIN")
+	 */
+	public function deleteAdsAction($id)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
 	
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->find($id);
+		
+		if (!$ad)
+		{
+			throw $this->createNotFoundException('Cette annonce n\'existe pas.');
+		}
+		
+		$em->remove($ad);
+		$em->flush();
+	
+		return $this->redirect($this->generateUrl('ad_manage_ads', array('delete')));
+	}
+	
+	/**
+	 * @Route("/ads/confirm/{id}/{dash}", name="ad_confirm_ads")
+	 * @Secure(roles="ROLE_SUPER_ADMIN")
+	 */
+	public function confirmAdsAction($id, $dash)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->find($id);
+		
+		if ($ad->getConfirmed() == 0)
+		{
+			$ad->setConfirmed(1);
+		}
+		else
+		{
+			$ad->setConfirmed(0);
+		}
+		
+		$em->persist($ad);
+		$em->flush();
+		
+		if($dash == 1)
+		{
+			return $this->redirect($this->generateUrl('ad_dashboard', array('update')));
+		}
+		else 
+		{
+			return $this->redirect($this->generateUrl('ad_manage_ads', array('update')));
+		}
+	}
 }
 	

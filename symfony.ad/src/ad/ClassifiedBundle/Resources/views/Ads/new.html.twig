@@ -3,7 +3,7 @@
 {% block body %}
 	<h1>Enregistrer une nouvelle annonce</h1>
 	<div class="well">
-		<form action="{{ path('ad_save_ads') }}" method="post" {{ form_enctype(form) }}>
+		<form action="{{ path('ad_new_ads') }}" method="post" {{ form_enctype(form) }}>
 			{{ form_widget(form) }}
 			<input type="submit" />
 		</form>

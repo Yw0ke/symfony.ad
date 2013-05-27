@@ -1,9 +1,55 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-<ul>
-{% for ad in ads %}
-	<li>{{ ad.title }}</li>
-{% endfor %}
-</ul>
+<div class="row">
+	<div class="span12">
+		<table class="table table-bordered table-striped table-condensed">
+		<caption>
+			<h4>Toutes les annonces</h4>
+		</caption>
+		   	<thead>
+		      	<tr>
+		        	<th>Titre</th>
+		            <th>Prix</th>
+		            <th>Villes</th>
+		            <th>Vendeur</th>
+		            <th>Type de vendeur</th>
+		            <th>Status</th>
+		            <th colspan="2">Actions</th>
+		      	</tr>
+		   	</thead>
+			<tbody>
+				{% for ad in ads %}
+		        <tr>
+		            <td>{{ ad.title }}</td>
+		            <td>{{ ad.price }} €</td>
+		            <td>{{ ad.ownerCity }}</td>
+		            <td>{{ ad.userId }}</td>
+		            <td>{{ ad.ownerType }}</td>
+		            <td>{% if ad.confirmed == 1 %}<a class="icon-check center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0 }) }}"></a>{% else %}<a class="icon-remove-circle center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0  }) }}"></a>{% endif %}</td>
+		            <td><a class="icon-eye-open center block" href=""></a></td>
+		            <td><a class="icon-remove center block" href="{{ path('ad_delete_ads', { 'id': ad.id }) }}"></a></td>
+		        </tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		{% if app.request.requestUri|length > 11  %}
+			{% if app.request.requestUri|slice(14) == 'delete' %}
+			<div class="alert alert-info">
+				<strong>Info !</strong> L'annonce a bien était supprimer.
+			</div>
+			{% endif %}
+			{% if app.request.requestUri|slice(14) == 'update' %}
+			<div class="alert alert-success">
+				<strong>Info !</strong> L'annonce a bien était mise à jour.
+			</div>
+			{% endif %}
+		{% endif %}
+	
+	</div>
+</div>
 {% endblock %}

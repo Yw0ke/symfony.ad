@@ -22,12 +22,6 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
-    	//Retourne les annonces r�centes.
-    	
-    	/*$user = $this->getUser();
-    	
-    	$userManager = $this->get('fos_user.user_manager');*/
-    	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array());
     }
     
@@ -38,23 +32,17 @@ class DefaultController extends Controller
 	 */
     public function dashboardAction()
     {
-    	//$userManager = $this->get('fos_user.user_manager');
-    	//$user = $userManager->findUserByUsername('admin');
-    	
     	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
     		$em = $this->getDoctrine()->getEntityManager();
 		
 			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
-    		
+			
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('ads' => $ads));
     	}
     	else 
     	{
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array());
     	}
-    	
-    	//$user = $this->container->get('security.context')->getToken()->getUser();
-
     }
 }

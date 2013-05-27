@@ -3,14 +3,38 @@
 {% block body %}
 <div class="row">
 	<div class="span9">
-	Annonces en attentes de confirmation de votre part.
-		<ul>
-		{% for ad in ads %}
-			<li>{{ ad.title }}</li>
-			<li>{{ ad.price }}</li>
-			<li>{{ ad.ownerType }}</li>
-		{% endfor %}
-		</ul>
+		{% if ads %}
+		<table class="table table-bordered table-striped table-condensed">
+		<caption>
+	    	<h4>Annonces en attentes de confirmation de votre part.</h4>
+	   	</caption>
+	   		<thead>
+	      	<tr>
+	        	<th>Titre</th>
+	            <th>Prix</th>
+	            <th>Villes</th>
+	            <th>Vendeur</th>
+	            <th>Type de vendeur</th>
+	            <th colspan="2">Actions</th>
+	      	</tr>
+		   	</thead>
+			<tbody>
+				{% for ad in ads %}
+		        <tr>
+		            <td>{{ ad.title }}</td>
+		            <td>{{ ad.price }} €</td>
+		            <td>{{ ad.ownerCity }}</td>
+		            <td>{{ ad.userId }}</td>
+		            <td>{{ ad.ownerType }}</td>
+		            <td><a class="icon-eye-open center block" href=""></a></td>
+		            <td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash' : 1 }) }}"></a></td>
+		        </tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>Aucune annonce non valider.</p>
+		{% endif %}
 	</div>
 	
 	<aside class="span3">
