@@ -22,84 +22,14 @@ class Ads
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=80)
-     */
-    private $title;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="price", type="integer", length=12)
-     */
-    private $price;
-    
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="confirmed", type="integer", length=1, nullable=true)
-     */
-    private $confirmed;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="owner_type", type="string", length=42)
-     */
-    private $ownerType;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="owner_adress", type="string", length=255)
-     */
-    private $ownerAdress;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="owner_city", type="string", length=42)
-     */
-    private $ownerCity;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="owner_zip", type="integer")
-     */
-    private $ownerZip;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="owner_country", type="string", length=42)
-     */
-    private $ownerCountry;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="owner_phone", type="integer")
-     */
-    private $ownerPhone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="comment", type="text")
-     */
-    private $comment;
 	
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="boat_id", type="integer")
+     * @ORM\Column(name="title", type="string", length=200)
      */
-    private $boatId;
-
+    private $title;
+	
     /**
      * @var integer
   	 * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Category")
@@ -113,6 +43,11 @@ class Ads
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $userId;
+    
+    /**
+     * @var array
+     */
+    private $attribute;
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -152,7 +87,7 @@ class Ads
     	// La propriété file ne servira plus
     	$this->file = null;
     }
-    
+
     /**
      * Get id
      *
@@ -175,6 +110,29 @@ class Ads
 
         return $this;
     }
+    
+    /**
+     * Get attribute
+     *
+     * @return array
+     */
+    public function getAttribute()
+    {
+    	return $this->attribute;
+    }
+    
+    /**
+     * Set attribute
+     *
+     * @param array $attribute
+     * @return Ads
+     */
+    public function setAttribute($attribute)
+    {
+    	$this->attribute = $attribute;
+    
+    	return $this;
+    }
 
     /**
      * Get title
@@ -187,233 +145,26 @@ class Ads
     }
 
     /**
-     * Set price
+     * Set pictureName
      *
-     * @param integer $price
+     * @param string $pictureName
      * @return Ads
      */
-    public function setPrice($price)
+    public function setPictureName($pictureName)
     {
-        $this->price = $price;
+        $this->pictureName = $pictureName;
 
         return $this;
     }
 
     /**
-     * Get price
-     *
-     * @return integer 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set confirmed
-     *
-     * @param integer $confirmed
-     * @return Ads
-     */
-    public function setConfirmed($confirmed)
-    {
-        $this->confirmed = $confirmed;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmed
-     *
-     * @return integer 
-     */
-    public function getConfirmed()
-    {
-        return $this->confirmed;
-    }
-
-    /**
-     * Set ownerType
-     *
-     * @param string $ownerType
-     * @return Ads
-     */
-    public function setOwnerType($ownerType)
-    {
-        $this->ownerType = $ownerType;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerType
+     * Get pictureName
      *
      * @return string 
      */
-    public function getOwnerType()
+    public function getPictureName()
     {
-        return $this->ownerType;
-    }
-
-    /**
-     * Set ownerAdress
-     *
-     * @param string $ownerAdress
-     * @return Ads
-     */
-    public function setOwnerAdress($ownerAdress)
-    {
-        $this->ownerAdress = $ownerAdress;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerAdress
-     *
-     * @return string 
-     */
-    public function getOwnerAdress()
-    {
-        return $this->ownerAdress;
-    }
-
-    /**
-     * Set ownerCity
-     *
-     * @param string $ownerCity
-     * @return Ads
-     */
-    public function setOwnerCity($ownerCity)
-    {
-        $this->ownerCity = $ownerCity;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerCity
-     *
-     * @return string 
-     */
-    public function getOwnerCity()
-    {
-        return $this->ownerCity;
-    }
-
-    /**
-     * Set ownerZip
-     *
-     * @param integer $ownerZip
-     * @return Ads
-     */
-    public function setOwnerZip($ownerZip)
-    {
-        $this->ownerZip = $ownerZip;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerZip
-     *
-     * @return integer 
-     */
-    public function getOwnerZip()
-    {
-        return $this->ownerZip;
-    }
-
-    /**
-     * Set ownerCountry
-     *
-     * @param string $ownerCountry
-     * @return Ads
-     */
-    public function setOwnerCountry($ownerCountry)
-    {
-        $this->ownerCountry = $ownerCountry;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerCountry
-     *
-     * @return string 
-     */
-    public function getOwnerCountry()
-    {
-        return $this->ownerCountry;
-    }
-
-    /**
-     * Set ownerPhone
-     *
-     * @param integer $ownerPhone
-     * @return Ads
-     */
-    public function setOwnerPhone($ownerPhone)
-    {
-        $this->ownerPhone = $ownerPhone;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerPhone
-     *
-     * @return integer 
-     */
-    public function getOwnerPhone()
-    {
-        return $this->ownerPhone;
-    }
-
-    /**
-     * Set comment
-     *
-     * @param string $comment
-     * @return Ads
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
-
-    /**
-     * Get comment
-     *
-     * @return string 
-     */
-    public function getComment()
-    {
-        return $this->comment;
-    }
-
-    /**
-     * Set boatId
-     *
-     * @param integer $boatId
-     * @return Ads
-     */
-    public function setBoatId($boatId)
-    {
-        $this->boatId = $boatId;
-
-        return $this;
-    }
-
-    /**
-     * Get boatId
-     *
-     * @return integer 
-     */
-    public function getBoatId()
-    {
-        return $this->boatId;
+        return $this->pictureName;
     }
 
     /**

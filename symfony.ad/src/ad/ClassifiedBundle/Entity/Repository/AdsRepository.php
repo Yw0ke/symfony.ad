@@ -2,7 +2,13 @@
 
 namespace ad\ClassifiedBundle\Entity\Repository;
 
+use Doctrine\ORM\Query\Parameter;
+
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\EntityRepository;
+use ad\ClassifiedBundle\Entity\attribute_values;
+
 
 /**
  * AdsRepository
@@ -13,6 +19,65 @@ use Doctrine\ORM\EntityRepository;
 class AdsRepository extends EntityRepository
 {
 	/**
+	 * Get ad's info.
+	 *
+	 * @return array(attributeValues)
+	 */
+	public function getFullInfoById($id)
+	{
+		$em = $this->getEntityManager();
+		
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->where('v.AdsId = :id');
+
+		$qb->setParameter('id', $id);
+		
+		return $response = $qb->getQuery()->getResult();
+	}
+	
+	/**
+	 * Get ads's minimum info.
+	 *
+	 * @return array(attributeValues)
+	 */
+	public function getMinInfo()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->where('attr.name = :price');
+		$qb->orWhere('attr.name = :confirmed');
+		$qb->orWhere('attr.name = :ownerType');
+		$qb->orWhere('attr.name = :ownerCity');
+		$qb->groupBy('attr.name');
+		//$qb->groupBy('attr.name');
+		
+		$qb->setParameters(new ArrayCollection(array(
+													 new Parameter(':price', 'Price'),
+													 new Parameter(':confirmed', 'Confirmed'),
+													 new Parameter(':ownerType', 'OwnerType'),
+													 new Parameter(':ownerCity', 'OwnerCity')
+													 )));
+
+
+		var_dump($qb->getQuery()->getResult());
+		
+		return $response = $qb->getQuery()->getResult();
+	}
+	
+	/**
 	 * Get ads waiting for confimation from admin.
 	 *
 	 * @return string
@@ -22,10 +87,16 @@ class AdsRepository extends EntityRepository
 		$em = $this->getEntityManager();
 	
 		$qb = $em->createQueryBuilder();
-		$qb->addSelect('a');
-		$qb->from('adClassifiedBundle:Ads','a');
-		$qb->where('a.confirmed = 0');
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('att');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'att');
 	
-		return $response = $qb->getQuery()->getResult();
+		$response = $qb->getQuery()->getResult();
+		
+		var_dump($response);
+		die;
 	}
 }
