@@ -36,14 +36,23 @@ class LoadAttributeValuesData implements FixtureInterface, ContainerAwareInterfa
 		
 		$values = array('Valeur 1', 'Valeur 2', 'Valeur 3', 'Valeur 4', 'Valeur 5', 'Valeur 6', 'Valeur 7', 'Valeur 8');
 		
-		foreach ($ads as $index => $ad)
+		foreach ($ads as $ad)
 		{
 			foreach($att as $attribute)
 			{
 				$attVal = new attributeValues();
+				
 				$attVal->setAttributeId($attribute);
 				$attVal->setAdsId($ad);
-				$attVal->setValue($values[mt_rand(0, 7)]);
+				
+				if ($attribute->getName() != 'Confirmed')	//Valeur 1 non confirmer, Valeur 2 confirmer par l'admin.
+				{
+					$attVal->setValue($values[mt_rand(0, 7)]);
+				}
+				else 
+				{
+					$attVal->setValue(mt_rand(0, 1));
+				}
 				
 				$manager->persist($attVal);
 				$manager->flush();

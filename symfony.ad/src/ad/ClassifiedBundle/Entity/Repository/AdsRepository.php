@@ -42,45 +42,9 @@ class AdsRepository extends EntityRepository
 	}
 	
 	/**
-	 * Get ads's minimum info.
+	 * Get unconfirmed ads's minimum info for dashboardadmin.
 	 *
 	 * @return array(attributeValues)
-	 */
-	public function getMinInfo()
-	{
-		$em = $this->getEntityManager();
-	
-		$qb = $em->createQueryBuilder();
-		$qb->addSelect('v');
-		$qb->addSelect('ads');
-		$qb->addSelect('attr');
-		$qb->from('adClassifiedBundle:attributeValues','v');
-		$qb->leftJoin('v.AdsId', 'ads');
-		$qb->leftJoin('v.attributeId', 'attr');
-		$qb->where('attr.name = :price');
-		$qb->orWhere('attr.name = :confirmed');
-		$qb->orWhere('attr.name = :ownerType');
-		$qb->orWhere('attr.name = :ownerCity');
-		$qb->groupBy('attr.name');
-		//$qb->groupBy('attr.name');
-		
-		$qb->setParameters(new ArrayCollection(array(
-													 new Parameter(':price', 'Price'),
-													 new Parameter(':confirmed', 'Confirmed'),
-													 new Parameter(':ownerType', 'OwnerType'),
-													 new Parameter(':ownerCity', 'OwnerCity')
-													 )));
-
-
-		var_dump($qb->getQuery()->getResult());
-		
-		return $response = $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * Get ads waiting for confimation from admin.
-	 *
-	 * @return string
 	 */
 	public function getUnconfirmedAds()
 	{
@@ -89,14 +53,55 @@ class AdsRepository extends EntityRepository
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('v');
 		$qb->addSelect('ads');
-		$qb->addSelect('att');
+		$qb->addSelect('attr');;
 		$qb->from('adClassifiedBundle:attributeValues','v');
 		$qb->leftJoin('v.AdsId', 'ads');
-		$qb->leftJoin('v.attributeId', 'att');
-	
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->where('attr.name = :price');
+		$qb->orWhere('attr.name = :ownerType');
+		$qb->orWhere('attr.name = :ownerCity');
+		$qb->orWhere('attr.name =:Confirmed');
+		$qb->orderBy('ads.id');
+		
+		$qb->setParameters(new ArrayCollection(array(
+													 new Parameter(':price', 'Price'),
+													 new Parameter(':ownerType', 'OwnerType'),
+													 new Parameter(':ownerCity', 'OwnerCity'),
+													 new Parameter(':Confirmed', 'Confirmed')
+													 )));
+
 		$response = $qb->getQuery()->getResult();
 		
-		var_dump($response);
-		die;
+		$orga = array();
+		
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+			
+			$ad = $attVal->getAdsId();
+
+			$ad->addAttribute($attribute, $value);
+			
+			$orga[$ad->getId()] = $ad;
+			
+			$att = $orga[$ad->getId()]->getAttribute();
+
+			if (isset($att['Confirmed']) && $att['Confirmed'] != 0)	//Tri des entité non confirmer.
+			{
+				unset($orga[$ad->getId()]);
+			}			
+		}
+		
+		foreach ($orga as $ad)	//Boucle qui retire la paire Confirmed => Value, non souhaiter ici.
+		{
+			$att = $ad->getAttribute();
+			unset($att['Confirmed']);
+			$ad->setAttribute($att);
+			
+			$orga[$ad->getId()] = $ad;
+		}
+		
+		return $orga;	//retour d'un tableau d'entité Ads avec Attribut => Valeur
 	}
 }

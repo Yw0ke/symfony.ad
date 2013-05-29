@@ -112,6 +112,16 @@ class Ads
     }
     
     /**
+     * Add attribute
+     *
+     * @return array
+     */
+    public function addAttribute($attribute, $value)
+    {
+    	$this->attribute[$attribute] = $value;
+    }
+    
+    /**
      * Get attribute
      *
      * @return array

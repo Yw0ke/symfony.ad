@@ -10,24 +10,31 @@
 	   	</caption>
 	   		<thead>
 	      	<tr>
-	      		{% for ad in ads %}
-	        	<th>{{ ad.attributeId.name }}</th>
-	        	{% endfor %}
+	      		<th>Titre</th>
+	      		<th>Ville</th>
+	      		<th>Type de vendeur</th>
+	      		<th>Prix</th>
 	            <th colspan="2">Actions</th>
 	      	</tr>
 		   	</thead>
 			<tbody>
-				
-		        <tr>
-		            {% for ad in ads %}
-		            	<td>{{ ad.value }}</td>
-		           		{% if loop.last %}
-		           		<td><a class="icon-eye-open center block" href=""></a></td>
-		            	<td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.AdsId.id, 'dash' : 1 }) }}"></a></td>
-		           		{% endif %}
-		            {% endfor %}
+	         	{% for ad in ads %}
+	         	<tr>
+	      			{% for key, value in ad.attribute %}
+	      			{% if loop.first %}
+	      			<th>{{ ad.title }}</th>
+	      			<th>{{ value }}</th>
+	      			{% else %}
+      				<th>{{ value }}</th>
+      				{% endif %}
+	      				{% if loop.last %}
+						<td><a class="icon-eye-open center block" href=""></a></td>
+						<td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash' : 1 }) }}"></a></td>
+						{% endif %}
+      				{% endfor %}
+      			</tr>
+        		{% endfor %}
 		            
-		        </tr>
 				
 			</tbody>
 		</table>

@@ -78,10 +78,10 @@ class attributeValues
     /**
      * Set attributeId
      *
-     * @param \ad\ClassifiedBundle\Entity\Attribute $attributeId
+     * @param \ad\ClassifiedBundle\Entity\attribute $attributeId
      * @return attributeValues
      */
-    public function setAttributeId(\ad\ClassifiedBundle\Entity\Attribute $attributeId)
+    public function setAttributeId(\ad\ClassifiedBundle\Entity\attribute $attributeId)
     {
         $this->attributeId = $attributeId;
 
@@ -91,7 +91,7 @@ class attributeValues
     /**
      * Get attributeId
      *
-     * @return \ad\ClassifiedBundle\Entity\Attribute 
+     * @return \ad\ClassifiedBundle\Entity\attribute 
      */
     public function getAttributeId()
     {

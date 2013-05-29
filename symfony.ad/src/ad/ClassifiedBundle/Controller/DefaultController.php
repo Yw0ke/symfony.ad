@@ -36,7 +36,7 @@ class DefaultController extends Controller
     	{
     		$em = $this->getDoctrine()->getEntityManager();
 		
-			$ads = $em->getRepository('adClassifiedBundle:Ads')->getMinInfo();
+			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
 			
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('ads' => $ads));
     	}
