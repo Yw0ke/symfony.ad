@@ -12,4 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class attributeRepository extends EntityRepository
 {
+	/**
+	 * Get attribute by name.
+	 *
+	 * @return attribute()
+	 */
+	public function findByName($name)
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attribute','attr');
+		$qb->where('attr.name = :name');
+	
+		$qb->setParameter('name', $name);
+		
+		return $response = $qb->getQuery()->getResult();
+	}
+	
+	
+	
+	
 }

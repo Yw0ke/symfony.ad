@@ -25,9 +25,6 @@ class CategoryController extends Controller
 		
 		$arrayTree = $repo->childrenHierarchy();
 
-		//var_dump($category);
-		//die;
-
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Category:list.html.twig', array(
 				'category' => $arrayTree
 		));

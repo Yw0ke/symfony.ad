@@ -2,6 +2,8 @@
 
 namespace ad\ClassifiedBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -32,15 +34,15 @@ class Ads
 	
     /**
      * @var integer
-  	 * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Category")
-	 * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+  	 * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Category", cascade={"persist"})
+	 * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $categoryId;
 
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="ad\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ad\UserBundle\Entity\User", cascade={"persist"})
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $userId;
     
@@ -86,6 +88,11 @@ class Ads
     	 
     	// La propriété file ne servira plus
     	$this->file = null;
+    }
+    
+    public function __construct()
+    {
+    	$this->attribute = new ArrayCollection();
     }
 
     /**

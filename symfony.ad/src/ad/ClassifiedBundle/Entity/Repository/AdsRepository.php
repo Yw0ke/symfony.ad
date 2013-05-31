@@ -44,7 +44,7 @@ class AdsRepository extends EntityRepository
 	/**
 	 * Get unconfirmed ads's minimum info for dashboardadmin.
 	 *
-	 * @return array(attributeValues)
+	 * @return array(Ads)
 	 */
 	public function getUnconfirmedAds()
 	{
@@ -72,7 +72,7 @@ class AdsRepository extends EntityRepository
 
 		$response = $qb->getQuery()->getResult();
 		
-		$orga = array();
+		$ads = array();
 		
 		foreach ($response as $attVal)
 		{
@@ -83,25 +83,62 @@ class AdsRepository extends EntityRepository
 
 			$ad->addAttribute($attribute, $value);
 			
-			$orga[$ad->getId()] = $ad;
+			$ads[$ad->getId()] = $ad;
 			
-			$att = $orga[$ad->getId()]->getAttribute();
+			$att = $ads[$ad->getId()]->getAttribute();
 
 			if (isset($att['Confirmed']) && $att['Confirmed'] != 0)	//Tri des entité non confirmer.
 			{
-				unset($orga[$ad->getId()]);
+				unset($ads[$ad->getId()]);
 			}			
 		}
 		
-		foreach ($orga as $ad)	//Boucle qui retire la paire Confirmed => Value, non souhaiter ici.
+		foreach ($ads as $ad)	//Boucle qui retire la paire Confirmed => Value, non souhaiter ici.
 		{
 			$att = $ad->getAttribute();
 			unset($att['Confirmed']);
 			$ad->setAttribute($att);
 			
-			$orga[$ad->getId()] = $ad;
+			$ads[$ad->getId()] = $ad;
 		}
 		
-		return $orga;	//retour d'un tableau d'entité Ads avec Attribut => Valeur
+		return $ads;	//retour d'un tableau d'entité Ads avec Attribut => Valeur
+	}
+	
+	/**
+	 * Get all ads's info for manage ads.
+	 *
+	 * @return array(Ads)
+	 */
+	public function getAllAds()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');;
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->orderBy('ads.id');
+		
+		$response = $qb->getQuery()->getResult();
+		
+		$ads = array();
+		
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+				
+			$ad = $attVal->getAdsId();
+		
+			$ad->addAttribute($attribute, $value);
+				
+			$ads[$ad->getId()] = $ad;
+		}
+		
+		return $ads;
 	}
 }

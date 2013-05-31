@@ -1,0 +1,13 @@
+!-- import default layout from symfony  --> 
+{% use 'form_div_layout.html.twig' with field_label as base_field_label %}
+{% block generic_label %}
+    {% spaceless %}
+    {% if label is not sameas(false) %}
+    	<div></div>
+        {% if required %}
+            {% set attr = attr|merge({'class': attr.class|default('') ~ 'required'}) %}
+        {% endif %}
+        <label for="">{{ label|trans }}</label>
+    {% endif %}
+    {% endspaceless %}
+{% endblock %}

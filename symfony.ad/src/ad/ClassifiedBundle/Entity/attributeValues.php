@@ -30,15 +30,15 @@ class attributeValues
 
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\attribute")
-     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\attribute", cascade={"persist"})
+     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $attributeId;
     
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Ads")
-     * @ORM\JoinColumn(name="Ads_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\Ads", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="Ads_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $AdsId;
 

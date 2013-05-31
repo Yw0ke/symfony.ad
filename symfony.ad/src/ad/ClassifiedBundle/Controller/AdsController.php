@@ -11,8 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use ad\ClassifiedBundle\Form\AdsType;
+use ad\ClassifiedBundle\Form\AdsParameterType;
 use ad\ClassifiedBundle\Entity\Ads;
+use ad\ClassifiedBundle\Entity\attribute;
+use ad\ClassifiedBundle\Entity\attributeValues;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use ad\ClassifiedBundle\Form\AdsParameter;
 
 class AdsController extends Controller
 {
@@ -39,30 +43,57 @@ class AdsController extends Controller
 	 */
 	public function newAction()
 	{
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		//$attributeV = $em->getRepository("adClassifiedBundle:attributeValues")->findAll();
+		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
+		
+		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
+		$attVal = new attributeValues();
+		$mix = array();
+		
+		foreach ($att as $attribut)
+		{
+			$mix[$attribut->getName()] = $attVal->getValue();
+		}
+		
 		$ads = new Ads();
-           
-        $form = $this->createForm(new AdsType(), $ads);
+		$ads->setAttribute($mix);
+		
+		/*$repo = $em->getRepository('adClassifiedBundle:Category');		
+		$category['data'] = $arrayTree = $repo->childrenHierarchy();*/
 
-        if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-               
-                $ads->uploadPicture();
-               
-                $em->persist($ads);
-                $em->flush();
-
-                $this->redirect($this->generateUrl('ad_list_ads'));
-            }
-        }
-        
-        return $this->render('adClassifiedBundle:Ads:new.html.twig',
-                array (
-                    'ads' => $ads,
-                    'form' => $form->createView()
-                    )
-                );
+		
+		$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
+		
+		if ($this->getRequest()->getMethod() === 'POST') {
+			$form->bindRequest($this->getRequest());
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getEntityManager();
+				$ads->uploadPicture();
+				$ads->setUserId($this->getUser());
+				
+				$em->persist($ads);
+				
+				
+				
+				foreach ($ads->getAttribute() as $attName => $attVal)
+				{
+					$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);
+					
+					$attVal->setAdsId($ads);
+					$attVal->setAttributeId($att[0]);
+					
+					$em->persist($attVal);
+				}
+				
+				$em->flush();
+				
+				return $this->redirect($this->generateUrl('ad_manage_ads'));
+			}
+		}
+		
+		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView()));
 	}
 	
 	/**
@@ -73,7 +104,7 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$ads = $em->getRepository('adClassifiedBundle:Ads')->findAll();
+		$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllAds();
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:manage.html.twig', array(
 				'ads' => $ads
@@ -88,16 +119,19 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->find($id);
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->getFullInfoById($id);
 		
 		if (!$ad)
 		{
 			throw $this->createNotFoundException('Cette annonce n\'existe pas.');
 		}
 		
-		$em->remove($ad);
-		$em->flush();
-	
+		foreach ($ad as $attVal)
+		{
+			$em->remove($attVal);
+			$em->flush();
+		}
+
 		return $this->redirect($this->generateUrl('ad_manage_ads', array('delete')));
 	}
 	
@@ -109,20 +143,25 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->find($id);
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->getFullInfoById($id);
 		
-		if ($ad->getConfirmed() == 0)
+		foreach ($ad as $attVal)
 		{
-			$ad->setConfirmed(1);
+			$att = $attVal->getAttributeId()->getName();
+			
+			if ($att == 'Confirmed' && $attVal->getValue() == 0)
+			{
+				$attVal->setValue(1);
+			}
+			elseif ($att == 'Confirmed' && $attVal->getValue() == 1)
+			{
+				$attVal->setValue(0);
+			}
+			
+			$em->persist($attVal);
+			$em->flush();
 		}
-		else
-		{
-			$ad->setConfirmed(0);
-		}
-		
-		$em->persist($ad);
-		$em->flush();
-		
+
 		if($dash == 1)
 		{
 			return $this->redirect($this->generateUrl('ad_dashboard', array('update')));

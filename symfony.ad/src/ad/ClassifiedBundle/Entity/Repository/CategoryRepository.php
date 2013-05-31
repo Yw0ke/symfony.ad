@@ -14,25 +14,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-	public function getCategory()
+	public function findAllSubCat()
 	{
 		$em = $this->getEntityManager();
-
+		
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('c');
 		$qb->from('adClassifiedBundle:Category','c');
-		$qb->where('c.parent is null');
+		$qb->where('c.parent is not null');
 		
-		$response = $qb->getQuery()->getResult();
-		
-		$category = array();
 
-		foreach ($response as $cat)
-		{
-			$category[]= $cat->setChildren(self::getChildren($cat));
-		}
 		
-		return $category;
+		return $response = $qb->getQuery()->getResult();
 	}
 
 	

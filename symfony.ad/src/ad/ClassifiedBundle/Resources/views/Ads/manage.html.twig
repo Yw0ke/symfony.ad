@@ -22,11 +22,11 @@
 				{% for ad in ads %}
 		        <tr>
 		            <td>{{ ad.title }}</td>
-		            <td>{{ ad.price }} €</td>
-		            <td>{{ ad.ownerCity }}</td>
-		            <td>{{ ad.userId }}</td>
-		            <td>{{ ad.ownerType }}</td>
-		            <td>{% if ad.confirmed == 1 %}<a class="icon-check center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0 }) }}"></a>{% else %}<a class="icon-remove-circle center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0  }) }}"></a>{% endif %}</td>
+		            <td>{{ ad.attribute['Price'] }} €</td>
+		            <td>{{ ad.attribute['OwnerCity'] }}</td>
+		            <td>{{ ad.userId.username }}</td>
+		            <td>{{ ad.attribute['OwnerType'] }}</td>
+		            <td>{% if ad.attribute['Confirmed'] == 1 %}<a class="icon-check center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0 }) }}"></a>{% else %}<a class="icon-remove-circle center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash': 0  }) }}"></a>{% endif %}</td>
 		            <td><a class="icon-eye-open center block" href=""></a></td>
 		            <td><a class="icon-remove center block" href="{{ path('ad_delete_ads', { 'id': ad.id }) }}"></a></td>
 		        </tr>
