@@ -1,0 +1,39 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+
+<div class="row centerbloc">
+	<section class="span8 annonce">
+		<div class="row">
+			<div class="span1 bloc price">
+				{{ ad.attribute.Price }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="span8 bloc well photo">
+				<img src="/uploads/pictures/{{ ad.pictureName }}" alt="photo de l'annonce"/>
+			</div>
+			
+			
+			<div class="span8 bloc well vendeur">
+				<h4>Informations sur le vendeur</h4>
+				<ul>
+					
+					{% for att, value in ad.attribute %}
+					<li><span>{{ att }}</span> : {{ value }}</li>
+					{% endfor %}
+					
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section class="span4 contact">
+	
+	CONTACT
+	
+	</section>
+</div>
+
+
+
+{% endblock %}

@@ -119,7 +119,7 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->getFullInfoById($id);
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
 		
 		if (!$ad)
 		{
@@ -143,7 +143,7 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->getFullInfoById($id);
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
 		
 		foreach ($ad as $attVal)
 		{
@@ -170,6 +170,20 @@ class AdsController extends Controller
 		{
 			return $this->redirect($this->generateUrl('ad_manage_ads', array('update')));
 		}
+	}
+	
+	/**
+	 * @Route("/ads/details/{id}", name="ad_details_ads")
+	 */
+	public function detailsAdsAction($id)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAdsFullInfoById($id);
+		
+		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
+				'ad' => $ad
+		));
 	}
 }
 	

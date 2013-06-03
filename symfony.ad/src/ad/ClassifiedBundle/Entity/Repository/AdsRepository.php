@@ -23,7 +23,7 @@ class AdsRepository extends EntityRepository
 	 *
 	 * @return array(attributeValues)
 	 */
-	public function getFullInfoById($id)
+	public function getAttValFullInfoById($id)
 	{
 		$em = $this->getEntityManager();
 		
@@ -39,6 +39,59 @@ class AdsRepository extends EntityRepository
 		$qb->setParameter('id', $id);
 		
 		return $response = $qb->getQuery()->getResult();
+	}
+	
+	/**
+	 * Get ad's info.
+	 *
+	 * @return array(Ads)
+	 */
+	public function getAdsFullInfoById($id)
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->where('v.AdsId = :id');
+	
+		$qb->setParameter('id', $id);
+	
+		$response = $qb->getQuery()->getResult();
+		
+		
+		/*$qb = $em->createQueryBuilder();
+		$qb->addSelect('ads');
+		$qb->from('adClassifiedBundle:Ads','ads');
+		$qb->where('ads.id = :id');
+		
+		$qb->setParameter('id', $id);
+		
+		$response2 = $qb->getQuery()->getResult();
+		
+		var_dump($response2[0]->getUserId()->getUserName());
+		die;*/
+		
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+				
+			$ad = $attVal->getAdsId();
+		
+			$ad->addAttribute($attribute, $value);
+				
+			$ads = $ad;
+		}
+		
+		//var_dump($ads);
+		//die;
+		
+		return $ads;
 	}
 	
 	/**

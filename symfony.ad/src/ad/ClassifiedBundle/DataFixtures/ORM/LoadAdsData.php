@@ -26,19 +26,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		//Annonce valider par l'administrateur.		
 		$ads = new Ads();
 		$ads->setTitle('Bateau de pêche');
-		
-		/*$ads->setTitle();
-		$ads->setPrice(15000);
-		$ads->setConfirmed(1);
-		$ads->setOwnerType('Pro');
-		$ads->setOwnerAdress('Osef');
-		$ads->setOwnerCity('OsefLand');
-		$ads->setOwnerZip('12000');
-		$ads->setOwnerCountry('OsefLand');
-		$ads->setOwnerPhone('0622075235');
-		$ads->setComment('Très bon bateau blahblah');
-		$ads->setBoatId(1); //a modif
-		*/
+		$ads->setPictureName('photo1.png');
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -61,8 +49,11 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$manager->flush();
 		
 		
+		
+		
 		$ads = new Ads();
 		$ads->setTitle('pedalo');
+		$ads->setPictureName('photo2.png');
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -85,9 +76,12 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$manager->flush();
 		
 		
+		
+		
 		//Annonce non valider apr l'administrateur.
 		$ads = new Ads();
 		$ads->setTitle('Barque');
+		$ads->setPictureName('photo3.png');
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -111,9 +105,9 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		
 		
 		
-		
 		$ads = new Ads();
 		$ads->setTitle('Titanic');
+		$ads->setPictureName('photo4.png');
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();

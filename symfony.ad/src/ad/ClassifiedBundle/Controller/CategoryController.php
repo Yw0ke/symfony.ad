@@ -47,5 +47,36 @@ class CategoryController extends Controller
 		));*/
 
 	}
-
+	
+	/**
+	 * @Route("/category/manage/", name="ad_manage_category")
+	 * @Template()
+	 */
+	public function manageAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		$repo = $em->getRepository('adClassifiedBundle:Category');
+	
+		$arrayTree = $repo->childrenHierarchy();
+		
+		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Category:manage.html.twig', array(
+				'category' => $arrayTree
+		));
+	}
+	
+	/**
+	 * @Route("/category/add/{name}", name="ad_add_category")
+	 * @Template()
+	 */
+	public function addAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		$repo = $em->getRepository('adClassifiedBundle:Category');
+	
+		$arrayTree = $repo->childrenHierarchy();
+	
+		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Category:manage.html.twig', array(
+				'category' => $arrayTree
+		));
+	}
 }

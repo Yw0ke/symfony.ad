@@ -1,16 +1,17 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-
-<ul>
-{% for c in category %}
-{{ c.name }}
-	<ol>
-	{% for sc in c.__children %}
-    	<li>{{ sc.name }}</li>
-    {% endfor %}
-    </ol>
-{% endfor %}
-</ul>
-
+<div class="row centerbloc">
+	<div class="span12">
+	<ul>
+	{% for c in category %}
+	{{ c.name }}
+		<ol>
+		{% for sc in c.__children %}
+	    	<li>{{ sc.name }}</li>
+	    {% endfor %}
+	    </ol>
+	{% endfor %}
+	</ul>
+</div>
 {% endblock %}

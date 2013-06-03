@@ -17,65 +17,57 @@
   </head>
   <body>
   	<div class="container">
-  		<div class="row">
-		  	<header class="span12">
-		  		<div class="row">
-			  		<div class="span12" id="header_top">
-				  		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-					    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('ad_dashboard') }}">Dashboard</a> - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
-						{% else %}
-					    	<p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
-						{% endif %}
-					</div>
+	  	<header class="span12">
+	  		<div class="row">
+		  		<div class="span12" id="header_top">
+			  		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+				    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('ad_dashboard') }}">Dashboard</a> - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
+					{% else %}
+				    	<p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
+					{% endif %}
 				</div>
-				<div class="row">
-					<div class="span12" id="header_main">
-						<h1>Acheter un bateau !</h1>
-			        	<p>Acheter, vendre, louer un bateau ou jet-ski</p>
-			        </div>
-			    </div>
-			    <div class="row">
-			        
-			        <nav class="span12 navbar">
-					<div class="navbar-inner">
-					  <div class="container">
-					    <ul class="nav">
-				            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
-				         	<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="{{ path('ad_list_category') }}">Catégories</a></li>
-				  			<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
-				     	  	<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Actualité</a></li>
-				 			<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Votre publicité</a></li>
-							<li class="divider-vertical sep"></li>
-				            <li class="span3"><div class="span3"><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</div></a></li>
-			         	</ul>
-			       	 </div>
-			       	</div>
-			    </div>
-		  	</header>
-		  	<!-- <div id="search_bar">
-		  		<form method="post" action="">
-		  			<input type="text" />
-		       		<select name="category" id="category">
-		           	<option value="category">Categories</option>
-		       		</select>
-		  			<input type="submit" />
-		  		</form>
-		  	</div> -->
-			<div class="span12 content">
-				{% block body %}
-				{% endblock %}
 			</div>
-			<footer class="span12 footer">
-				<p>footer</p>
-			</footer>
-		</div>
+			<div class="row">
+				<div class="span12" id="header_main">
+					<h1>Acheter un bateau !</h1>
+		        	<p>Acheter, vendre, louer un bateau ou jet-ski</p>
+		        </div>
+		    </div>
+		    <div class="row">
+		        
+		        <nav class="span12 navbar">
+				<div class="navbar-inner">
+				  <div class="container">
+				    <ul class="nav">
+			            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
+			         	<li class="divider-vertical sep"></li>
+			            <li class="span2 main"><a href="{{ path('ad_list_category') }}">Catégories</a></li>
+			  			<li class="divider-vertical sep"></li>
+			            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
+			     	  	<li class="divider-vertical sep"></li>
+			            <li class="span2 main"><a href="">Actualité</a></li>
+			 			<li class="divider-vertical sep"></li>
+			            <li class="span2 main"><a href="">Votre publicité</a></li>
+						<li class="divider-vertical sep"></li>
+			            <li class="span3"><div class="span3"><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</div></a></li>
+		         	</ul>
+		       	 </div>
+		       	</div>
+		    </div>
+	  	</header>
+	  		  	
+		{% block body %}
+		
+		{% endblock %}
+		
+		<footer class="span12 footer">
+			<p>footer</p>
+		</footer>
  	</div>
+ 	
+ 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	{% block javascripts %}
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+		
 	{% endblock %}
  
   </body>

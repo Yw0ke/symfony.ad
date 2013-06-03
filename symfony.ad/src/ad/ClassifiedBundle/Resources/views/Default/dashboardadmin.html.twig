@@ -1,7 +1,7 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-<div class="row">
+<div class="row centerbloc">
 	<div class="span9">
 		{% if ads %}
 		<table class="table table-bordered table-striped table-condensed">
@@ -25,15 +25,15 @@
 	      			<th>{{ ad.title }}</th>
 	      			<th>{{ value }}</th>
 	      			{% else %}
-      				<th>{{ value }}</th>
-      				{% endif %}
+	      				<th>{{ value }}</th>
+	      				{% endif %}
 	      				{% if loop.last %}
-						<td><a class="icon-eye-open center block" href=""></a></td>
+						<td><a class="icon-eye-open center block" href="{{ path('ad_details_ads', { 'id' : ad.id}) }}"></a></td>
 						<td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash' : 1 }) }}"></a></td>
 						{% endif %}
-      				{% endfor %}
-      			</tr>
-        		{% endfor %}
+	      				{% endfor %}
+	      			</tr>
+	        		{% endfor %}
 		            
 				
 			</tbody>
@@ -43,10 +43,10 @@
 		{% endif %}
 	</div>
 	
-	<aside class="span3">
+	<aside class="span3 dashg">
 		<ul>
 			<li><a href="{{ path('ad_manage_ads') }}">Gérer les annonces</a></li>
-			<li>Gérer les catégories</li>
+			<li><a href="{{ path('ad_manage_category') }}">Gérer les catégories</a></li>
 			<li>Gérer les utilisateurs</li>
 		</ul>
 	</aside>
