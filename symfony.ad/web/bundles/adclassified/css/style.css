@@ -63,10 +63,6 @@ header{
 	float:right;
 }
 
-.photo{
-	
-}
-
 .span3.dashg{
 	width:200px;
 }
@@ -88,10 +84,9 @@ header{
 }
 
 
-
-
-
-
+ul.treeLink > a:hover {
+	cursor:pointer;
+}
 
 
 /* CSS pour le tree Category */

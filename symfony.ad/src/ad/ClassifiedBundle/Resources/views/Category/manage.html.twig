@@ -3,23 +3,27 @@
 {% block body %}
 <div class="row centerbloc">
 	<div class="span4 tree">
-		<ul>
-			{% for cat in category %}
-			<li><a>{{ cat.name }}</a>
-				{% if cat.__children %}
+		<ul class="treeLink">
+			<li><a data-slug="none">Racine</a>
 				<ul>
-				{% for sc in cat.__children %}
-					<li class="sc"><a>{{ sc.name }}</a></li>
-				{% endfor %}
+					{% for cat in category.root %}
+					<li><a data-slug="{{ cat.slug }}">{{ cat.name }}</a>
+					{% if cat.__children %}
+					<ul>
+					{% for sc in cat.__children %}
+						<li class="sc"><a data-slug="{{ sc.slug }}">{{ sc.name }}</a></li>
+					{% endfor %}
+					</ul>
+					{% endif %}
+					</li>
+					{% endfor %}
 				</ul>
-				{% endif %}
 			</li>
-			{% endfor %}
 		</ul>
 	</div>
 	<div class="span3 offset4 well gclink">
 		<ul>
-			<li><a href="test/">Ajouter une catégorie ici</a></li>
+			<li><a href="/category/add/">Ajouter une catégorie ici</a></li>
 			<li><a href="test/">Editer la catégorie</a></li>
 			<li><a href="test/">Supprimer la catégorie</a></li>
 		</ul>
@@ -28,33 +32,31 @@
 {% endblock %}
 
 {% block javascripts %}
-<script>
-
+<script type="text/javascript">
 	$('.tree li').each(function(){
 	        if($(this).children('ul').length > 0){
-	                $(this).addClass('parent');    
+	                $(this).addClass('parent');
 	        }
 	});
-	 
+	
 	$('.tree li.parent > a').click(function(){
 	        $(this).parent().toggleClass('active');
 	        $(this).parent().children('ul').slideToggle('fast');
 	});
 
-	$('.tree li.sc > a').click(function(){
-
-
-		var href = $('.gclink li > a').attr("href");
-		$('.gclink li > a').attr("href", href+$(this).text());
-		
-		
-		
-		//alert(href);
-		
-		// $('.gclink li > a').attr("href", "http://www.google.com/");
-		
-        //$('.gclink li > a').parent().toggleClass('test');
-        //$(this).parent().children('ul').slideToggle('fast');
+	var hrefs = []
+	$('.gclink li > a').each(function(index){
+		hrefs[index] =  $(this).attr("href").split('/');
+	});
+	
+	$('.treeLink li > a').click(function(){
+		var txt = $(this).attr('data-slug');		
+		$('.gclink li > a').each(function(index){
+			$(this).attr('href', '/'+hrefs[index][1]+'/'+hrefs[index][2]+'/'+txt);
+			$(this).attr('href');
+		});
 });
+
+	
 </script>
 {% endblock %}

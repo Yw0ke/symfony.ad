@@ -1,0 +1,14 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+<div class="row centerbloc">
+	<div class="span8 offset2 well centertext">
+	<h2>Enregistrer une nouvelle catégorie</h1>
+		<form action="{{ path('ad_validate_category', { 'slug' : slug}) }}" method="post" {{ form_enctype(form) }}>
+		{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
+			{{ form_widget(form) }}
+			<input type="submit" />
+		</form>
+	</div>
+</div>
+{% endblock %}

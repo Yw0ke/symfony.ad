@@ -23,10 +23,20 @@ class CategoryRepository extends NestedTreeRepository
 		$qb->from('adClassifiedBundle:Category','c');
 		$qb->where('c.parent is not null');
 		
-
-		
 		return $response = $qb->getQuery()->getResult();
 	}
 
+	public function findCatBySlug($slug)
+	{
+		$em = $this->getEntityManager();
 	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('c');
+		$qb->from('adClassifiedBundle:Category','c');
+		$qb->where('c.slug = :slug');
+		
+		$qb->setParameter('slug', $slug);
+	
+		return $response = $qb->getQuery()->getResult();
+	}
 }

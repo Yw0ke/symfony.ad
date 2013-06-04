@@ -3,8 +3,8 @@
 {% block body %}
 <div class="row centerbloc">
 	<div class="span12">
-	<ul>
-	{% for c in category %}
+	<ul>	
+	{% for c in category.root %}
 	{{ c.name }}
 		<ol>
 		{% for sc in c.__children %}

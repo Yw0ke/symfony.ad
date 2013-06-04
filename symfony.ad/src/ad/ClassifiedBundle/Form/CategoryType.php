@@ -12,11 +12,6 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('lft')
-            ->add('lvl')
-            ->add('rgt')
-            ->add('root')
-            ->add('parent')
         ;
     }
 
