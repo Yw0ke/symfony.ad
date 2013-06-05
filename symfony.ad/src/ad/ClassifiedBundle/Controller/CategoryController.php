@@ -29,23 +29,6 @@ class CategoryController extends Controller
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Category:list.html.twig', array(
 				'category' => $arrayTree
 		));
-		 
-		//$userManager = $this->get('fos_user.user_manager');
-		//$user = $userManager->findUserByUsername('admin');
-		//$user->setRoles(array('ROLE_ADMIN'));
-		//$test = $userManager->updateUser($user);
-		 
-		//var_dump($test);
-		//die;
-		 
-		/*if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-		 // Sinon on déclenche une exception « Accès interdit »
-		throw new AccessDeniedHttpException('Accès limité aux admins');
-		}
-		 
-		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:categoryList.html.twig', array(  //Et on passe le tout � la vue.
-				'category' => $arrayTree
-		));*/
 	}
 	
 	/**
@@ -93,49 +76,128 @@ class CategoryController extends Controller
 		}
 	}
 	
-		/**
-		 * @Route("/category/validate/{slug}", name="ad_validate_category")
-		 * @Secure(roles="ROLE_SUPER_ADMIN")
-		 * @Method({"POST"})
-		 * @Template()
-		 */
-		public function validateAction($slug)
+	/**
+	 * @Route("/category/validate/{slug}", name="ad_validate_category")
+	 * @Secure(roles="ROLE_SUPER_ADMIN")
+	 * @Method({"POST"})
+	 * @Template()
+	 */
+	public function validateAction($slug)
+	{
+		$form = $this->createForm(new CategoryType, new Category());
+		
+		$form->bindRequest($this->getRequest());
+		if ($form->isValid())
 		{
-			$form = $this->createForm(new CategoryType, new Category());
-			
-			$form->bindRequest($this->getRequest());
-			if ($form->isValid())
+			if ($slug == 'none')
 			{
-				if ($slug == 'none')
-				{
-					$cat = $form->getData();
-						$em = $this->getDoctrine()->getEntityManager();
-						
-					$cat->setSlug('');
-					$cat->setParent(null);
-						
-					$em->persist($cat);
-					$em->flush();
-						
-					return $this->redirect($this->generateUrl('ad_manage_category'));
-				}
-				else 
-				{
+				$cat = $form->getData();
 					$em = $this->getDoctrine()->getEntityManager();
-					$repo = $em->getRepository('adClassifiedBundle:Category');
-					$parent = $repo->findCatBySlug($slug);
-						
-					$cat = $form->getData();
-					$em = $this->getDoctrine()->getEntityManager();
-						
-					$cat->setSlug('');
-					$cat->setParent($parent[0]);
-						
-					$em->persist($cat);
-					$em->flush();
-						
-					return $this->redirect($this->generateUrl('ad_manage_category'));
-				}
+					
+				$cat->setSlug('');
+				$cat->setParent(null);
+					
+				$em->persist($cat);
+				$em->flush();
+					
+				return $this->redirect($this->generateUrl('ad_manage_category'));
+			}
+			else 
+			{
+				$em = $this->getDoctrine()->getEntityManager();
+				$repo = $em->getRepository('adClassifiedBundle:Category');
+				$parent = $repo->findCatBySlug($slug);
+					
+				$cat = $form->getData();
+				$em = $this->getDoctrine()->getEntityManager();
+					
+				$cat->setSlug('');
+				$cat->setParent($parent);
+					
+				$em->persist($cat);
+				$em->flush();
+					
+				return $this->redirect($this->generateUrl('ad_manage_category'));
 			}
 		}
 	}
+	
+	/**
+	 * @Route("/category/edit/{slug}", name="ad_edit_category")
+	 * @Secure(roles="ROLE_SUPER_ADMIN")
+	 * @Template()
+	 */
+	public function editAction($slug)
+	{
+		if ($slug == 'none')
+		{
+			throw new \Exception('La racine ne peut pas être choisie');
+		}
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		$category = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($slug);
+		
+		if (!$category)
+		{
+			throw $this->createNotFoundException('La catégorie n\'existe pas.');
+		}
+		$id = $category->getId();
+		$form = $this->createForm(new CategoryType, $category);
+		
+		return $this->render('adClassifiedBundle:Category:edit.html.twig', array('form' => $form->createView(), 'id' => $id));
+		
+	}
+	
+	/**
+	 * @Route("/category/update/{id}", name="ad_update_category")
+	 * @Template()
+	 */
+	public function updateAction($id)
+	{
+		$request = $this->getRequest();
+		$em = $this->getDoctrine()->getEntityManager();
+		$category = $em->getRepository('adClassifiedBundle:Category')->find($id);
+		$form = $this->createForm(new CategoryType, $category);
+	
+		if ('POST' == $request->getMethod())
+		{
+			$form->bind($request);
+			if ($form->isValid())
+			{
+				$data = $form->getData();
+				$em = $this->getDoctrine()->getEntityManager();
+				$em->persist($data);
+				$em->flush();
+				return $this->redirect($this->generateUrl('ad_manage_category'));
+			}
+		}
+		return $this->render('adClassifiedBundle:Category:edit.html.twig', array(
+				'form' => $form->createView(),
+		));
+	}
+	
+	/**
+	 * @Route("/category/delete/{slug}", name="ad_delete_category")
+	 * @Template()
+	 */
+	public function deleteAction($slug)
+	{
+		if ($slug == 'none')
+		{
+			throw new \Exception('La racine ne peut pas être choisie');
+		}
+		
+		$em = $this->getDoctrine()->getEntityManager();	//la même que celle du cours
+		$entity = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($slug);
+	
+		if (!$entity)
+		{
+			throw $this->createNotFoundException('Cette catégorie n\'existe pas.');
+		}
+	
+		$em->remove($entity);
+		$em->flush();
+	
+		return $this->redirect($this->generateUrl('ad_manage_category'));
+	}
+}

@@ -1,11 +1,11 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-<div class="row centerbloc">
+
 	<div class="span4 tree">
 		<ul class="treeLink">
 			<li><a data-slug="none">Racine</a>
-				<ul>
+				<ul style="display:block;">
 					{% for cat in category.root %}
 					<li><a data-slug="{{ cat.slug }}">{{ cat.name }}</a>
 					{% if cat.__children %}
@@ -21,42 +21,16 @@
 			</li>
 		</ul>
 	</div>
-	<div class="span3 offset4 well gclink">
+	<div class="span3 offset4 well gclink sidespan">
 		<ul>
 			<li><a href="/category/add/">Ajouter une catégorie ici</a></li>
-			<li><a href="test/">Editer la catégorie</a></li>
-			<li><a href="test/">Supprimer la catégorie</a></li>
+			<li><a href="/category/edit/">Editer la catégorie</a></li>
+			<li><a href="/category/delete/">Supprimer la catégorie</a></li>
 		</ul>
 	</div>
-</div>
+
 {% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript">
-	$('.tree li').each(function(){
-	        if($(this).children('ul').length > 0){
-	                $(this).addClass('parent');
-	        }
-	});
-	
-	$('.tree li.parent > a').click(function(){
-	        $(this).parent().toggleClass('active');
-	        $(this).parent().children('ul').slideToggle('fast');
-	});
-
-	var hrefs = []
-	$('.gclink li > a').each(function(index){
-		hrefs[index] =  $(this).attr("href").split('/');
-	});
-	
-	$('.treeLink li > a').click(function(){
-		var txt = $(this).attr('data-slug');		
-		$('.gclink li > a').each(function(index){
-			$(this).attr('href', '/'+hrefs[index][1]+'/'+hrefs[index][2]+'/'+txt);
-			$(this).attr('href');
-		});
-});
-
-	
-</script>
+<script type="text/javascript" src="{{ asset('bundles/adclassified/js/manageCat.js') }}"></script>
 {% endblock %}

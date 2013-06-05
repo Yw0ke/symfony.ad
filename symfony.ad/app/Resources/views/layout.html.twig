@@ -41,7 +41,27 @@
 				    <ul class="nav">
 			            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
 			         	<li class="divider-vertical sep"></li>
-			            <li class="span2 main"><a href="{{ path('ad_list_category') }}">Catégories</a></li>
+			            <li class="span2 main dropdown">
+			            	<a class="dropdown-toggle" data-toggle="dropdown"  href="#">
+			            		Catégories<b class="caret"></b>
+			            	</a>
+			                <ul class="dropdown-menu">
+			                {% for cat in category %}
+			                	
+			                ICI
+			                
+			                
+			                {% endfor %}
+			                
+			                
+			                
+							    <li><a href="#">Action</a></li>
+							    <li><a tabindex="-1" href="#">Another action</a></li>
+							    <li><a tabindex="-1" href="#">Something else here</a></li>
+							    <li class="divider"></li>
+							    <li><a tabindex="-1" href="#">Separated link</a></li>
+						    </ul>
+			            </li>
 			  			<li class="divider-vertical sep"></li>
 			            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
 			     	  	<li class="divider-vertical sep"></li>
@@ -49,23 +69,24 @@
 			 			<li class="divider-vertical sep"></li>
 			            <li class="span2 main"><a href="">Votre publicité</a></li>
 						<li class="divider-vertical sep"></li>
-			            <li class="span3"><div class="span3"><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</div></a></li>
+			            <li class="span3 sidespan"><div><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</a></div></li>
 		         	</ul>
 		       	 </div>
 		       	</div>
 		    </div>
 	  	</header>
-	  		  	
+	  	<div class="span12 content">
 		{% block body %}
 		
 		{% endblock %}
-		
+		</div>
 		<footer class="span12 footer">
 			<p>footer</p>
 		</footer>
  	</div>
  	
  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+ 	<script src="{{ asset('assets/js/bootstrap-dropdown.js') }}"></script>
 	{% block javascripts %}
 		
 	{% endblock %}

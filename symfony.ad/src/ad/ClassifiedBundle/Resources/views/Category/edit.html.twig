@@ -1,0 +1,10 @@
+{% extends '::layout.html.twig' %}
+{% block body %}
+	<h1>Editer une catégorie</h1>
+	<div class="well">
+		<form action="{{ path('ad_update_category', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
+			{{ form_widget(form) }}
+			<input type="submit" />
+		</form>
+	</div>
+{% endblock %}

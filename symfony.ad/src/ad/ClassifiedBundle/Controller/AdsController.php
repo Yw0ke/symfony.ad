@@ -75,8 +75,6 @@ class AdsController extends Controller
 				
 				$em->persist($ads);
 				
-				
-				
 				foreach ($ads->getAttribute() as $attName => $attVal)
 				{
 					$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);

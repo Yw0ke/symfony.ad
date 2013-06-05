@@ -22,7 +22,14 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
-  		return $this->render('adClassifiedBundle:Default:index.html.twig',array());
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
+    	
+    	var_dump($category);
+    	die;    	
+    	
+  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category));
     }
     
  	/**

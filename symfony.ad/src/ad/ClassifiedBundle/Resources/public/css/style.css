@@ -67,25 +67,41 @@ header{
 	width:200px;
 }
 
-.row.centerbloc{
+.span12.content{
 	min-height:500px;
 }
 
-.span4.tree{
-	margin-left:20px;
-}
-
-.gclink{
-	width:200px;
-}
-
-.span4.contact{
+.sidespan{
 	width:200px;
 }
 
 
-ul.treeLink > a:hover {
+.span9.bloc.well.photo, .span9.bloc.well.vendeur{
+	margin:5px 0 10px 0;
+	width:680px;
+}
+
+.span8.well.centertext{
+	margin:auto;
+	margin-bottom:20px;
+	float:none;
+}
+
+
+
+
+
+
+
+
+ul.treeLink li a:hover {
 	cursor:pointer;
+}
+
+#selected{
+	color:red;
+	text-decoration:underline;
+	font-weight:bold;
 }
 
 

@@ -37,6 +37,8 @@ class CategoryRepository extends NestedTreeRepository
 		
 		$qb->setParameter('slug', $slug);
 	
-		return $response = $qb->getQuery()->getResult();
+		$response = $qb->getQuery()->getResult();
+		
+		return $response[0];
 	}
 }
