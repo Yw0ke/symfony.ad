@@ -23,12 +23,13 @@ class LoadAttributeValuesData implements FixtureInterface, ContainerAwareInterfa
 	{
 		$manager = $this->container->get('doctrine')->getEntityManager();
 		
-		//Requete pour récuperer le bon Ads ID
+		//Requete pour récuperer les Ads
 		$qb = $manager->createQueryBuilder();
 		$qb->addSelect('a');
 		$qb->from('adClassifiedBundle:Ads','a');
 		$ads = $qb->getQuery()->getResult();
 		
+		//Requete pour avoir les attributs
 		$qb = $manager->createQueryBuilder();
 		$qb->addSelect('a');
 		$qb->from('adClassifiedBundle:attribute','a');
@@ -45,13 +46,13 @@ class LoadAttributeValuesData implements FixtureInterface, ContainerAwareInterfa
 				$attVal->setAttributeId($attribute);
 				$attVal->setAdsId($ad);
 				
-				if ($attribute->getName() != 'Confirmed')	//Valeur 1 non confirmer, Valeur 2 confirmer par l'admin.
-				{
-					$attVal->setValue($values[mt_rand(0, 7)]);
-				}
-				else 
+				if ($attribute->getName() == 'Confirmed')	//Valeur 1 non confirmer, Valeur 2 confirmer par l'admin.
 				{
 					$attVal->setValue(mt_rand(0, 1));
+				}
+				else
+				{
+					$attVal->setValue($values[mt_rand(0, 7)]);
 				}
 				
 				$manager->persist($attVal);

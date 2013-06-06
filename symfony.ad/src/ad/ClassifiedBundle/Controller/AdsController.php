@@ -72,6 +72,7 @@ class AdsController extends Controller
 				$em = $this->getDoctrine()->getEntityManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());
+				$ads->setDate(new \DateTime('now')); 
 				
 				$em->persist($ads);
 				

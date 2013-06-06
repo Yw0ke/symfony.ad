@@ -37,7 +37,7 @@ class Ads
     /**
      * @var Date()
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 	
@@ -237,28 +237,5 @@ class Ads
     public function getUserId()
     {
         return $this->userId;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Ads
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
-    public function getDate()
-    {
-        return $this->date;
     }
 }

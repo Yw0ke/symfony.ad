@@ -35,6 +35,7 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
 		$qb->where('v.AdsId = :id');
+		$qb->orderBy('ads.date',  $order = 'DESC');
 
 		$qb->setParameter('id', $id);
 		
@@ -58,7 +59,8 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
 		$qb->where('v.AdsId = :id');
-	
+		$qb->orderBy('ads.date',  $order = 'DESC');
+		
 		$qb->setParameter('id', $id);
 	
 		$response = $qb->getQuery()->getResult();
@@ -114,7 +116,7 @@ class AdsRepository extends EntityRepository
 		$qb->orWhere('attr.name = :ownerType');
 		$qb->orWhere('attr.name = :ownerCity');
 		$qb->orWhere('attr.name =:Confirmed');
-		$qb->orderBy('ads.id');
+		$qb->orderBy('ads.date',  $order = 'DESC');
 		
 		$qb->setParameters(new ArrayCollection(array(
 													 new Parameter(':price', 'Price'),
@@ -174,7 +176,7 @@ class AdsRepository extends EntityRepository
 		$qb->from('adClassifiedBundle:attributeValues','v');
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
-		$qb->orderBy('ads.id');
+		$qb->orderBy('ads.date',  $order = 'DESC');
 		
 		$response = $qb->getQuery()->getResult();
 		
@@ -194,4 +196,46 @@ class AdsRepository extends EntityRepository
 		
 		return $ads;
 	}
+	
+	/**
+	 * Get all confirmed ads's info for index.
+	 *
+	 * @return array(Ads)
+	 */
+	public function getAllConfirmedAds()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');;
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->orderBy('ads.date',  $order = 'DESC');
+	
+		$response = $qb->getQuery()->getResult();
+	
+		$ads = array();
+	
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+			
+			$ad = $attVal->getAdsId();
+			$ad->addAttribute($attribute, $value);
+			
+			$try = $ad->getAttribute();
+			
+			if (isset($try['Confirmed']) && $try['Confirmed'] == 1)
+			{
+				$ads[$ad->getId()] = $ad;
+			}
+		}
+		
+		return $ads;
+	}
+	
 }

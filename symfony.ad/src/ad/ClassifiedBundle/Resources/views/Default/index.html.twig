@@ -1,7 +1,42 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
+<div class="span9 firstspan">
+	<div class="span9 tabSort firstspan">
+		<ul class="nav">
+			<li class="span2"><a>Annonces récentes</a></li>
+			<li class="span2"><a>Annonces populaires</a></li>
+			<li class="span2"><a>Au hasard</a></li>
+		</ul>
+	</div>
+	
+	{% for ad in ads %}
+	<div class="span9 firstspan well ad">
+	
+		<div class="span2 adleft">
+			<a href=""><img src="/uploads/pictures/{{ ad.pictureName }}" alt="Photo de l'annonce"/></a>
+		</div>	
+		<div class="span6 adsright">
+			<h3 class="span4"><a href="/ads/details/{{ ad.id }}">{{ ad.title }}</a></h3>
+			<div class="span1">
+				{{ ad.attribute.Price }}
+			</div>
+			<div class="span4 admeta">
+				<a>{{ ad.categoryId.name }}</a>
+				<a>{{ ad.userId.username }}</a>
+				<p>{{ ad.date|date("d/m/Y") }}</p>
+			</div>
+			<div class="span4 comment">
+				<p>{{ ad.attribute.Comment }}			
+			</div>
+		</div>
+		
+	</div>
+	{% endfor %}
 
-<p>Page d'accueil !</p>
+
+</div>
+
+
 
 {% endblock %}

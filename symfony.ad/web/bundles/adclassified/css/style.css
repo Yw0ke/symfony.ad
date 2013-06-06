@@ -75,6 +75,10 @@ header{
 	width:200px;
 }
 
+.firstspan{
+	margin-left:0px;
+}
+
 
 .span9.bloc.well.photo, .span9.bloc.well.vendeur{
 	margin:5px 0 10px 0;
@@ -87,12 +91,27 @@ header{
 	float:none;
 }
 
+.drpdwnli{
+	min-height:100px;
+}
 
+.span2.drpdwnli{
+	margin-left:10px;
+	width:160px;
+}
 
+.dropdown-menu{
+	width:350px;
+}
 
+.adsright{
+	float:left;
+	display:block;
+}
 
-
-
+.span6.adsright h3{
+	margin:0 auto;
+}
 
 ul.treeLink li a:hover {
 	cursor:pointer;
@@ -104,6 +123,15 @@ ul.treeLink li a:hover {
 	font-weight:bold;
 }
 
+.ad{
+	margin:5px 0 10px 0;
+	height:120px;
+}
+
+.admeta a{
+	float:left;
+	margin-right:10px;
+}
 
 /* CSS pour le tree Category */
 

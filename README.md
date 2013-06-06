@@ -28,7 +28,7 @@
 
 1.	Créer une base de données `symfony.ad` grâce a phpmyadmin.
 2.	Se rendre dans le dossier de l'application c:/wamp/git/symfony.ad/symfony.ad/.
-3.	Utiliser cette commande : `app/console doctrine:migrations:migrate`.
+3.	Utiliser cette commande : `app/console doctrine:migrations:migrate`. (si erreur, effacer le contenu de `symfony.ad` et relancer la commande.
 4.	Ainsi que celle-ci : `app/console doctrine:fixtures:load`.
 
 

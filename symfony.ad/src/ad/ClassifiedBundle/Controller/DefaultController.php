@@ -26,10 +26,13 @@ class DefaultController extends Controller
     	
     	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
     	
-    	var_dump($category);
-    	die;    	
+    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllConfirmedAds();
     	
-  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category));
+    	//var_dump($category);
+    	//die;
+  		
+  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category,
+  																				'ads' => $ads));
     }
     
  	/**
@@ -51,5 +54,18 @@ class DefaultController extends Controller
     	{
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array());
     	}
+    }
+    
+    /**
+     * @Route("/category/render", name="ad_category")
+     * @Template()
+     */
+    public function renderCategoryAction()
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
+    	
+    	return $this->render('adClassifiedBundle:Default:category.html.twig',array('category' => $category));
     }
 }
