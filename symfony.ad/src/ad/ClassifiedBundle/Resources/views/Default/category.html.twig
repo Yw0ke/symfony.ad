@@ -1,9 +1,9 @@
 {% for cat in category %}
-	<li class="span2 drpdwnli"><a tabindex="-1" href="#">{{ cat.name }}</a>
+	<li class="span2 drpdwnli"><a href="/filter/{{ cat.slug }}">{{ cat.name }}</a>
 	{% if cat.__children %}
 	<ul>
 		{% for child in cat.__children %}
-		<li><a tabindex="-1" href="#">{{ child.name }}</a></li>
+		<li><a href="/filter/{{ child.slug }}">{{ child.name }}</a></li>
 		{% endfor %}
 	</ul>
 	{% endif %}

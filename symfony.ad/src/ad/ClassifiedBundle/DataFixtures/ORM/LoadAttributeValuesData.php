@@ -21,7 +21,7 @@ class LoadAttributeValuesData implements FixtureInterface, ContainerAwareInterfa
     
 	public function load(ObjectManager $manager)
 	{
-		$manager = $this->container->get('doctrine')->getEntityManager();
+		$manager = $this->container->get('doctrine')->getManager();
 		
 		//Requete pour récuperer les Ads
 		$qb = $manager->createQueryBuilder();

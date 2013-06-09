@@ -22,7 +22,7 @@ class attributeType extends AbstractType
     	
     	//var_dump($options);
     	//die;
-    	$builder->add('name', 'text', array('label' => 'test'));
+    	$builder->add('name', 'text', array('label' => 'null'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

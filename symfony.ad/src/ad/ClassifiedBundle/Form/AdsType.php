@@ -17,23 +17,14 @@ class AdsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	//$data = $options["data"];
-    	
-    	//var_dump($data);
-    	//die;
-    	//$options["data"] = $data;
-    	
-    	//var_dump($options);
-    	//die;
-		
-    	
         $builder
-            ->add('title')
-            ->add('categoryId')
-            ->add('file')
+            ->add('title', 'text', array('label' => 'Titre de l\'annonce :'))
+            ->add('categoryId', null, array('label' => 'Choisir une catégorie :'))
+            ->add('file', 'file', array('label' => 'Fichier :'))
         
-        	->add('attribute',  'collection', array('type' => new attributeValuesType(),
-									        		'options' => array('data_class' => 'ad\ClassifiedBundle\Entity\attributeValues')));
+        	->add('attribute',  'collection', array('type' => new attributeValuesType()))
+       		
+        	->add('Envoyer', 'submit');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

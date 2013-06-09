@@ -31,7 +31,23 @@ class attributeRepository extends EntityRepository
 		return $response = $qb->getQuery()->getResult();
 	}
 	
+	/**
+	 * Get number of attribute.
+	 *
+	 * @return int
+	 */
+	public function getNbrOfAttribute()
+	{
+		$em = $this->getEntityManager();
 	
+		$qb = $em->createQueryBuilder();
+	    $qb->select('count(attr.id)');
+	    $qb->from('adClassifiedBundle:attribute','attr');
+	
+	    $count = $qb->getQuery()->getSingleScalarResult();
+	    
+		return $count;
+	}
 	
 	
 }

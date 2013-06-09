@@ -53,46 +53,20 @@ class CategoryController extends Controller
 	 * @Secure(roles="ROLE_SUPER_ADMIN")
 	 * @Template()
 	 */
-	public function addAction($slug)
+	public function addAction($slug, Request $request)
 	{
-		if ($slug == 'none')
-		{
-			$category = new Category();
-			
-			$form = $this->createForm(new CategoryType(), $category); //, $adsParameter
-
-			return $this->render('adClassifiedBundle:Category:new.html.twig', array ('form' => $form->createView(),
-																					'slug' => $slug));
-		}
-		else
-		{
-			$category = new Category();
-			
-			$form = $this->createForm(new CategoryType(), $category); //, $adsParameter
-
-			return $this->render('adClassifiedBundle:Category:new.html.twig', array ('form' => $form->createView(),
-																					'slug' => $slug));
+		$category = new Category();
 		
-		}
-	}
-	
-	/**
-	 * @Route("/category/validate/{slug}", name="ad_validate_category")
-	 * @Secure(roles="ROLE_SUPER_ADMIN")
-	 * @Method({"POST"})
-	 * @Template()
-	 */
-	public function validateAction($slug)
-	{
-		$form = $this->createForm(new CategoryType, new Category());
+		$form = $this->createForm(new CategoryType(), $category); //, $adsParameter
+
+		$form->handleRequest($request);
 		
-		$form->bindRequest($this->getRequest());
 		if ($form->isValid())
 		{
 			if ($slug == 'none')
 			{
 				$cat = $form->getData();
-					$em = $this->getDoctrine()->getEntityManager();
+				$em = $this->getDoctrine()->getManager();
 					
 				$cat->setSlug('');
 				$cat->setParent(null);
@@ -102,14 +76,14 @@ class CategoryController extends Controller
 					
 				return $this->redirect($this->generateUrl('ad_manage_category'));
 			}
-			else 
+			else
 			{
-				$em = $this->getDoctrine()->getEntityManager();
+				$em = $this->getDoctrine()->getManager();
 				$repo = $em->getRepository('adClassifiedBundle:Category');
 				$parent = $repo->findCatBySlug($slug);
 					
 				$cat = $form->getData();
-				$em = $this->getDoctrine()->getEntityManager();
+				$em = $this->getDoctrine()->getManager();
 					
 				$cat->setSlug('');
 				$cat->setParent($parent);
@@ -120,7 +94,12 @@ class CategoryController extends Controller
 				return $this->redirect($this->generateUrl('ad_manage_category'));
 			}
 		}
+		
+		return $this->render('adClassifiedBundle:Category:new.html.twig', array ('form' => $form->createView(),
+																				 'slug' => $slug));
 	}
+	
+
 	
 	/**
 	 * @Route("/category/edit/{slug}", name="ad_edit_category")
@@ -134,7 +113,7 @@ class CategoryController extends Controller
 			throw new \Exception('La racine ne peut pas être choisie');
 		}
 		
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$category = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($slug);
 		
 		if (!$category)
@@ -155,7 +134,7 @@ class CategoryController extends Controller
 	public function updateAction($id)
 	{
 		$request = $this->getRequest();
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$category = $em->getRepository('adClassifiedBundle:Category')->find($id);
 		$form = $this->createForm(new CategoryType, $category);
 	
@@ -165,7 +144,7 @@ class CategoryController extends Controller
 			if ($form->isValid())
 			{
 				$data = $form->getData();
-				$em = $this->getDoctrine()->getEntityManager();
+				$em = $this->getDoctrine()->getManager();
 				$em->persist($data);
 				$em->flush();
 				return $this->redirect($this->generateUrl('ad_manage_category'));
@@ -187,7 +166,7 @@ class CategoryController extends Controller
 			throw new \Exception('La racine ne peut pas être choisie');
 		}
 		
-		$em = $this->getDoctrine()->getEntityManager();	//la même que celle du cours
+		$em = $this->getDoctrine()->getManager();	//la même que celle du cours
 		$entity = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($slug);
 	
 		if (!$entity)

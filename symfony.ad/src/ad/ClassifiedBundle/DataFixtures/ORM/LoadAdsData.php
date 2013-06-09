@@ -21,7 +21,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
     
 	public function load(ObjectManager $manager)
 	{
-		$manager = $this->container->get('doctrine')->getEntityManager();
+		$manager = $this->container->get('doctrine')->getManager();
 		
 		function randomDate($start_date, $end_date)	//Fonction trouvé sur le net en cherchant un moyen de random une date.
 		{

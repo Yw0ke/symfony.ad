@@ -26,7 +26,7 @@ class LoadCategoryData implements FixtureInterface, ContainerAwareInterface, Ord
 		//Ajout des cat�gories primaires.
 		$maincategory = array("Bateaux d'occasion", "Bateaux neuf", "Jets skis", "Bateaux en location", "Divers", "Moteurs");
 		
-		$manager = $this->container->get('doctrine')->getEntityManager();
+		$manager = $this->container->get('doctrine')->getManager();
 		
 		foreach($maincategory as $name)
 		{

@@ -21,7 +21,7 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
     
 	public function load(ObjectManager $manager)
 	{
-		$manager = $this->container->get('doctrine')->getEntityManager();
+		$manager = $this->container->get('doctrine')->getManager();
 		
 		$attributes = array('Price', 'Confirmed', 'OwnerType', 'OwnerAdress', 'OwnerCity', 'OwnerZip', 
 							'OwnerPhone', 'Comment');

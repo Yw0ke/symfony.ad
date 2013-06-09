@@ -198,25 +198,39 @@ class AdsRepository extends EntityRepository
 	}
 	
 	/**
-	 * Get all confirmed ads's info for index.
+	 * Get confirmed ads's info for index.
 	 *
 	 * @return array(Ads)
 	 */
-	public function getAllConfirmedAds()
-	{
+	public function getConfirmedAds($filter = null)
+	{		
 		$em = $this->getEntityManager();
-	
+		
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('v');
 		$qb->addSelect('ads');
-		$qb->addSelect('attr');;
+		$qb->addSelect('attr');
+		$qb->addSelect('c');
 		$qb->from('adClassifiedBundle:attributeValues','v');
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->leftJoin('ads.categoryId', 'c');
+		
+		if (!is_null($filter))
+		{
+			$cat = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($filter);
+			
+			$qb->where('c.slug = :filter');
+			$qb->orWhere('c.root = :root');
+			
+			$qb->setParameter(':root', $cat->getRoot());
+			$qb->setParameter(':filter', $filter);
+		}
+		
 		$qb->orderBy('ads.date',  $order = 'DESC');
-	
+		
 		$response = $qb->getQuery()->getResult();
-	
+		
 		$ads = array();
 	
 		foreach ($response as $attVal)

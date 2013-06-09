@@ -9,20 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class attributeValuesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-    	//var_dump($options);
-    	//die;
-    	
-        $builder
-            ->add('value', 'text', array('label' => false));
-        
-        
-            /*->add('attributeId')
-            ->add('AdsId')*/
-		
-            //->add('attributeValues', new attributeValuesType());
-        //var_dump($options);
-        //die;
+    {    	
+        $builder->add('value', 'text', array('label' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

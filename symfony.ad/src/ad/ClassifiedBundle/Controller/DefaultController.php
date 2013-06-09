@@ -18,19 +18,17 @@ class DefaultController extends Controller
 {
 	/**
 	 * @Route("/", name="ad_index")
+	 * @Route("/filter/{filter}", name="ad_index_filtered")
 	 * @Template()
 	 */
-    public function indexAction()
+    public function indexAction($filter = null)
     {
-    	$em = $this->getDoctrine()->getEntityManager();
+    	$em = $this->getDoctrine()->getManager();
     	
     	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
     	
-    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllConfirmedAds();
+    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
-    	//var_dump($category);
-    	//die;
-  		
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category,
   																				'ads' => $ads));
     }
@@ -44,7 +42,7 @@ class DefaultController extends Controller
     {
     	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
-    		$em = $this->getDoctrine()->getEntityManager();
+    		$em = $this->getDoctrine()->getManager();
 		
 			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
 			
@@ -62,7 +60,7 @@ class DefaultController extends Controller
      */
     public function renderCategoryAction()
     {
-    	$em = $this->getDoctrine()->getEntityManager();
+    	$em = $this->getDoctrine()->getManager();
     	
     	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
     	

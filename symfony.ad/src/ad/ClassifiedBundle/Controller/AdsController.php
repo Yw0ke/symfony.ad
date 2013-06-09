@@ -26,7 +26,7 @@ class AdsController extends Controller
 	 */
 	public function listAction()
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->findAll();
 		
@@ -41,9 +41,9 @@ class AdsController extends Controller
 	 * @Secure(roles="ROLE_USER")
 	 * @Template()
 	 */
-	public function newAction()
+	public function newAction(Request $request)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		
 		//$attributeV = $em->getRepository("adClassifiedBundle:attributeValues")->findAll();
 		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
@@ -66,10 +66,13 @@ class AdsController extends Controller
 		
 		$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
 		
-		if ($this->getRequest()->getMethod() === 'POST') {
-			$form->bindRequest($this->getRequest());
-			if ($form->isValid()) {
-				$em = $this->getDoctrine()->getEntityManager();
+		
+		$form->handleRequest($request);
+		
+		if ($form->isValid()) {
+			// perform some action, such as saving the task to the database
+		
+			$em = $this->getDoctrine()->getManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());
 				$ads->setDate(new \DateTime('now')); 
@@ -89,8 +92,7 @@ class AdsController extends Controller
 				$em->flush();
 				
 				return $this->redirect($this->generateUrl('ad_manage_ads'));
-			}
-		}
+		}	
 		
 		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView()));
 	}
@@ -101,7 +103,7 @@ class AdsController extends Controller
 	 */
 	public function manageAdsAction()
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllAds();
 		
@@ -116,7 +118,7 @@ class AdsController extends Controller
 	 */
 	public function deleteAdsAction($id)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 	
 		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
 		
@@ -140,7 +142,7 @@ class AdsController extends Controller
 	 */
 	public function confirmAdsAction($id, $dash)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 	
 		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
 		
@@ -176,7 +178,7 @@ class AdsController extends Controller
 	 */
 	public function detailsAdsAction($id)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 	
 		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAdsFullInfoById($id);
 		
