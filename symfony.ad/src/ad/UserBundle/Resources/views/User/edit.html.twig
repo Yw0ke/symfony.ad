@@ -1,0 +1,9 @@
+{% extends '::layout.html.twig' %}
+{% block body %}
+	<h1>Editer mon profil</h1>
+	<div class="well">
+		<form action="{{ path('ad_update_user', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
+			{{ form(form) }}
+		</form>
+	</div>
+{% endblock %}

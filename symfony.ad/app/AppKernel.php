@@ -31,7 +31,8 @@ class AppKernel extends Kernel
         	new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         	new FOS\UserBundle\FOSUserBundle(),
         	new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-        	new Bc\Bundle\BootstrapBundle\BcBootstrapBundle()
+        	new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
+        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         	
         	
         );

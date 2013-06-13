@@ -3,41 +3,38 @@
 {% block body %}
 <div class="row centerbloc">
 	<div class="span9">
-		{% if ads %}
+		{% if pagination.items %}
 		<table class="table table-bordered table-striped table-condensed">
 		<caption>
 	    	<h4>Annonces en attentes de confirmation de votre part.</h4>
 	   	</caption>
 	   		<thead>
 	      	<tr>
-	      		<th>Titre</th>
+	      		<th {% if pagination.isSorted('ads.title') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Titre', 'ads.title') }}</th>
 	      		<th>Ville</th>
 	      		<th>Type de vendeur</th>
 	      		<th>Prix</th>
+	      		<th {% if pagination.isSorted('ads.date') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date', 'ads.date') }}</th>
 	            <th colspan="2">Actions</th>
 	      	</tr>
 		   	</thead>
 			<tbody>
-	         	{% for ad in ads %}
+	         	{% for ad in pagination %}
 	         	<tr>
-	      			{% for key, value in ad.attribute %}
-	      			{% if loop.first %}
-	      			<th>{{ ad.title }}</th>
-	      			<th>{{ value }}</th>
-	      			{% else %}
-	      				<th>{{ value }}</th>
-	      				{% endif %}
-	      				{% if loop.last %}
-						<td><a class="icon-eye-open center block" href="{{ path('ad_details_ads', { 'id' : ad.id}) }}"></a></td>
-						<td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash' : 1 }) }}"></a></td>
-						{% endif %}
-	      				{% endfor %}
-	      			</tr>
-	        		{% endfor %}
-		            
-				
+	         		<td>{{ ad.title }}</td>
+	         		<td>{{ ad.attribute.OwnerCity }}</td>
+	         		<td>{{ ad.attribute.OwnerType }}</td>
+	         		<td>{{ ad.attribute.Price }}</td>
+	         		<td>{{ ad.date|date('d/m/Y') }}</td>
+	  				<td><a class="icon-eye-open center block" href="{{ path('ad_details_ads', { 'id' : ad.id}) }}"></a></td>
+					<td><a class="icon-ok center block" href="{{ path('ad_confirm_ads', { 'id': ad.id, 'dash' : 1 }) }}"></a></td>
+	      		</tr>
+	        	{% endfor %}	
 			</tbody>
 		</table>
+		<div class="navigation">
+    		{{ knp_pagination_render(pagination) }}
+		</div>
 		{% else %}
 		<p>Aucune annonce non valider.</p>
 		{% endif %}

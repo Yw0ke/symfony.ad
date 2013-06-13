@@ -29,8 +29,14 @@ class DefaultController extends Controller
     	
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
+    	$paginator  = $this->get('knp_paginator');
+    	$pagination = $paginator->paginate(	$ads,
+							    			$this->get('request')->query->get('page', 1)/*page number*/,
+							    			2/*limit per page*/
+    	);
+    	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category,
-  																				'ads' => $ads));
+  																				'pagination' => $pagination));
     }
     
  	/**
@@ -40,17 +46,34 @@ class DefaultController extends Controller
 	 */
     public function dashboardAction()
     {
+    	$em = $this->getDoctrine()->getManager();
+    	
     	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
-    		$em = $this->getDoctrine()->getManager();
-		
 			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
 			
-    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('ads' => $ads));
+			$paginator  = $this->get('knp_paginator');
+			$pagination = $paginator->paginate(	$ads,
+					$this->get('request')->query->get('page', 1)/*page number*/,
+					2/*limit per page*/
+					);
+			
+    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('pagination' => $pagination));
     	}
     	else 
     	{
-    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array());
+    		$ads = $em->getRepository('adClassifiedBundle:Ads')->getUserAds($this->getUser());
+    			
+    		$paginator  = $this->get('knp_paginator');
+    		$pagination = $paginator->paginate(	$ads,
+    				$this->get('request')->query->get('page', 1)/*page number*/,
+    				2/*limit per page*/
+    		);
+    		
+    		$id = $this->getUser()->getId();
+    		
+    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array('pagination' => $pagination,
+    				'id' => $id));
     	}
     }
     

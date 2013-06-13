@@ -116,7 +116,15 @@ class AdsRepository extends EntityRepository
 		$qb->orWhere('attr.name = :ownerType');
 		$qb->orWhere('attr.name = :ownerCity');
 		$qb->orWhere('attr.name =:Confirmed');
-		$qb->orderBy('ads.date',  $order = 'DESC');
+		
+		if (!empty($_GET['sort']))
+		{
+			$qb->orderBy($_GET['sort'], $_GET['direction']);	//knp_paginator sort
+		}
+		else
+		{
+			$qb->orderBy('ads.date',  $order = 'DESC');
+		}
 		
 		$qb->setParameters(new ArrayCollection(array(
 													 new Parameter(':price', 'Price'),
@@ -156,6 +164,8 @@ class AdsRepository extends EntityRepository
 			
 			$ads[$ad->getId()] = $ad;
 		}
+		
+
 		
 		return $ads;	//retour d'un tableau d'entité Ads avec Attribut => Valeur
 	}
@@ -216,7 +226,7 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.attributeId', 'attr');
 		$qb->leftJoin('ads.categoryId', 'c');
 		
-		if (!is_null($filter))
+		if (!is_null($filter))	//Range de la recherche s'étend au sous-catégories.
 		{
 			$cat = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($filter);
 			
@@ -227,7 +237,14 @@ class AdsRepository extends EntityRepository
 			$qb->setParameter(':filter', $filter);
 		}
 		
-		$qb->orderBy('ads.date',  $order = 'DESC');
+		if (!empty($_GET['sort']))
+		{
+			$qb->orderBy($_GET['sort'], $_GET['direction']);	//knp_paginator sort
+		}
+		else
+		{
+			$qb->orderBy('ads.date',  $order = 'DESC');
+		}
 		
 		$response = $qb->getQuery()->getResult();
 		
@@ -252,4 +269,50 @@ class AdsRepository extends EntityRepository
 		return $ads;
 	}
 	
+	/**
+	 * Get loged user's ad.
+	 *
+	 * @return array(Ads)
+	 */
+	public function getUserAds($user)
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		$qb->where('ads.userId = :user');
+		
+		if (!empty($_GET['sort']))
+		{
+			$qb->orderBy($_GET['sort'], $_GET['direction']);	//knp_paginator sort
+		}
+		else
+		{
+			$qb->orderBy('ads.date',  $order = 'DESC');
+		}
+		
+		$qb->setParameter(':user', $user);
+		
+		$response = $qb->getQuery()->getResult();
+		
+		$ads = array();
+		
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+				
+			$ad = $attVal->getAdsId();
+			$ad->addAttribute($attribute, $value);
+			
+			$ads[$ad->getId()] = $ad;
+		}
+		
+		return $ads;
+	}
 }

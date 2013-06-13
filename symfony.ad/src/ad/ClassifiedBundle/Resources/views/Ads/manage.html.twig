@@ -18,7 +18,7 @@
       	</tr>
    	</thead>
 	<tbody>
-		{% for ad in ads %}
+		{% for ad in pagination %}
         <tr>
             <td>{{ ad.title }}</td>
             <td>{{ ad.attribute['Price'] }} €</td>
@@ -32,7 +32,9 @@
 		{% endfor %}
 	</tbody>
 </table>
-
+<div class="navigation">
+    	{{ knp_pagination_render(pagination) }}
+	</div>
 
 {% if app.request.requestUri|length > 11  %}
 <div class="span5">

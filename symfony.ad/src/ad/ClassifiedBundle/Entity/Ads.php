@@ -56,6 +56,13 @@ class Ads
     private $userId;
     
     /**
+     * @var integer
+     * 
+     * @ORM\Column(name="viewcount", type="integer", nullable=true)
+     */
+    private $viewCount;
+    
+    /**
      * @var array
      */
     private $attribute;
@@ -260,5 +267,28 @@ class Ads
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set viewCount
+     *
+     * @param integer $viewCount
+     * @return Ads
+     */
+    public function setViewCount($viewCount)
+    {
+        $this->viewCount = $viewCount;
+    
+        return $this;
+    }
+
+    /**
+     * Get viewCount
+     *
+     * @return integer 
+     */
+    public function getViewCount()
+    {
+        return $this->viewCount;
     }
 }

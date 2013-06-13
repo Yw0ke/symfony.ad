@@ -2,16 +2,18 @@
 
 {% block body %}
 <div class="span9 firstspan">
-	{% if ads %}
+	{% if pagination.items %}
 	<div class="span9 tabSort firstspan">
 		<ul class="nav">
-			<li class="span2"><a>Annonces récentes</a></li>
-			<li class="span2"><a>Annonces populaires</a></li>
-			<li class="span2"><a>Au hasard</a></li>
+		<th></th>
+			<li class="span2 {% if pagination.isSorted('ads.date') %}sorted{% endif %}"><a>{{ knp_pagination_sortable(pagination, 'Annonces récentes', 'ads.date') }}</a></li>
+			<li class="span2 {% if pagination.isSorted('ads.viewCount') %}sorted{% endif %}"><a>{{ knp_pagination_sortable(pagination, 'Annonces populaires', 'ads.viewCount') }}</a></li>
+			<li class="span2"><a>Au hasard</a></li> 
 		</ul>
 	</div>
-	{% for ad in ads %}
-	<div class="span9 firstspan well ad">
+
+	{% for ad in pagination %}
+			<div class="span9 firstspan well ad">
 		<div class="span2 adleft">
 			<a href=""><img src="/uploads/pictures/{{ ad.pictureName }}" alt="Photo de l'annonce"/></a>
 		</div>	
@@ -29,9 +31,12 @@
 				<p>{{ ad.attribute.Comment }}			
 			</div>
 		</div>
-		
 	</div>
+
 	{% endfor %}
+	<div class="navigation">
+    	{{ knp_pagination_render(pagination) }}
+	</div>
 	{% else %}
 	<div class="firstspan well">
 		<p>Il n'y as aucune annonce dans cette catégorie !</p>

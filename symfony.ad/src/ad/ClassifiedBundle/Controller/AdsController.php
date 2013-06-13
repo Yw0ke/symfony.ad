@@ -21,22 +21,6 @@ use ad\ClassifiedBundle\Form\AdsParameter;
 class AdsController extends Controller
 {
 	/**
-	 * @Route("/ads/list/", name="ad_list_ads")
-	 * @Template()
-	 */
-	public function listAction()
-	{
-		$em = $this->getDoctrine()->getManager();
-		
-		$ads = $em->getRepository('adClassifiedBundle:Ads')->findAll();
-		
-		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:list.html.twig', array(
-				'ads' => $ads
-		));
-		
-	}
-	
-	/**
 	 * @Route("/ads/new/", name="ad_new_ads")
 	 * @Secure(roles="ROLE_USER")
 	 * @Template()
@@ -107,8 +91,14 @@ class AdsController extends Controller
 		
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllAds();
 		
+		$paginator  = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(	$ads,
+				$this->get('request')->query->get('page', 1)/*page number*/,
+				2/*limit per page*/
+		);
+		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:manage.html.twig', array(
-				'ads' => $ads
+				'pagination' => $pagination
 		));
 	}
 	
@@ -181,6 +171,11 @@ class AdsController extends Controller
 		$em = $this->getDoctrine()->getManager();
 	
 		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAdsFullInfoById($id);
+		
+		$ad = $ad->setViewCount($ad->getViewCount() +1);
+		
+		$em->persist($ad);
+		$em->flush();
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
 				'ad' => $ad
