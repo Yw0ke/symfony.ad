@@ -34,10 +34,12 @@ class DefaultController extends Controller
 							    			$this->get('request')->query->get('page', 1)/*page number*/,
 							    			2/*limit per page*/
     	);
-    	
+
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category,
   																				'pagination' => $pagination));
     }
+    
+   
     
  	/**
 	 * @Route("/dashboard/", name="ad_dashboard")
@@ -70,10 +72,8 @@ class DefaultController extends Controller
     				2/*limit per page*/
     		);
     		
-    		$id = $this->getUser()->getId();
-    		
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array('pagination' => $pagination,
-    				'id' => $id));
+    				));
     	}
     }
     

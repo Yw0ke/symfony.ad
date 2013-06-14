@@ -12,10 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class attributeValuesRepository extends EntityRepository
 {
-	/*public function getUnconfirmedAds()
+	/**
+	 * Get ad's attVal.
+	 *
+	 * @return array(attributeValues)
+	 */
+	public function getAttValFullInfoById($id)
 	{
 		$em = $this->getEntityManager();
-	
+		
 		$qb = $em->createQueryBuilder();
 		$qb->addSelect('v');
 		$qb->addSelect('ads');
@@ -23,15 +28,11 @@ class attributeValuesRepository extends EntityRepository
 		$qb->from('adClassifiedBundle:attributeValues','v');
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
-		$qb->where('v.AdsId = 80');
-	
-		$response = $qb->getQuery()->getResult();
+		$qb->where('v.AdsId = :id');
+		$qb->orderBy('ads.date',  $order = 'DESC');
+
+		$qb->setParameter('id', $id);
 		
-		
-		
-		var_dump($response);
-		die;
-	}*/
-	
-	
+		return $response = $qb->getQuery()->getResult();
+	}
 }

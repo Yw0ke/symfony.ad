@@ -17,12 +17,15 @@ class AdsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    
+    	
         $builder
             ->add('title', 'text', array('label' => 'Titre de l\'annonce :'))
             ->add('categoryId', null, array('label' => 'Choisir une catégorie :'))
-            ->add('file', 'file', array('label' => 'Fichier :'))
-        
-        	->add('attribute',  'collection', array('type' => new attributeValuesType()))
+            ->add('file', 'file', array('label' => 'Fichier :',
+            							'data_class' => null))
+        	
+        	->add('attribute',  'collection')
        		
         	->add('Envoyer', 'submit');
     }

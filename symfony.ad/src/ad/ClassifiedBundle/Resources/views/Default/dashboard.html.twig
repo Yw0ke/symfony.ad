@@ -12,7 +12,7 @@
 	      		<th {% if pagination.isSorted('ads.title') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Titre', 'ads.title') }}</th>
 	      		<th>Prix</th>
 	      		<th {% if pagination.isSorted('ads.date') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date', 'ads.date') }}</th>
-	      		<th>Action</th>
+	      		<th colspan="3">Action</th>
 	      	</tr>
 		   	</thead>
 			<tbody>
@@ -21,7 +21,9 @@
 	         		<td>{{ ad.title }}</td>
 	         		<td>{{ ad.attribute.Price }}</td>
 	         		<td>{{ ad.date|date('d/m/Y') }}</td>
-	         		<td colspan="2"></td>
+	         		<td><a class="icon-eye-open center block" href="{{ path('ad_details_ads', { 'id' : ad.id}) }}"></a></td>
+	         		<td><a class="icon-edit center block" href="{{ path('ad_edit_ads', { 'id' : ad.id}) }}"></a></td>
+	         		<td><a class="icon-remove center block" href="{{ path('ad_delete_ads', { 'id' : ad.id}) }}"></a></td>
 	      		</tr>
 	        	{% endfor %}	
 			</tbody>
@@ -36,14 +38,28 @@
 
 <aside class="span3 sidespan">
 	<div class="row">
+		Info user FOS show action
+		{# render(controller("adClassifiedBundle:Default:renderCategoryAction")) #}
+	</div>
+	<div class="row">
 		<ul>
-			<li><a href="{{ path('fos_user_profile_edit') }}">Mon profil</a></li>
+			<li><a href="{{ path('fos_user_profile_edit') }}">Editer mon profil</a></li>
 			<li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
 		</ul>
 	</div>
-	<div class="row">
-		{% render(controller("adUserBundle:User:showAction")) %}
-	</div>
-	
 </aside>
+{% if app.request.requestUri|length > 11  %}
+<div class="span5">
+	{% if app.request.requestUri|slice(14) == 'delete' %}
+	<div class="alert bloc alert-info">
+		<strong>Info !</strong> L'annonce a bien était supprimer.
+	</div>
+	{% endif %}
+	{% if app.request.requestUri|slice(14) == 'update' %}
+	<div class="alert bloc alert-success">
+		<strong>Info !</strong> L'annonce a bien était mise à jour.
+	</div>
+	{% endif %}
+</div>
+{% endif %}
 {% endblock %}

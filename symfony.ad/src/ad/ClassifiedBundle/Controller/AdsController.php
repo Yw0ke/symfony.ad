@@ -33,29 +33,21 @@ class AdsController extends Controller
 		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
 		
 		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
-		$attVal = new attributeValues();
 		$mix = array();
 		
 		foreach ($att as $attribut)
 		{
-			$mix[$attribut->getName()] = $attVal->getValue();
+			$mix[$attribut->getName()] = null;
 		}
 		
 		$ads = new Ads();
 		$ads->setAttribute($mix);
 		
-		/*$repo = $em->getRepository('adClassifiedBundle:Category');		
-		$category['data'] = $arrayTree = $repo->childrenHierarchy();*/
-
-		
 		$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
-		
 		
 		$form->handleRequest($request);
 		
-		if ($form->isValid()) {
-			// perform some action, such as saving the task to the database
-		
+		if ($form->isValid()) {		
 			$em = $this->getDoctrine()->getManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());
@@ -63,19 +55,21 @@ class AdsController extends Controller
 				
 				$em->persist($ads);
 				
-				foreach ($ads->getAttribute() as $attName => $attVal)
+				foreach ($ads->getAttribute() as $attName => $value)
 				{
 					$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);
+					$attValue = new attributeValues();
 					
-					$attVal->setAdsId($ads);
-					$attVal->setAttributeId($att[0]);
+					$attValue->setValue($value);
+					$attValue->setAdsId($ads);
+					$attValue->setAttributeId($att[0]);
 					
-					$em->persist($attVal);
+					$em->persist($attValue);
 				}
 				
 				$em->flush();
 				
-				return $this->redirect($this->generateUrl('ad_manage_ads'));
+				return $this->redirect($this->generateUrl('ad_index'));
 		}	
 		
 		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView()));
@@ -104,26 +98,42 @@ class AdsController extends Controller
 	
 	/**
 	 * @Route("/ads/delete/{id}", name="ad_delete_ads")
-	 * @Secure(roles="ROLE_SUPER_ADMIN")
 	 */
 	public function deleteAdsAction($id)
 	{
 		$em = $this->getDoctrine()->getManager();
+		
+		$adObj = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
+		$adHyd = $em->getRepository('adClassifiedBundle:Ads')->hydrateAd($adObj);
+		
+		if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN') || $adHyd->getUserId() == $this->getUser())
+		{
+			$ad = $em->getRepository('adClassifiedBundle:attributeValues')->getAttValFullInfoById($id);
+			
+			if (!$ad)
+			{
+				throw $this->createNotFoundException('Cette annonce n\'existe pas.');
+			}
+			
+			foreach ($ad as $attVal)
+			{
+				$em->remove($attVal);
+				$em->flush();
+			}
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
-		
-		if (!$ad)
-		{
-			throw $this->createNotFoundException('Cette annonce n\'existe pas.');
+			if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN'))
+			{
+				return $this->redirect($this->generateUrl('ad_manage_ads', array('delete')));
+			}
+			else 
+			{
+				return $this->redirect($this->generateUrl('ad_dashboard', array('delete')));
+			}
 		}
-		
-		foreach ($ad as $attVal)
+		else
 		{
-			$em->remove($attVal);
-			$em->flush();
+			throw new AccessDeniedHttpException('La racine ne peut pas être choisie');
 		}
-
-		return $this->redirect($this->generateUrl('ad_manage_ads', array('delete')));
 	}
 	
 	/**
@@ -134,7 +144,7 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAttValFullInfoById($id);
+		$ad = $em->getRepository('adClassifiedBundle:attributeValues')->getAttValFullInfoById($id);
 		
 		foreach ($ad as $attVal)
 		{
@@ -169,10 +179,11 @@ class AdsController extends Controller
 	public function detailsAdsAction($id)
 	{
 		$em = $this->getDoctrine()->getManager();
+		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
 	
-		$ad = $em->getRepository('adClassifiedBundle:Ads')->getAdsFullInfoById($id);
+		$ads = $em->getRepository('adClassifiedBundle:Ads')->hydrateAd($ad);
 		
-		$ad = $ad->setViewCount($ad->getViewCount() +1);
+		$ads = $ad->setViewCount($ad->getViewCount() +1);
 		
 		$em->persist($ad);
 		$em->flush();
@@ -180,6 +191,53 @@ class AdsController extends Controller
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
 				'ad' => $ad
 		));
+	}
+	
+	/**
+	 * @Route("/ads/edit/{id}", name="ad_edit_ads")
+
+	 */
+	public function editAdsAction(Request $request, $id = null)
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		//$attributeV = $em->getRepository("adClassifiedBundle:attributeValues")->findAll();
+		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
+
+			$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
+			$ads = $em->getRepository("adClassifiedBundle:Ads")->hydrateAd($ad);
+			
+			$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
+
+		$form->handleRequest($request);
+		
+		if ($form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$ads->uploadPicture();
+			$ads->setUserId($this->getUser());
+			$ads->setDate(new \DateTime('now'));
+			
+			$em->persist($ads);
+			
+			foreach ($ads->getAttribute() as $attName => $value)
+			{
+				$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);
+				$attValue = new attributeValues();
+				
+				$attValue->setValue($value);
+				$attValue->setAdsId($ads);
+				$attValue->setAttributeId($att[0]);
+				
+				$em->persist($attValue);
+			}
+		
+			$em->flush();
+		
+			return $this->redirect($this->generateUrl('ad_dashboard', array('update')));
+		}
+		
+		return $this->render('adClassifiedBundle:Ads:edit.html.twig', array ('form' => $form->createView(),
+																			 'id' => $id));
 	}
 }
 	

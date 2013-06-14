@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\ORM\EntityRepository;
 use ad\ClassifiedBundle\Entity\attribute_values;
-
+use ad\ClassifiedBundle\Entity\Ads;
 
 /**
  * AdsRepository
@@ -19,11 +19,11 @@ use ad\ClassifiedBundle\Entity\attribute_values;
 class AdsRepository extends EntityRepository
 {
 	/**
-	 * Get ad's info.
+	 * Hydrate ad's attribute.
 	 *
-	 * @return array(attributeValues)
+	 * @return Ads
 	 */
-	public function getAttValFullInfoById($id)
+	public function hydrateAd(Ads $ad)
 	{
 		$em = $this->getEntityManager();
 		
@@ -35,65 +35,20 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.AdsId', 'ads');
 		$qb->leftJoin('v.attributeId', 'attr');
 		$qb->where('v.AdsId = :id');
-		$qb->orderBy('ads.date',  $order = 'DESC');
-
-		$qb->setParameter('id', $id);
 		
-		return $response = $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * Get ad's info.
-	 *
-	 * @return array(Ads)
-	 */
-	public function getAdsFullInfoById($id)
-	{
-		$em = $this->getEntityManager();
-	
-		$qb = $em->createQueryBuilder();
-		$qb->addSelect('v');
-		$qb->addSelect('ads');
-		$qb->addSelect('attr');
-		$qb->from('adClassifiedBundle:attributeValues','v');
-		$qb->leftJoin('v.AdsId', 'ads');
-		$qb->leftJoin('v.attributeId', 'attr');
-		$qb->where('v.AdsId = :id');
-		$qb->orderBy('ads.date',  $order = 'DESC');
+		$qb->setParameter('id', $ad->getId());
 		
-		$qb->setParameter('id', $id);
-	
 		$response = $qb->getQuery()->getResult();
-		
-		
-		/*$qb = $em->createQueryBuilder();
-		$qb->addSelect('ads');
-		$qb->from('adClassifiedBundle:Ads','ads');
-		$qb->where('ads.id = :id');
-		
-		$qb->setParameter('id', $id);
-		
-		$response2 = $qb->getQuery()->getResult();
-		
-		var_dump($response2[0]->getUserId()->getUserName());
-		die;*/
 		
 		foreach ($response as $attVal)
 		{
 			$value = $attVal->getValue();
 			$attribute = $attVal->getAttributeId()->getName();
-				
-			$ad = $attVal->getAdsId();
-		
+			
 			$ad->addAttribute($attribute, $value);
-				
-			$ads = $ad;
 		}
 		
-		//var_dump($ads);
-		//die;
-		
-		return $ads;
+		return $ad;
 	}
 	
 	/**
@@ -164,8 +119,6 @@ class AdsRepository extends EntityRepository
 			
 			$ads[$ad->getId()] = $ad;
 		}
-		
-
 		
 		return $ads;	//retour d'un tableau d'entité Ads avec Attribut => Valeur
 	}
@@ -315,4 +268,6 @@ class AdsRepository extends EntityRepository
 		
 		return $ads;
 	}
+	
+	
 }

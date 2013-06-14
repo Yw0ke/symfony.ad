@@ -1,0 +1,13 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+
+<div class="span8 well centertext">
+<h2>Editer l'annonce</h1>
+	<form action="{{ path('ad_edit_ads', { 'id' : id}) }}" method="post" {{ form_enctype(form) }}>
+	{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
+		{{ form(form) }}
+	</form>
+</div>
+
+{% endblock %}

@@ -47,5 +47,19 @@
 			<li>Gérer les utilisateurs</li>
 		</ul>
 	</aside>
+{% if app.request.requestUri|length > 11  %}
+<div class="span5">
+	{% if app.request.requestUri|slice(14) == 'delete' %}
+	<div class="alert bloc alert-info">
+		<strong>Info !</strong> L'annonce a bien était supprimer.
+	</div>
+	{% endif %}
+	{% if app.request.requestUri|slice(14) == 'update' %}
+	<div class="alert bloc alert-success">
+		<strong>Info !</strong> L'annonce a bien était mise à jour.
+	</div>
+	{% endif %}
+</div>
+{% endif %}
 </div>
 {% endblock %}
