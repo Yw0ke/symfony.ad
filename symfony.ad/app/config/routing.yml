@@ -1,5 +1,10 @@
-ad:
+classified:
     resource: "@adClassifiedBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    
+user:
+    resource: "@adUserBundle/Controller/"
     type:     annotation
     prefix:   /
 

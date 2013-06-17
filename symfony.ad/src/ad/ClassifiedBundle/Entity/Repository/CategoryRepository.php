@@ -41,4 +41,25 @@ class CategoryRepository extends NestedTreeRepository
 		
 		return $response[0];
 	}
+	
+	public function countAds($id)
+	{
+		
+		
+		
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('ads');
+		$qb->addSelect('c');
+		$qb->from('adClassifiedBundle:Ads','ads');
+		$qb->leftJoin('ads.categoryId', 'c');
+		$qb->where('c.id = :id');
+		
+		$qb->setParameter('id', $id);
+		
+		$response = $qb->getQuery()->getResult();
+		
+		return (int)count($response);
+	}
 }

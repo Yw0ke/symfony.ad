@@ -132,7 +132,7 @@ class AdsController extends Controller
 		}
 		else
 		{
-			throw new AccessDeniedHttpException('La racine ne peut pas être choisie');
+			throw new AccessDeniedHttpException('Vous n\'avez pas les droits nécessaire à la suppression d\'utilisateurs.');
 		}
 	}
 	

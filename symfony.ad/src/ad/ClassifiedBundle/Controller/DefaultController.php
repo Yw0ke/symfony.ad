@@ -27,6 +27,26 @@ class DefaultController extends Controller
     	
     	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
     	
+    	
+
+
+    	
+    	
+    	foreach ($category as $cat)
+    	{
+    		foreach ($cat['__children'] as $sscat)
+    		{
+    			$sscat['count'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
+
+    			$cat['__children'] = $sscat;
+    		}
+    		
+    		$cat[] = $sscat;
+    	}
+    	
+    	var_dump($category);
+    	die;
+    	
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$paginator  = $this->get('knp_paginator');

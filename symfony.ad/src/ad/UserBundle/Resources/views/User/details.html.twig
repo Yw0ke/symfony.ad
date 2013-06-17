@@ -1,0 +1,28 @@
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+
+<div class="row centerbloc">
+	<section class="span9 annonce centertext">
+
+		<div class="row">
+			<div class="span9 bloc well vendeur">
+				<h4>Informations sur {{ user.username }}</h4>
+				<ul>
+					<li>{{ user.email }}</li>
+					{% if user.lastLogin != null %}<li>{{ user.lastLogin.date|date('d:m:Y') }}</li>{% endif %}
+					<li>{{ user.roles[0] }}</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section class="span4 sidespan">
+	
+	CONTACT
+	
+	</section>
+</div>
+
+
+
+{% endblock %}
