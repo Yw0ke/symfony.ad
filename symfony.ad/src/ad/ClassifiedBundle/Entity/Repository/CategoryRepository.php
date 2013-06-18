@@ -44,9 +44,6 @@ class CategoryRepository extends NestedTreeRepository
 	
 	public function countAds($id)
 	{
-		
-		
-		
 		$em = $this->getEntityManager();
 	
 		$qb = $em->createQueryBuilder();

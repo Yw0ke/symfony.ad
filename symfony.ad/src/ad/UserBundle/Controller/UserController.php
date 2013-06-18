@@ -22,8 +22,8 @@ class UserController extends FosUser
 	 */
 	public function manageAdsAction()
 	{
-		$em = $this->getDoctrine()->getManager();
-	
+    	$em = $this->getDoctrine()->getManager();
+			
 		$users = $em->getRepository('adUserBundle:User')->findAllSorted();
 		
 		$paginator  = $this->get('knp_paginator');

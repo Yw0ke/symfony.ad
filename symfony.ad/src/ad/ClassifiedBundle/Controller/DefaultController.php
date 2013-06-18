@@ -25,28 +25,6 @@ class DefaultController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	
-    	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
-    	
-    	
-
-
-    	
-    	
-    	foreach ($category as $cat)
-    	{
-    		foreach ($cat['__children'] as $sscat)
-    		{
-    			$sscat['count'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
-
-    			$cat['__children'] = $sscat;
-    		}
-    		
-    		$cat[] = $sscat;
-    	}
-    	
-    	var_dump($category);
-    	die;
-    	
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$paginator  = $this->get('knp_paginator');
@@ -55,8 +33,7 @@ class DefaultController extends Controller
 							    			2/*limit per page*/
     	);
 
-  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('category' => $category,
-  																				'pagination' => $pagination));
+  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination));
     }
     
    
@@ -107,6 +84,28 @@ class DefaultController extends Controller
     	
     	$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
     	
-    	return $this->render('adClassifiedBundle:Default:category.html.twig',array('category' => $category));
+    	foreach ($category as $cat)
+    	{
+    		$cat['nb'] = 0;
+
+    		$child = $cat['__children'];
+    		
+    		$cat['__children'] = array();
+    		
+    		foreach ($child as $sscat)
+    		{
+    			$childCounted = array();
+    			
+    			$sscat['nb'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
+    			 
+    			$cat['nb'] += $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
+
+    			$cat['__children'][] = $sscat;
+    		}
+    		$catCounted[] = $cat;
+    	}
+
+    	
+    	return $this->render('adClassifiedBundle:Default:category.html.twig',array('category' => $catCounted));
     }
 }
