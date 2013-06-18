@@ -5,12 +5,12 @@ namespace ad\ClassifiedBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * attribute
+ * type
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="ad\ClassifiedBundle\Entity\Repository\attributeRepository")
+ * @ORM\Entity(repositoryClass="ad\ClassifiedBundle\Entity\Repository\typeRepository")
  */
-class attribute
+class type
 {
     /**
      * @var integer
@@ -24,17 +24,9 @@ class attribute
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=42)
      */
     private $name;
-
-    /**
-     * @var integer
-     *
-  	 * @ORM\ManyToOne(targetEntity="ad\ClassifiedBundle\Entity\type", cascade={"persist"})
-	 * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     */
-    private $typeId;
 
     /**
      * Get id
@@ -50,12 +42,12 @@ class attribute
      * Set name
      *
      * @param string $name
-     * @return attribute
+     * @return type
      */
     public function setName($name)
     {
         $this->name = $name;
-
+    
         return $this;
     }
 

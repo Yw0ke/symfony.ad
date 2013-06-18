@@ -48,6 +48,8 @@ class AdsRepository extends EntityRepository
 			$ad->addAttribute($attribute, $value);
 		}
 		
+		var_dump($ad);
+		
 		return $ad;
 	}
 	

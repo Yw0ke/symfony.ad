@@ -10,18 +10,6 @@ class attributeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-    	/*$data = $options["data"];
-    	$att = $data->getAttribute();
-    	
-    	
-    	foreach($att as $attribut)
-    	{
-    		$attribut->getName();
-    	}*/
-    	
-    	//var_dump($options);
-    	//die;
     	$builder->add('name', 'text', array('label' => 'null'));
     }
 

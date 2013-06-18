@@ -4,7 +4,7 @@
 	{% if cat.__children %}
 	<ul>
 		{% for child in cat.__children %}
-		<li><a href="/filter/{{ child.slug }}">{{ child.name }} {% if child.nb is defined %}({{ child.nb }}){% endif %}</a></li>
+		<li><a href="/filter/{{ child.slug }}">{{ child.name }} {% if child.nb %}({{ child.nb }}){% endif %}</a></li>
 		{% endfor %}
 	</ul>
 	{% endif %}

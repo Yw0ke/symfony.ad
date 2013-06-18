@@ -14,8 +14,19 @@ use ad\UserdBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use FOS\UserBundle\Controller\ProfileController as FosUser;
 
-class UserController extends FosUser
+class UserController extends Controller
 {
+	/**
+	 * Show action
+	 */
+	public function showAction()
+	{
+		$user = $this->container->get('security.context')->getToken()->getUser();
+
+	
+		return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user));
+	}
+	
 	/**
 	 * @Route("/user/manage", name="ad_manage_user")
 	 * @Secure(roles="ROLE_SUPER_ADMIN")

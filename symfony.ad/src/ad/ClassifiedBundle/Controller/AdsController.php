@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Validator\Constraints\Email;
 use ad\ClassifiedBundle\Form\AdsType;
 use ad\ClassifiedBundle\Form\AdsParameterType;
 use ad\ClassifiedBundle\Entity\Ads;
@@ -28,9 +29,6 @@ class AdsController extends Controller
 	public function newAction(Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
-		
-		//$attributeV = $em->getRepository("adClassifiedBundle:attributeValues")->findAll();
-		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
 		
 		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
 		$mix = array();
@@ -200,14 +198,11 @@ class AdsController extends Controller
 	public function editAdsAction(Request $request, $id = null)
 	{
 		$em = $this->getDoctrine()->getManager();
-		
-		//$attributeV = $em->getRepository("adClassifiedBundle:attributeValues")->findAll();
-		//$adsParameter = new AdsParameter($attributeV, $edit=false); //$edit=true
 
-			$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
-			$ads = $em->getRepository("adClassifiedBundle:Ads")->hydrateAd($ad);
-			
-			$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
+		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
+		$ads = $em->getRepository("adClassifiedBundle:Ads")->hydrateAd($ad);
+		
+		$form = $this->createForm(new AdsType(), $ads);
 
 		$form->handleRequest($request);
 		
