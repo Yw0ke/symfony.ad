@@ -34,10 +34,9 @@
 
 *V : Accéder à l’application.*
 
-
 1. Simplement taper symfony.ad dans la barre d’adresse pour accéder à la page d’accueil.
-
 2. Les utilisateurs déjà enregistrer sont superadmin et user. (même password que les login)
+
 
 *Exemple de virtualhost à placer à la fin du httpd-conf : 
 
