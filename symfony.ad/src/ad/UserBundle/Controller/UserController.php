@@ -22,9 +22,8 @@ class UserController extends Controller
 	public function showAction()
 	{
 		$user = $this->container->get('security.context')->getToken()->getUser();
-
-	
-		return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user));
+		
+		return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show_content.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user));
 	}
 	
 	/**

@@ -32,7 +32,7 @@ class DefaultController extends Controller
 							    			$this->get('request')->query->get('page', 1)/*page number*/,
 							    			2/*limit per page*/
     	);
-
+		
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination));
     }
     
@@ -97,14 +97,13 @@ class DefaultController extends Controller
     			$childCounted = array();
     			
     			$sscat['nb'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
-    			 
-    			$cat['nb'] += $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
-
+    			
+    			$cat['nb'] += $sscat['nb'];
+				
     			$cat['__children'][] = $sscat;
     		}
     		$catCounted[] = $cat;
     	}
-
     	
     	return $this->render('adClassifiedBundle:Default:category.html.twig',array('category' => $catCounted));
     }

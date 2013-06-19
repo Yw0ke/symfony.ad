@@ -23,14 +23,46 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 	{
 		$manager = $this->container->get('doctrine')->getManager();
 		
-		$attributes = array('Price', 'Confirmed', 'OwnerType', 'OwnerAdress', 'OwnerCity', 'OwnerZip', 
-							'OwnerPhone', 'Comment');
+		$IntAttributes = array('Price', 'Confirmed', 'OwnerZip', 'OwnerPhone');
+		$StrAttributes = array('OwnerType', 'OwnerAdress', 'OwnerCity', 'Comment');
 		
-		foreach ($attributes as $at)
+		
+		foreach ($IntAttributes as $at)
 		{
 			$att = new attribute();
 			$att->setName($at);
 			
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :integer');
+			$qb->setParameter(':integer', 'integer');
+			
+			$type = $qb->getQuery()->getResult();			
+			
+			$att->setTypeId($type[0]);
+			
+			$manager->persist($att);
+			$manager->flush();
+		}
+		
+		foreach ($StrAttributes as $at)
+		{
+			$att = new attribute();
+			$att->setName($at);
+				
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :string');
+			$qb->setParameter(':string', 'string');
+				
+			$type = $qb->getQuery()->getResult();
+				
+			$att->setTypeId($type[0]);
+				
 			$manager->persist($att);
 			$manager->flush();
 		}
@@ -38,7 +70,7 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 	
 	public function getOrder()
 	{
-		return 3;
+		return 4;
 	}
 	
 }

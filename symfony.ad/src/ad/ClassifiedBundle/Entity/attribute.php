@@ -68,4 +68,27 @@ class attribute
     {
         return $this->name;
     }
+
+    /**
+     * Set typeId
+     *
+     * @param \ad\ClassifiedBundle\Entity\type $typeId
+     * @return attribute
+     */
+    public function setTypeId(\ad\ClassifiedBundle\Entity\type $typeId)
+    {
+        $this->typeId = $typeId;
+    
+        return $this;
+    }
+
+    /**
+     * Get typeId
+     *
+     * @return \ad\ClassifiedBundle\Entity\type 
+     */
+    public function getTypeId()
+    {
+        return $this->typeId;
+    }
 }
