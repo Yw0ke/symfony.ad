@@ -10,14 +10,16 @@ class attributeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('name', 'text', array('label' => 'null'));
+        $builder
+            ->add('name')
+            ->add('typeId')
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ad\ClassifiedBundle\Entity\attribute',
-        	'cascade_validation' => true,
+            'data_class' => 'ad\ClassifiedBundle\Entity\attribute'
         ));
     }
 

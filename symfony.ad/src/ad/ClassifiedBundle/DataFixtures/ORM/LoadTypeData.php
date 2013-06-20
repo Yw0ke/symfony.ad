@@ -23,7 +23,7 @@ class LoadTypeData implements FixtureInterface, ContainerAwareInterface, Ordered
 	{
 		$manager = $this->container->get('doctrine')->getManager();
 
-		$types = array('string', 'integer');
+		$types = array('text', 'integer', 'money', 'choice', 'number', 'textarea');
 
 		foreach ($types as $type)
 		{

@@ -23,31 +23,13 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 	{
 		$manager = $this->container->get('doctrine')->getManager();
 		
-		$IntAttributes = array('Price', 'Confirmed', 'OwnerZip', 'OwnerPhone');
-		$StrAttributes = array('OwnerType', 'OwnerAdress', 'OwnerCity', 'Comment');
+		$TxtAttributes = array('OwnerType', 'OwnerAdress', 'OwnerCity');
+		$MnyAttributes = array('Price');
+		$ChceAttributes = array('Confirmed');
+		$NbrAttributes = array('OwnerZip', 'OwnerPhone');
+		$TxtareaAttributes = array('Comment');
 		
-		
-		foreach ($IntAttributes as $at)
-		{
-			$att = new attribute();
-			$att->setName($at);
-			
-			//Requete pour récuperer le type integer
-			$qb = $manager->createQueryBuilder();
-			$qb->addSelect('t');
-			$qb->from('adClassifiedBundle:type','t');
-			$qb->Where('t.name = :integer');
-			$qb->setParameter(':integer', 'integer');
-			
-			$type = $qb->getQuery()->getResult();			
-			
-			$att->setTypeId($type[0]);
-			
-			$manager->persist($att);
-			$manager->flush();
-		}
-		
-		foreach ($StrAttributes as $at)
+		foreach ($TxtAttributes as $at)
 		{
 			$att = new attribute();
 			$att->setName($at);
@@ -56,8 +38,88 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
 			$qb->from('adClassifiedBundle:type','t');
-			$qb->Where('t.name = :string');
-			$qb->setParameter(':string', 'string');
+			$qb->Where('t.name = :text');
+			$qb->setParameter(':text', 'text');
+				
+			$type = $qb->getQuery()->getResult();
+				
+			$att->setTypeId($type[0]);
+				
+			$manager->persist($att);
+			$manager->flush();
+		}
+		
+		foreach ($MnyAttributes as $at)
+		{
+			$att = new attribute();
+			$att->setName($at);
+				
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :money');
+			$qb->setParameter(':money', 'money');
+				
+			$type = $qb->getQuery()->getResult();
+				
+			$att->setTypeId($type[0]);
+				
+			$manager->persist($att);
+			$manager->flush();
+		}
+		
+		foreach ($ChceAttributes as $at)
+		{
+			$att = new attribute();
+			$att->setName($at);
+				
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :choice');
+			$qb->setParameter(':choice', 'choice');
+			
+			$type = $qb->getQuery()->getResult();
+			
+			$att->setTypeId($type[0]);
+			
+			$manager->persist($att);
+			$manager->flush();
+		}
+		
+		foreach ($NbrAttributes as $at)
+		{
+			$att = new attribute();
+			$att->setName($at);
+				
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :number');
+			$qb->setParameter(':number', 'number');
+				
+			$type = $qb->getQuery()->getResult();
+				
+			$att->setTypeId($type[0]);
+				
+			$manager->persist($att);
+			$manager->flush();
+		}
+		
+		foreach ($TxtareaAttributes as $at)
+		{
+			$att = new attribute();
+			$att->setName($at);
+				
+			//Requete pour récuperer le type integer
+			$qb = $manager->createQueryBuilder();
+			$qb->addSelect('t');
+			$qb->from('adClassifiedBundle:type','t');
+			$qb->Where('t.name = :textarea');
+			$qb->setParameter(':textarea', 'textarea');
 				
 			$type = $qb->getQuery()->getResult();
 				

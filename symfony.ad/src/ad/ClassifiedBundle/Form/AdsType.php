@@ -12,20 +12,59 @@ use ad\ClassifiedBundle\Entity\attributeValues;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class AdsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+		
+    	
         $builder
             ->add('title', 'text', array('label' => 'Titre de l\'annonce :'))
             ->add('categoryId', null, array('label' => 'Choisir une catégorie :'))
             ->add('file', 'file', array('label' => 'Fichier :',
-            							'data_class' => null))
-        	
-        	->add('attribute',  'collection')
-       		
-        	->add('Envoyer', 'submit');
+            							'data_class' => null));
+            
+            $atts = $options['data']->getAttribute();
+            
+            foreach ( $atts as $attribute => $value )
+            {
+            	$builder->add($attribute, $value['type']->getName(), array("mapped" => false));
+            }
+            
+            $builder->add('Confirmed', 'hidden', array("mapped" => false))
+            
+            ->add('Envoyer', 'submit');
+            
+            
+            
+            
+            
+        /*$atts = $options['data']->getAttribute();
+		$factory = $builder->getFormFactory();
+		
+		$builder->addEventListener(
+		FormEvents::PRE_SET_DATA,
+		function(FormEvent $event) use($atts, $factory){
+			$form = $event->getForm();
+
+			$formOptions = array(
+					'data_class' => null,
+					'auto_initialize' => false
+			);
+
+			// create the field, this is similar the $builder->add()
+			// field name, field type, data, options
+			foreach ( $atts as $attribute => $value)
+			{
+				$form->add($factory->createNamed($attribute, $value['type']->getName(), null, $formOptions));
+			}
+		}
+		);*/
+	        
+       	
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

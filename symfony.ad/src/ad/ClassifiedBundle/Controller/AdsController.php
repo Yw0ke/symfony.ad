@@ -31,11 +31,17 @@ class AdsController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		
 		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
+		
+		
 		$mix = array();
 		
 		foreach ($att as $attribut)
 		{
-			$mix[$attribut->getName()] = null;
+			if ($attribut->getName() != 'Confirmed')
+			{
+				$mix[$attribut->getName()] = array('value' => null,
+											   'type' => $attribut->getTypeId());
+			}		
 		}
 		
 		$ads = new Ads();
@@ -46,24 +52,34 @@ class AdsController extends Controller
 		$form->handleRequest($request);
 		
 		if ($form->isValid()) {		
+			
+
 			$em = $this->getDoctrine()->getManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());
 				$ads->setDate(new \DateTime('now')); 
 				
 				$em->persist($ads);
-				
+
 				foreach ($ads->getAttribute() as $attName => $value)
 				{
 					$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);
 					$attValue = new attributeValues();
 					
-					$attValue->setValue($value);
+					$attValue->setValue($form->get($attName)->getData());
 					$attValue->setAdsId($ads);
 					$attValue->setAttributeId($att[0]);
 					
 					$em->persist($attValue);
 				}
+				
+				$att = $em->getRepository("adClassifiedBundle:attribute")->findByName('Confirmed');
+				$attValue = new attributeValues();
+				$attValue->setValue(0);
+				$attValue->setAdsId($ads);
+				$attValue->setAttributeId($att[0]);
+				
+				$em->persist($attValue);
 				
 				$em->flush();
 				
