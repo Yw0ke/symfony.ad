@@ -32,15 +32,15 @@ class AdsController extends Controller
 		
 		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
 		
-		
 		$mix = array();
 		
 		foreach ($att as $attribut)
 		{
 			if ($attribut->getName() != 'Confirmed')
-			{
+			{				
 				$mix[$attribut->getName()] = array('value' => null,
-											   'type' => $attribut->getTypeId());
+											       'type' => $attribut->getTypeId(),
+												   'label' => $attribut->getLabel());
 			}		
 		}
 		

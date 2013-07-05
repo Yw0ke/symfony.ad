@@ -29,9 +29,13 @@ class AdsType extends AbstractType
             
             $atts = $options['data']->getAttribute();
             
+            //var_dump($atts['OwnerType']['type']->getName());
+            //die;
+            
             foreach ( $atts as $attribute => $value )
-            {
-            	$builder->add($attribute, $value['type']->getName(), array("mapped" => false));
+            {            	
+            	$builder->add($attribute, $value['type']->getName(), array('mapped' => false,
+            															   'label' => $value['label']));
             }
             
             $builder->add('Confirmed', 'hidden', array("mapped" => false))

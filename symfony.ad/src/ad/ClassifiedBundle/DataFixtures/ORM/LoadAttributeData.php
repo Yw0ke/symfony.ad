@@ -23,17 +23,18 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 	{
 		$manager = $this->container->get('doctrine')->getManager();
 		
-		$TxtAttributes = array('OwnerType', 'OwnerAdress', 'OwnerCity');
-		$MnyAttributes = array('Price');
-		$ChceAttributes = array('Confirmed');
-		$NbrAttributes = array('OwnerZip', 'OwnerPhone');
-		$TxtareaAttributes = array('Comment');
+		$TxtAttributes = array('OwnerType' => 'Type de vendeur', 'OwnerAdress' => 'Adresse', 'OwnerCity' => 'Ville');
+		$MnyAttributes = array('Price' => 'Prix');
+		$ChceAttributes = array('Confirmed' => 'Annonce confirmé ?');
+		$NbrAttributes = array('OwnerZip' => 'Code postal', 'OwnerPhone' => 'Téléphone');
+		$TxtareaAttributes = array('Comment' => 'Commentaire');
 		
-		foreach ($TxtAttributes as $at)
+		foreach ($TxtAttributes as $at => $lab)
 		{
 			$att = new attribute();
 			$att->setName($at);
-				
+			$att->setLabel($lab);
+			
 			//Requete pour récuperer le type integer
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
@@ -49,11 +50,12 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 			$manager->flush();
 		}
 		
-		foreach ($MnyAttributes as $at)
+		foreach ($MnyAttributes as $at => $lab)
 		{
 			$att = new attribute();
 			$att->setName($at);
-				
+			$att->setLabel($lab);
+			
 			//Requete pour récuperer le type integer
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
@@ -69,11 +71,12 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 			$manager->flush();
 		}
 		
-		foreach ($ChceAttributes as $at)
+		foreach ($ChceAttributes as $at => $lab)
 		{
 			$att = new attribute();
 			$att->setName($at);
-				
+			$att->setLabel($lab);
+			
 			//Requete pour récuperer le type integer
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
@@ -89,11 +92,12 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 			$manager->flush();
 		}
 		
-		foreach ($NbrAttributes as $at)
+		foreach ($NbrAttributes as $at => $lab)
 		{
 			$att = new attribute();
 			$att->setName($at);
-				
+			$att->setLabel($lab);
+			
 			//Requete pour récuperer le type integer
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
@@ -109,11 +113,12 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 			$manager->flush();
 		}
 		
-		foreach ($TxtareaAttributes as $at)
+		foreach ($TxtareaAttributes as $at => $lab)
 		{
 			$att = new attribute();
 			$att->setName($at);
-				
+			$att->setLabel($lab);
+			
 			//Requete pour récuperer le type integer
 			$qb = $manager->createQueryBuilder();
 			$qb->addSelect('t');
