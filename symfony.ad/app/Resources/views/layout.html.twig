@@ -35,30 +35,31 @@
 		    </div>
 		    <div class="row">
 		        <nav class="span12 navbar">
-				<div class="navbar-inner">
-				  <div class="container">
-				    <ul class="nav">
-			            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
-			         	<li class="divider-vertical sep"></li>
-			            <li class="span2 main dropdown">
-			            	<a class="dropdown-toggle" data-toggle="dropdown"  href="#">
-			            		Catégories<b class="caret"></b>
-			            	</a>
-			                <ul class="dropdown-menu span6">
-			                	{% render(controller("adClassifiedBundle:Default:renderCategory")) %}
-						    </ul>
-			            </li>
-			  			<li class="divider-vertical sep"></li>
-			            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
-			     	  	<li class="divider-vertical sep"></li>
-			            <li class="span2 main"><a href="">Actualité</a></li>
-			 			<li class="divider-vertical sep"></li>
-			            <li class="span2 main"><a href="">Votre publicité</a></li>
-						<li class="divider-vertical sep"></li>
-			            <li class="span3 sidespan"><div><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</a></div></li>
-		         	</ul>
-		       	 </div>
-		       	</div>
+					<div class="navbar-inner">
+					  <div class="container">
+					    <ul class="nav">
+				            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
+				         	<li class="divider-vertical sep"></li>
+				            <li class="span2 main dropdown">
+				            	<a class="dropdown-toggle" data-toggle="dropdown"  href="#">
+				            		Catégories<b class="caret"></b>
+				            	</a>
+				                <ul class="dropdown-menu span6">
+				                	{% render(controller("adClassifiedBundle:Default:renderCategory")) %}
+							    </ul>
+				            </li>
+				  			<li class="divider-vertical sep"></li>
+				            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
+				     	  	<li class="divider-vertical sep"></li>
+				            <li class="span2 main"><a href="">Actualité</a></li>
+				 			<li class="divider-vertical sep"></li>
+				            <li class="span2 main"><a href="">Votre publicité</a></li>
+							<li class="divider-vertical sep"></li>
+				            <li class="span3 sidespan"><div><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</a></div></li>
+			         	</ul>
+			       	 </div>
+			       	</div>
+		    	</nav>
 		    </div>
 	  	</header>
 	  	<div class="span12 content">

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use ad\ClassifiedBundle\Entity\Repository\CategoryRepository;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use ad\ClassifiedBundle\Form\adsSearchForm;
 
 class DefaultController extends Controller
 {
@@ -25,6 +26,7 @@ class DefaultController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	
+    	$form = $this->container->get('form.factory')->create(new adsSearchForm());
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$paginator  = $this->get('knp_paginator');
@@ -32,8 +34,9 @@ class DefaultController extends Controller
 							    			$this->get('request')->query->get('page', 1)/*page number*/,
 							    			2/*limit per page*/
     	);
-		
-  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination));
+    	
+  		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
+  																				'form' => $form->createView()));
     }
     
    

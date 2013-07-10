@@ -57,6 +57,29 @@ class CategoryRepository extends NestedTreeRepository
 		
 		$response = $qb->getQuery()->getResult();
 		
+		
+		if (!is_null($response))
+		{
+			foreach ($response as $ad)
+			{
+				$i = 0;
+			
+				if (!is_null($ad->getAttribute()))
+				{
+				
+					foreach ($ad->getAttribute() as $attribut => $value)
+					{
+						if ($attribut == 'Confirmed' && $value == 0)
+						{
+							unset($response[$i]);
+						}
+					}
+					
+					$i++;
+				}
+			}
+		}
+		
 		return (int)count($response);
 	}
 }

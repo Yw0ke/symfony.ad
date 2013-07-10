@@ -47,10 +47,29 @@ class AdsRepository extends EntityRepository
 			
 			$ad->addAttribute($attribute, $value);
 		}
-				
+		
 		return $ad;
 	}
 	
+	/**
+	 * Check if ad is confirmed
+	 *
+	 * @return Ads
+	 */
+	public function isConfirmed(Ads $ad)
+	{
+		foreach ($ad->getAttribute() as $att => $val)
+		{
+			if ($att == 'Confirmed' && $val == 0)
+			{
+				return false;
+			}
+			elseif ($att == 'Confirmed' && $val == 1)
+			{
+				return true;
+			}
+		}
+	}
 	/**
 	 * Get unconfirmed ads's minimum info for dashboardadmin.
 	 *
@@ -270,4 +289,40 @@ class AdsRepository extends EntityRepository
 	}
 	
 	
+	/**
+	 * Find ad by title like $this.
+	 *
+	 * @return array(Ads)
+	 */
+	public function findByTitleLike($title)
+	{
+		$em = $this->getEntityManager();
+		
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('v');
+		$qb->addSelect('ads');
+		$qb->addSelect('attr');
+		$qb->from('adClassifiedBundle:attributeValues','v');
+		$qb->leftJoin('v.AdsId', 'ads');
+		$qb->leftJoin('v.attributeId', 'attr');
+		
+		$qb->where("ads.title like '%$title%'");
+		
+		$response = $qb->getQuery()->getResult();
+		
+		$ads = array();
+		
+		foreach ($response as $attVal)
+		{
+			$value = $attVal->getValue();
+			$attribute = $attVal->getAttributeId()->getName();
+				
+			$ad = $attVal->getAdsId();
+			$ad->addAttribute($attribute, $value);
+			
+			$ads[$ad->getId()] = $ad;
+		}
+		
+		return $ads;
+	}
 }

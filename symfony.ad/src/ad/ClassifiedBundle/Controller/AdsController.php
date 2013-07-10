@@ -18,6 +18,7 @@ use ad\ClassifiedBundle\Entity\attribute;
 use ad\ClassifiedBundle\Entity\attributeValues;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use ad\ClassifiedBundle\Form\AdsParameter;
+use ad\ClassifiedBundle\Form\adsSearchForm;
 
 class AdsController extends Controller
 {
@@ -209,7 +210,6 @@ class AdsController extends Controller
 	
 	/**
 	 * @Route("/ads/edit/{id}", name="ad_edit_ads")
-
 	 */
 	public function editAdsAction(Request $request, $id = null)
 	{
@@ -249,6 +249,50 @@ class AdsController extends Controller
 		
 		return $this->render('adClassifiedBundle:Ads:edit.html.twig', array ('form' => $form->createView(),
 																			 'id' => $id));
+	}
+	
+	/**
+	 * @Route("/ads/search/", name="ad_search_ads")
+	 */
+	public function searchAdsAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		$request = $this->container->get('request');
+		
+		$title = $request->request->get('title');		
+		$results = array();
+		
+		$ad = $em->getRepository("adClassifiedBundle:Ads")->findByTitleLike($title);
+		
+		foreach ($ad as $ads)
+		{
+			if ($em->getRepository("adClassifiedBundle:Ads")->isConfirmed($ads))
+			{
+				$results[] = $ads;
+			}
+		}
+		
+		
+		$paginator  = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(	$results,
+											$this->get('request')->query->get('page', 1)/*page number*/,
+											2/*limit per page*/
+		);
+		
+		$form = $this->container->get('form.factory')->create(new adsSearchForm(), array('motcle' => $title));
+		
+		if ($request->request->get('ajax') == 'on')
+		{
+			return $this->render('adClassifiedBundle:Ads:search.html.twig',array('pagination' => $pagination,
+																				 'form' => $form->createView()));
+		}
+		else 
+		{
+			return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
+																					'form' => $form->createView()));
+		}
+		
 	}
 }
 	
