@@ -42,7 +42,7 @@ class CategoryRepository extends NestedTreeRepository
 		return $response[0];
 	}
 	
-	public function countAds($id)
+	public function countAds($id=260)
 	{
 		$em = $this->getEntityManager();
 	
@@ -57,26 +57,19 @@ class CategoryRepository extends NestedTreeRepository
 		
 		$response = $qb->getQuery()->getResult();
 		
-		
 		if (!is_null($response))
 		{
 			foreach ($response as $ad)
 			{
 				$i = 0;
 			
-				if (!is_null($ad->getAttribute()))
-				{
+				$em->getRepository("adClassifiedBundle:Ads")->hydrateAd($ad);
 				
-					foreach ($ad->getAttribute() as $attribut => $value)
-					{
-						if ($attribut == 'Confirmed' && $value == 0)
-						{
-							unset($response[$i]);
-						}
-					}
-					
-					$i++;
+				if (!$em->getRepository("adClassifiedBundle:Ads")->isConfirmed($ad))
+				{
+					unset($response[$i]);
 				}
+				$i++;
 			}
 		}
 		

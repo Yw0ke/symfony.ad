@@ -33,9 +33,34 @@ class AdsType extends AbstractType
             //die;
             
             foreach ( $atts as $attribute => $value )
-            {            	
-            	$builder->add($attribute, $value['type']->getName(), array('mapped' => false,
-            															   'label' => $value['label']));
+            {
+            	if ($value['type']->getName() == 'choice')
+            	{
+            		$choice = array('choices' => array( 'pro'   => 'Professionnel',
+					            				        'parti' => 'Particulier'
+						            			       ),
+            						'multiple' => false,
+            						'expanded' => true);
+            		
+            		$builder->add($attribute, $value['type']->getName(), array('mapped' => false,
+            															       'label' => $value['label'],
+												            				   'choices' => array( 'Professionnel'   => 'Professionnel',
+												            						               'Particulier' => 'Particulier'
+												            				                      ),
+												            				   'multiple' => false,
+												            				   'expanded' => true
+            																   
+            			
+            			));
+            	}
+            	else 
+            	{
+            		$builder->add($attribute, $value['type']->getName(), array('mapped' => false,
+            																   'label' => $value['label'],
+            		));
+            	}
+            	
+            	
             }
             
             $builder->add('Confirmed', 'hidden', array("mapped" => false))

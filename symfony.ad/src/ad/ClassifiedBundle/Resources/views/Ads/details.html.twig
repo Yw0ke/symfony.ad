@@ -18,11 +18,13 @@
 			<div class="span9 bloc well vendeur">
 				<h4>Informations sur le vendeur</h4>
 				<ul>
-					
-					{% for att, value in ad.attribute %}
-					<li><span>{{ att }}</span> : {{ value }}</li>
-					{% endfor %}
-					
+					<li><b>Type de vendeur</b> : {{ ad.attribute.OwnerType }}</li>
+					<li><b>Nom du vendeur</b> : {{ ad.userId.username }}</li>
+					<li><b>Adresse</b> : {{ ad.attribute.OwnerAdress }}</li>
+					<li><b>Ville</b> : {{ ad.attribute.OwnerCity }}</li>
+					<li><b>Code postal</b> : {{ ad.attribute.OwnerZip }}</li>
+					<li><b>Téléphone</b> : {{ ad.attribute.OwnerPhone }}</li>
+										
 				</ul>
 			</div>
 		</div>

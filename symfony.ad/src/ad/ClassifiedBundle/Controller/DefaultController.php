@@ -101,10 +101,12 @@ class DefaultController extends Controller
     			
     			$sscat['nb'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
     			
-    			$cat['nb'] += $sscat['nb'];
+    			$cat['nb'] += $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
 				
     			$cat['__children'][] = $sscat;
     		}
+    		$cat['nb'] += $em->getRepository('adClassifiedBundle:Category')->countAds($cat['id']);
+    		
     		$catCounted[] = $cat;
     	}
     	

@@ -23,9 +23,9 @@ class LoadAttributeData implements FixtureInterface, ContainerAwareInterface, Or
 	{
 		$manager = $this->container->get('doctrine')->getManager();
 		
-		$TxtAttributes = array('OwnerType' => 'Type de vendeur', 'OwnerAdress' => 'Adresse', 'OwnerCity' => 'Ville');
+		$TxtAttributes = array('OwnerAdress' => 'Adresse', 'OwnerCity' => 'Ville');
 		$MnyAttributes = array('Price' => 'Prix');
-		$ChceAttributes = array('Confirmed' => 'Annonce confirmé ?');
+		$ChceAttributes = array('Confirmed' => 'Annonce confirmé ?', 'OwnerType' => 'Type de vendeur');
 		$NbrAttributes = array('OwnerZip' => 'Code postal', 'OwnerPhone' => 'Téléphone');
 		$TxtareaAttributes = array('Comment' => 'Commentaire');
 		

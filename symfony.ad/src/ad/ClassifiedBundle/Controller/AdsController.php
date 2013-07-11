@@ -18,7 +18,7 @@ use ad\ClassifiedBundle\Entity\attribute;
 use ad\ClassifiedBundle\Entity\attributeValues;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use ad\ClassifiedBundle\Form\AdsParameter;
-use ad\ClassifiedBundle\Form\adsSearchForm;
+use ad\ClassifiedBundle\Form\adsSearchType;
 
 class AdsController extends Controller
 {
@@ -55,7 +55,7 @@ class AdsController extends Controller
 		if ($form->isValid()) {		
 			
 
-			$em = $this->getDoctrine()->getManager();
+				$em = $this->getDoctrine()->getManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());
 				$ads->setDate(new \DateTime('now')); 
@@ -79,6 +79,8 @@ class AdsController extends Controller
 				$attValue->setValue(0);
 				$attValue->setAdsId($ads);
 				$attValue->setAttributeId($att[0]);
+				
+				
 				
 				$em->persist($attValue);
 				
@@ -194,6 +196,11 @@ class AdsController extends Controller
 	public function detailsAdsAction($id)
 	{
 		$em = $this->getDoctrine()->getManager();
+		
+		$contact = new contact();
+		
+		$form = $this->createForm(new contactType(), $contact); //, $adsParameter
+		
 		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
 	
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->hydrateAd($ad);
@@ -280,7 +287,7 @@ class AdsController extends Controller
 											2/*limit per page*/
 		);
 		
-		$form = $this->container->get('form.factory')->create(new adsSearchForm(), array('motcle' => $title));
+		$form = $this->container->get('form.factory')->create(new adsSearchType(), array('motcle' => $title));
 		
 		if ($request->request->get('ajax') == 'on')
 		{

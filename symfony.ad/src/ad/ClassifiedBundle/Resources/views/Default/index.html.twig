@@ -2,9 +2,9 @@
 
 {% block body %}
 <div class="search">
-    <form id="form_recherche" action="{{ path('ad_search_ads') }}" method="post">
+    <form class="navbar-form pull-left" id="form_recherche" action="{{ path('ad_search_ads') }}" method="post">
 		{{ form_widget(form.motcle) }}
-		<input id="valider" type="submit" value="Rechercher" />
+		<input class="btn" type="submit" value="Rechercher" />
 	</form>		
 </div>
 <div class="span9 firstspan ajxrfrsh">
@@ -52,20 +52,5 @@
 
 
 {% block javascripts %}
-	<script>
-		$("#form_recherche").submit(function(){
-		    var motcle = $("#adsSearch_motcle").val();
-		    $.ajax({
-		        type: "POST",
-		        url: "{{ path('ad_search_ads') }}",
-		        data: { ajax: "on", title: motcle},
-		        cache: false,
-		        success: function(data){
-		           $('.ajxrfrsh').html(data);
-		        }
-		    });
-		    return false;
-		});
-	</script>
-	
+	<script type="text/javascript" src="{{ asset('bundles/adclassified/js/searchajax.js') }}"></script>
 {% endblock %}

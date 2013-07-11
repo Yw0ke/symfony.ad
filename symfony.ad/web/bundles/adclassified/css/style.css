@@ -129,6 +129,10 @@ ul.treeLink li a:hover {
 	z-index:5;
 }
 
+.vendeur li{
+	list-style:none;
+}
+
 div.content div.span9.firstspan{
 	position:relative;
 }
@@ -136,6 +140,10 @@ div.content div.span9.firstspan{
 .admeta a{
 	float:left;
 	margin-right:10px;
+}
+
+#form_recherche{
+	height:45px;
 }
 
 div.tabSort ul.nav li:first-child{
