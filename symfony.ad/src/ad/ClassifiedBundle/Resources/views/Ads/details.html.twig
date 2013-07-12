@@ -5,6 +5,9 @@
 <div class="row centerbloc">
 	<section class="span9 annonce centertext">
 		<div class="row">
+			<div class="span3 bloc">
+				{{ ad.title }}
+			</div>
 			<div class="span1 bloc price">
 				{{ ad.attribute.Price }}
 			</div>
@@ -31,7 +34,20 @@
 	</section>
 	<section class="span4 sidespan">
 	
-	CONTACT
+	<form action="{{ path('ad_new_message') }}" method="post" {{ form_enctype(form) }}>
+	{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
+		{% if user %}
+			{{ form_row(form.senderName, { 'value' : user.username }) }}
+			{{ form_row(form.senderEmail, { 'value' : user.email }) }}
+			{{ form_row(form.object, { 'value' : ad.title }) }}
+			{{ form_row(form.message) }}
+		{% else %}
+			{{ form_row(form.senderName) }}
+			{{ form_row(form.senderEmail) }}
+			{{ form_row(form.object, { 'value' : ad.title }) }}
+			{{ form_row(form.message) }}
+		{% endif %}
+	</form>
 	
 	</section>
 </div>

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use ad\ClassifiedBundle\Entity\Repository\CategoryRepository;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use ad\ClassifiedBundle\Form\adsSearchForm;
+use ad\ClassifiedBundle\Form\adsSearchType;
 
 class DefaultController extends Controller
 {
@@ -26,7 +26,7 @@ class DefaultController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	
-    	$form = $this->container->get('form.factory')->create(new adsSearchForm());
+    	$form = $this->container->get('form.factory')->create(new adsSearchType());
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$paginator  = $this->get('knp_paginator');
@@ -101,7 +101,7 @@ class DefaultController extends Controller
     			
     			$sscat['nb'] = $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
     			
-    			$cat['nb'] += $em->getRepository('adClassifiedBundle:Category')->countAds($sscat['id']);
+    			$cat['nb'] += $sscat['nb'];
 				
     			$cat['__children'][] = $sscat;
     		}

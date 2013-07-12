@@ -1,6 +1,8 @@
 <?php
 namespace ad\ClassifiedBundle\Controller;
 
+
+
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,6 +21,8 @@ use ad\ClassifiedBundle\Entity\attributeValues;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use ad\ClassifiedBundle\Form\AdsParameter;
 use ad\ClassifiedBundle\Form\adsSearchType;
+use ad\ClassifiedBundle\Entity\message;
+use ad\ClassifiedBundle\Form\messageType;
 
 class AdsController extends Controller
 {
@@ -197,9 +201,9 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		
-		$contact = new contact();
+		$message = new message();
 		
-		$form = $this->createForm(new contactType(), $contact); //, $adsParameter
+		$form = $this->createForm(new messageType(), $message); //, $adsParameter
 		
 		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
 	
@@ -211,7 +215,9 @@ class AdsController extends Controller
 		$em->flush();
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
-				'ad' => $ad
+				'ad' => $ad,
+				'form' => $form->createView(),
+				'user' => $this->getUser()
 		));
 	}
 	
