@@ -1,0 +1,25 @@
+<form action="{{ path('ad_new_message') }}" method="post" {{ form_enctype(form) }}>
+{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
+	{% if user %}
+		{{ form_row(form.senderName, { 'value' : user.username }) }}
+		{{ form_row(form.senderEmail, { 'value' : user.email }) }}
+		{% if ad is defined %}
+		{{ form_row(form.object, { 'value' : ad.title }) }}
+		{% else %}
+		{{ form_row(form.object) }}
+		{% endif %}
+		{{ form_row(form.message) }}
+		{{ form_row(form._token) }} 
+	{% else %}
+		{{ form_row(form.senderName) }}
+		{{ form_row(form.senderEmail) }}
+		{% if ad is defined %}
+		{{ form_row(form.object, { 'value' : ad.title }) }}
+		{% else %}
+		{{ form_row(form.object) }}
+		{% endif %}
+		{{ form_row(form.message) }}
+		{{ form_row(form._token) }} 
+	{% endif %}
+	<input type="submit" value="Envoyer"/>
+</form>

@@ -84,10 +84,7 @@ class AdsController extends Controller
 				$attValue->setAdsId($ads);
 				$attValue->setAttributeId($att[0]);
 				
-				
-				
 				$em->persist($attValue);
-				
 				$em->flush();
 				
 				return $this->redirect($this->generateUrl('ad_index'));
@@ -203,8 +200,6 @@ class AdsController extends Controller
 		
 		$message = new message();
 		
-		$form = $this->createForm(new messageType(), $message); //, $adsParameter
-		
 		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
 	
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->hydrateAd($ad);
@@ -216,7 +211,6 @@ class AdsController extends Controller
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
 				'ad' => $ad,
-				'form' => $form->createView(),
 				'user' => $this->getUser()
 		));
 	}
