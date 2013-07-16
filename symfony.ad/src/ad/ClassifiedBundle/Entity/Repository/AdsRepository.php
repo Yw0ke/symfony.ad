@@ -325,4 +325,36 @@ class AdsRepository extends EntityRepository
 		
 		return $ads;
 	}
+	
+	/**
+	 * Get prenium ad.
+	 *
+	 * @return Ads
+	 */
+	public function getPreniumAds()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('ads');
+		$qb->from('adClassifiedBundle:Ads','ads');
+		$qb->where('ads.prenium = :pren');
+	
+		$qb->setParameter('pren', 1);
+		
+		$response = $qb->getQuery()->getResult();
+		
+		if ( !is_null($response) )
+		{
+			$response = array();
+			
+			foreach ( $qb->getQuery()->getResult() as $ad)
+			{
+				$response[] = self::hydrateAd($ad);
+			}
+		}
+		
+		return $response;
+		
+	}
 }

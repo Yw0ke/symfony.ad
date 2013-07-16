@@ -1,12 +1,26 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-<div class="search">
-    <form class="navbar-form pull-left" id="form_recherche" action="{{ path('ad_search_ads') }}" method="post">
-		{{ form_widget(form.motcle) }}
-		<input class="btn" type="submit" value="Rechercher" />
-	</form>		
+<div class="row">
+	<div class="span4 search">
+	    <form class="navbar-form pull-left" id="form_recherche" action="{{ path('ad_search_ads') }}" method="post">
+			{{ form_widget(form.motcle) }}
+			<input class="btn" type="submit" value="Rechercher" />
+		</form>		
+	</div>
+	<div class="span8 prenium">
+		<ul>
+			{% for ad in prenium %}
+				<li class="span2">
+					<a href="/ads/details/{{ ad.id }}"><img src="/uploads/pictures/mini-{{ ad.pictureName }}"/></a>
+					<h4>{{ ad.title }}</h4>
+					<p>{{ ad.attribute.Price }}</p>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 </div>
+
 <div class="span9 firstspan ajxrfrsh">
 	{% if pagination.items %}
 	<div class="span9 tabSort firstspan">
@@ -19,7 +33,7 @@
 	{% for ad in pagination %}
 	<div class="span9 firstspan well ad">
 		<div class="span2 adleft">
-			<a href=""><img src="/uploads/pictures/{{ ad.pictureName }}" alt="Photo de l'annonce"/></a>
+			<a href="/ads/details/{{ ad.id }}"><img src="/uploads/pictures/thumbnail-{{ ad.pictureName }}" alt="Photo de l'annonce"/></a>
 		</div>	
 		<div class="span6 adsright">
 			<h3 class="span4"><a href="/ads/details/{{ ad.id }}">{{ ad.title }}</a></h3>

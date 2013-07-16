@@ -46,6 +46,9 @@
 			<li><a href="{{ path('ad_manage_category') }}">Gérer les catégories</a></li>
 			<li><a href="{{ path('ad_manage_user') }}">Gérer les utilisateurs</a></li>
 		</ul>
+		<ul>
+			<li><a href="{{ path('ad_config_switch_policy') }}">{% if policy == 'free' %}Site payant{% else %}Site gratuit{% endif %}</a>
+		</ul>
 	</aside>
 {% if app.request.requestUri|length > 11  %}
 <div class="span5">

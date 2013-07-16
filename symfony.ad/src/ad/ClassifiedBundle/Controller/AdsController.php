@@ -2,7 +2,7 @@
 namespace ad\ClassifiedBundle\Controller;
 
 
-
+use Intervention\Image\Image;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -87,6 +87,18 @@ class AdsController extends Controller
 				$em->persist($attValue);
 				$em->flush();
 				
+				$config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+				$imgconfig = $config->getImageFormat();
+				
+				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['zoom'][0], $imgconfig['zoom'][1]);
+				$img->save('uploads/pictures/zoom-'.$ads->getPictureName(), 80);
+				
+				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['thumb'][0], $imgconfig['thumb'][1]);
+				$img->save('uploads/pictures/thumbnail-'.$ads->getPictureName(), 60);
+				
+				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['mini'][0], $imgconfig['mmini'][1]);
+				$img->save('uploads/pictures/mmini-'.$ads->getPictureName(), 60);
+				
 				return $this->redirect($this->generateUrl('ad_index'));
 		}	
 		
@@ -127,6 +139,11 @@ class AdsController extends Controller
 		if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN') || $adHyd->getUserId() == $this->getUser())
 		{
 			$ad = $em->getRepository('adClassifiedBundle:attributeValues')->getAttValFullInfoById($id);
+			
+			unlink('uploads/pictures/'.$adHyd->getPictureName());
+			unlink('uploads/pictures/zoom-'.$adHyd->getPictureName());
+			unlink('uploads/pictures/thumbnail-'.$adHyd->getPictureName());
+			unlink('uploads/pictures/mini-'.$adHyd->getPictureName());
 			
 			if (!$ad)
 			{

@@ -79,6 +79,15 @@ header{
 	margin-left:0px;
 }
 
+#prenium li{
+	height:80px;
+}
+
+
+form#form_recherche.navbar-form input#adsSearch_motcle{
+	width:181px;
+}
+
 
 .span9.bloc.well.photo, .span9.bloc.well.vendeur{
 	margin:5px 0 10px 0;

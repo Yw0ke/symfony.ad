@@ -46,6 +46,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$ads->setTitle('Bateau de pêche');
 		$ads->setDate($rdmdate1);
 		$ads->setPictureName('photo1.png');
+		$ads->setPrenium(mt_rand(0, 1));
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -74,6 +75,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$ads->setTitle('pedalo');
 		$ads->setDate($rdmdate2);
 		$ads->setPictureName('photo2.png');
+		$ads->setPrenium(mt_rand(0, 1));
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -103,6 +105,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$ads->setTitle('Barque');
 		$ads->setDate($rdmdate3);
 		$ads->setPictureName('photo3.png');
+		$ads->setPrenium(mt_rand(0, 1));
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();
@@ -130,6 +133,7 @@ class LoadAdsData implements FixtureInterface, ContainerAwareInterface, OrderedF
 		$ads->setTitle('Titanic');
 		$ads->setDate($rdmdate4);
 		$ads->setPictureName('photo4.png');
+		$ads->setPrenium(mt_rand(0, 1));
 		
 		//Requete pour récuperer le bon category ID
 		$qb = $manager->createQueryBuilder();

@@ -66,32 +66,6 @@ class AdsType extends AbstractType
             $builder->add('Confirmed', 'hidden', array("mapped" => false))
             
             ->add('Envoyer', 'submit');
-            
-            
-            
-            
-            
-        /*$atts = $options['data']->getAttribute();
-		$factory = $builder->getFormFactory();
-		
-		$builder->addEventListener(
-		FormEvents::PRE_SET_DATA,
-		function(FormEvent $event) use($atts, $factory){
-			$form = $event->getForm();
-
-			$formOptions = array(
-					'data_class' => null,
-					'auto_initialize' => false
-			);
-
-			// create the field, this is similar the $builder->add()
-			// field name, field type, data, options
-			foreach ( $atts as $attribute => $value)
-			{
-				$form->add($factory->createNamed($attribute, $value['type']->getName(), null, $formOptions));
-			}
-		}
-		);*/
 	        
        	
     }

@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Intervention\Image\Image;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -63,6 +64,13 @@ class Ads
     private $viewCount;
     
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="prenium", type="integer", nullable=true)
+     */
+    private $prenium;
+    
+    /**
      * @var array
      */
     private $attribute;
@@ -98,10 +106,10 @@ class Ads
     {    
     	// move copie le fichier présent chez le client dans le répertoire indiqué.
     	$this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-    
+    	
     	// On sauvegarde le nom de fichier
     	$this->pictureName = $this->file->getClientOriginalName();
-    	 
+    	
     	// La propriété file ne servira plus
     	$this->file = null;
     }
@@ -290,5 +298,28 @@ class Ads
     public function getViewCount()
     {
         return $this->viewCount;
+    }
+
+    /**
+     * Set prenium
+     *
+     * @param integer $prenium
+     * @return Ads
+     */
+    public function setPrenium($prenium)
+    {
+        $this->prenium = $prenium;
+    
+        return $this;
+    }
+
+    /**
+     * Get prenium
+     *
+     * @return integer 
+     */
+    public function getPrenium()
+    {
+        return $this->prenium;
     }
 }

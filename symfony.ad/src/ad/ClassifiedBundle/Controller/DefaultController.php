@@ -28,15 +28,18 @@ class DefaultController extends Controller
     	
     	$form = $this->container->get('form.factory')->create(new adsSearchType());
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
+    	$adsPnium = $em->getRepository('adClassifiedBundle:Ads')->getPreniumAds();
     	
     	$paginator  = $this->get('knp_paginator');
+    	
     	$pagination = $paginator->paginate(	$ads,
 							    			$this->get('request')->query->get('page', 1)/*page number*/,
 							    			2/*limit per page*/
     	);
     	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
-  																				'form' => $form->createView()));
+  																				'form' => $form->createView(),
+  																				'prenium' => $adsPnium));
     }
     
    
@@ -54,13 +57,16 @@ class DefaultController extends Controller
     	{
 			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
 			
+			$config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+			
 			$paginator  = $this->get('knp_paginator');
 			$pagination = $paginator->paginate(	$ads,
 					$this->get('request')->query->get('page', 1)/*page number*/,
 					2/*limit per page*/
 					);
 			
-    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('pagination' => $pagination));
+    		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('pagination' => $pagination,
+    																																'policy' => $config->getWebsitePolicy()));
     	}
     	else 
     	{
