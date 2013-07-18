@@ -28,7 +28,14 @@ class DefaultController extends Controller
     	
     	$form = $this->container->get('form.factory')->create(new adsSearchType());
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
-    	$adsPnium = $em->getRepository('adClassifiedBundle:Ads')->getPreniumAds();
+    	
+    	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    	$adsPnium = null;
+    	
+    	if ($config->getWebsitePolicy() == 'notfree')
+    	{
+    		$adsPnium = $em->getRepository('adClassifiedBundle:Ads')->getPreniumAds();
+    	}
     	
     	$paginator  = $this->get('knp_paginator');
     	

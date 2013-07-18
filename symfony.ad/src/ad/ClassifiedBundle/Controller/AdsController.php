@@ -97,7 +97,7 @@ class AdsController extends Controller
 				$img->save('uploads/pictures/thumbnail-'.$ads->getPictureName(), 60);
 				
 				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['mini'][0], $imgconfig['mmini'][1]);
-				$img->save('uploads/pictures/mmini-'.$ads->getPictureName(), 60);
+				$img->save('uploads/pictures/mini-'.$ads->getPictureName(), 60);
 				
 				return $this->redirect($this->generateUrl('ad_index'));
 		}	
