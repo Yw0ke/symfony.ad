@@ -32,7 +32,8 @@
 		"braincrafted/bootstrap-bundle": "dev-master",
 		"knplabs/knp-paginator-bundle": "2.3.*@dev",
 		"intervention/image": "1.3.0",
-        "liip/imagine-bundle": "dev-master"
+        "liip/imagine-bundle": "dev-master",
+        "genemu/form-bundle": "2.2.*"
 	
     },
     "scripts": {

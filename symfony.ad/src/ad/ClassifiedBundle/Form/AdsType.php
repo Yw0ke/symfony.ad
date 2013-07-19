@@ -24,8 +24,21 @@ class AdsType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'Titre de l\'annonce :'))
             ->add('categoryId', null, array('label' => 'Choisir une catégorie :'))
-            ->add('file', 'file', array('label' => 'Fichier :',
-            							'data_class' => null));
+
+            
+            
+            
+            
+            ->add('file', 'genemu_jqueryfile', array(
+            'multiple' => true,
+            'configs' => array(
+                'auto' => true
+            )
+        ));
+            
+            
+            
+            
             
             $atts = $options['data']->getAttribute();
             

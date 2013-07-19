@@ -54,9 +54,18 @@ class AdsController extends Controller
 		
 		$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
 		
+		$formView = $form->createView();
+		//var_dump($formView->children['file']);
+		//die;
+		
+		//$formView = $formView->children['file']->set('full_name', 'create[files][]');
+		
+		
 		$form->handleRequest($request);
 		
 		if ($form->isValid()) {		
+			
+			var_dump($ads);
 			
 
 				$em = $this->getDoctrine()->getManager();
@@ -102,7 +111,7 @@ class AdsController extends Controller
 				return $this->redirect($this->generateUrl('ad_index'));
 		}	
 		
-		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView()));
+		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $formView));
 	}
 	
 	/**
