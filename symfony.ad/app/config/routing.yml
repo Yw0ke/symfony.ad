@@ -8,10 +8,6 @@ user:
     type:     annotation
     prefix:   /
 
-#genemu
-genemu_upload:
-    resource: "@GenemuFormBundle/Resources/config/routing/upload.xml"
-
 #FoSUserBundle routes
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

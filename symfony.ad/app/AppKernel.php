@@ -32,8 +32,7 @@ class AppKernel extends Kernel
         	new FOS\UserBundle\FOSUserBundle(),
         	new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         	new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
-        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-        	new Genemu\Bundle\FormBundle\GenemuFormBundle()
+        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         	
         );
 

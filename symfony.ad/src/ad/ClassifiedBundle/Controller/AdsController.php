@@ -24,6 +24,9 @@ use ad\ClassifiedBundle\Form\adsSearchType;
 use ad\ClassifiedBundle\Entity\message;
 use ad\ClassifiedBundle\Form\messageType;
 
+
+use Symfony\Component\Yaml\Parser;
+
 class AdsController extends Controller
 {
 	/**
@@ -61,13 +64,11 @@ class AdsController extends Controller
 		//$formView = $formView->children['file']->set('full_name', 'create[files][]');
 		
 		
+		
+		
 		$form->handleRequest($request);
 		
 		if ($form->isValid()) {		
-			
-			var_dump($ads);
-			
-
 				$em = $this->getDoctrine()->getManager();
 				$ads->uploadPicture();
 				$ads->setUserId($this->getUser());

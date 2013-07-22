@@ -39,6 +39,15 @@ class Ads
      * @var Date()
      *
      * @ORM\Column(name="date", type="datetime")
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
+     * @Assert\Length(
+     *      min = "8",
+     *      max = "50",
+     *      minMessage = "Votre titre doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre titre ne peut pas être plus long que {{ limit }} caractères"
+     * )
      */
     private $date;
 	
@@ -72,6 +81,22 @@ class Ads
     
     /**
      * @var array
+     * @Assert\Collection(
+     *     fields = {
+     *         "OwnerAdress" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="string", message="La valeur {{ value }} n'est pas un type {{ type }} valide."),
+     *                         @Assert\Length(min = "8")
+     *                     }
+     *                 }
+     *              )
+     *         }
+     *     },
+     *     allowMissingFields = true
+     * )
      */
     private $attribute;
     
@@ -81,9 +106,63 @@ class Ads
     public $pictureName;
     
     /**
-     * @Assert\File(maxSize="5M")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    public $file;
+    public $pictureName1;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $pictureName2;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $pictureName3;
+    
+    /**
+     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     *     )
+     */
+    public $pic;
+    
+    /**
+     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     *     )
+     */
+    public $pic1;
+    
+    /**
+     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     *     )
+     */
+    public $pic2;
+    
+    /**
+     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     *     )
+     */
+    public $pic3;
      
     public function getWebPath()
     {
@@ -105,13 +184,21 @@ class Ads
     public function uploadPicture()
     {    
     	// move copie le fichier présent chez le client dans le répertoire indiqué.
-    	$this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-    	
+    	$this->pic->move($this->getUploadRootDir(), $this->pic->getClientOriginalName());
+    	$this->pic1->move($this->getUploadRootDir(), $this->pic1->getClientOriginalName());
+    	$this->pic2->move($this->getUploadRootDir(), $this->pic2->getClientOriginalName());
+    	$this->pic3->move($this->getUploadRootDir(), $this->pic3->getClientOriginalName());
     	// On sauvegarde le nom de fichier
-    	$this->pictureName = $this->file->getClientOriginalName();
+    	$this->pictureName = $this->pic->getClientOriginalName();
+    	$this->pictureName1 = $this->pic1->getClientOriginalName();
+    	$this->pictureName2 = $this->pic2->getClientOriginalName();
+    	$this->pictureName3 = $this->pic3->getClientOriginalName();
     	
     	// La propriété file ne servira plus
-    	$this->file = null;
+    	$this->pic = null;
+    	$this->pic1 = null;
+    	$this->pic2 = null;
+    	$this->pic3 = null;
     }
     
     public function __construct()
