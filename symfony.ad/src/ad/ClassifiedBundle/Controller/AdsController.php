@@ -110,7 +110,17 @@ class AdsController extends Controller
 				$img->save('uploads/pictures/mini-'.$ads->getPictureName(), 60);
 				
 				return $this->redirect($this->generateUrl('ad_index'));
-		}	
+		}
+		/*else{
+			$errorList = $form->getErrors();
+			
+			if (count($errorList) > 0) {
+				return $this->render('adClassifiedBundle:Ads:new.html.twig', array(
+						'errorList' => $errorList,
+						'form' => $formView
+				));
+			}
+		}*/
 		
 		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $formView));
 	}

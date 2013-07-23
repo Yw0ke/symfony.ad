@@ -6,7 +6,7 @@
 <h2>Enregistrer une nouvelle annonce</h1>
 	<form action="{{ path('ad_new_ads') }}" method="post" {{ form_enctype(form) }}>
 	{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
-		{{ form_rest(form) }}
+		{{ form(form) }}
 	</form>
 </div>
 
