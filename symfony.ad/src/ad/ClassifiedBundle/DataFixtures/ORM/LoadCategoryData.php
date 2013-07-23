@@ -32,7 +32,7 @@ class LoadCategoryData implements FixtureInterface, ContainerAwareInterface, Ord
 		{
 			$cat = new Category();
 			$cat->setName($name);
-			$cat->setSlug(''); //!!!!!!!!!!!
+			$cat->setSlug(''); 
 			
 			
 			$manager->persist($cat);

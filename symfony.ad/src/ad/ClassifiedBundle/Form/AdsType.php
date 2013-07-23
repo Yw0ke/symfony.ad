@@ -24,7 +24,7 @@ class AdsType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'Titre de l\'annonce :'))
             ->add('categoryId', null, array('label' => 'Choisir une catégorie :'))
-            ->add('pic', 'file', array( 'label' => 'Image de couverture :'))          
+            ->add('pic', 'file', array( 'label' => 'Image de couverture :'))
         	->add('pic1', 'file', array( 'label' => 'Image optionnel :',
         								 'required' => false))
         	->add('pic2', 'file', array( 'label' => 'Image optionnel :',
