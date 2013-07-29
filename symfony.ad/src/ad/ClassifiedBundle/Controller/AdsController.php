@@ -58,13 +58,6 @@ class AdsController extends Controller
 		$form = $this->createForm(new AdsType(), $ads); //, $adsParameter
 		
 		$formView = $form->createView();
-		//var_dump($formView->children['file']);
-		//die;
-		
-		//$formView = $formView->children['file']->set('full_name', 'create[files][]');
-		
-		
-		
 		
 		$form->handleRequest($request);
 		

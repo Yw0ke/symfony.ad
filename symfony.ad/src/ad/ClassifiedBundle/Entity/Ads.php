@@ -32,6 +32,14 @@ class Ads
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=200)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Length(
+     *      min = "10",
+     *      max = "50",
+     *      minMessage = "Minimum {{ limit }} characters length",
+     *      maxMessage = "Maximum {{ limit }} characters length"
+     * )
      */
     private $title;
     
@@ -143,11 +151,11 @@ class Ads
     		$this->pic1->move($this->getUploadRootDir(), $this->pic1->getClientOriginalName());
     		$this->pictureName1 = $this->pic1->getClientOriginalName();
     	}
-    	if (!is_null($this->pic1)){
+    	if (!is_null($this->pic2)){
     		$this->pic2->move($this->getUploadRootDir(), $this->pic2->getClientOriginalName());
     		$this->pictureName2 = $this->pic2->getClientOriginalName();
     	}
-    	if (!is_null($this->pic1)){
+    	if (!is_null($this->pic3)){
     		$this->pic3->move($this->getUploadRootDir(), $this->pic3->getClientOriginalName());
     		$this->pictureName3 = $this->pic3->getClientOriginalName();
     	}
