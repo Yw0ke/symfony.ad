@@ -33,12 +33,12 @@ class Ads
      *
      * @ORM\Column(name="title", type="string", length=200)
      * @Assert\NotBlank()
-     * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte.")
      * @Assert\Length(
      *      min = "10",
      *      max = "50",
-     *      minMessage = "Minimum {{ limit }} characters length",
-     *      maxMessage = "Maximum {{ limit }} characters length"
+     *      minMessage = "Un minimum de {{ limit }} caractères est requis",
+     *      maxMessage = "Une limite de {{ limit }} caractères est imposer"
      * )
      */
     private $title;
@@ -80,6 +80,95 @@ class Ads
     
     /**
      * @var array
+     * 
+     * @Assert\Collection(
+     *     fields = {
+     *         "OwnerAdress" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+	 *			               @Assert\NotBlank(),
+	 *          		       @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte.")
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "OwnerCity" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte.")
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "Price" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte."),
+     *                         @Assert\Length(
+     *                             min = 3,
+     *                             max = 6,
+     *                             maxMessage = "Votre numero de téléphone est trop long !"
+     *                         )
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "OwnerType" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank()
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "OwnerZip" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte.")
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "OwnerPhone" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte."),
+     *                         @Assert\Length(
+     *                             min = 10,
+     *                             max = 11,
+     *                             maxMessage = "Votre numero de téléphone est trop long !"
+     *                         )
+	 *          		   }
+     *         		   }
+     *             )
+     *         },
+     *         "Comment" = {
+     *             @Assert\Collection(
+     *                 fields = {
+     *                     "value" = {
+     *                         @Assert\NotBlank(),
+     *                         @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte."),
+     *                         @Assert\Length(
+     *                             min = 10,
+     *                             max = 500,
+     *                             maxMessage = "Votre commentaire est trop long !"
+     *                         )
+	 *          		   }
+     *         		   }
+     *             )
+     *         }
+     *     })
+     * )
      */
     private $attribute;
     
@@ -104,22 +193,42 @@ class Ads
     public $pictureName3;
     
     /**
-     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     * )
      */
     public $pic;
     
     /**
-     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     * )
      */
     public $pic1;
     
     /**
-     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     * )
      */
     public $pic2;
     
     /**
-     * @Assert\File(maxSize="5M")
+     * @Assert\Image(
+     *     minWidth = 800,
+     *     maxWidth = 2200,
+     *     minHeight = 600,
+     *     maxHeight = 1800
+     * )
      */
     public $pic3;
      

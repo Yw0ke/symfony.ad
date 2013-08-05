@@ -59,6 +59,19 @@ class AdsController extends Controller
 		
 		$formView = $form->createView();
 		
+		if ($request->getMethod() == 'POST')
+		{
+			$attributes = array();
+				
+			foreach ($ads->getAttribute() as $attName => $value)
+			{
+				$attributes[$attName] = $value;
+				$attributes[$attName]['value'] = $form->get($attName)->getData();
+			}
+				
+			$ads->setAttribute($attributes);
+		}
+		
 		$form->handleRequest($request);
 		
 		if ($form->isValid()) {		
@@ -68,7 +81,7 @@ class AdsController extends Controller
 				$ads->setDate(new \DateTime('now')); 
 				
 				$em->persist($ads);
-
+				
 				foreach ($ads->getAttribute() as $attName => $value)
 				{
 					$att = $em->getRepository("adClassifiedBundle:attribute")->findByName($attName);
@@ -104,18 +117,8 @@ class AdsController extends Controller
 				
 				return $this->redirect($this->generateUrl('ad_index'));
 		}
-		/*else{
-			$errorList = $form->getErrors();
-			
-			if (count($errorList) > 0) {
-				return $this->render('adClassifiedBundle:Ads:new.html.twig', array(
-						'errorList' => $errorList,
-						'form' => $formView
-				));
-			}
-		}*/
 		
-		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $formView));
+		return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView()));
 	}
 	
 	/**
