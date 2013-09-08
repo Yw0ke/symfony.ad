@@ -30,6 +30,7 @@ class DefaultController extends Controller
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    	
     	$adsPnium = null;
     	
     	if ($config->getWebsitePolicy() == 'notfree')
@@ -41,13 +42,13 @@ class DefaultController extends Controller
     	
     	$pagination = $paginator->paginate(	$ads,
 							    			$this->get('request')->query->get('page', 1)/*page number*/,
-							    			2/*limit per page*/
+							    			$config->getResultsByPages()/*limit per page*/
     	);
     	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
   																				'form' => $form->createView(),
   																				'prenium' => $adsPnium));
-    }
+    	}
     
    
     
@@ -60,6 +61,8 @@ class DefaultController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	
+    	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    	
     	if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) 
     	{
 			$ads = $em->getRepository('adClassifiedBundle:Ads')->getUnconfirmedAds();
@@ -69,7 +72,7 @@ class DefaultController extends Controller
 			$paginator  = $this->get('knp_paginator');
 			$pagination = $paginator->paginate(	$ads,
 					$this->get('request')->query->get('page', 1)/*page number*/,
-					2/*limit per page*/
+					$config->getResultsByPages()/*limit per page*/
 					);
 			
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboardadmin.html.twig', array('pagination' => $pagination,
@@ -79,10 +82,12 @@ class DefaultController extends Controller
     	{
     		$ads = $em->getRepository('adClassifiedBundle:Ads')->getUserAds($this->getUser());
     			
+    		$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    		
     		$paginator  = $this->get('knp_paginator');
     		$pagination = $paginator->paginate(	$ads,
     				$this->get('request')->query->get('page', 1)/*page number*/,
-    				2/*limit per page*/
+    				$config->getResultsByPages()/*limit per page*/
     		);
     		
     		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Default:dashboard.html.twig', array('pagination' => $pagination,
@@ -91,7 +96,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/category/render", name="ad_category")
+     * @Route("/category/renderCategory", name="ad_category")
      * @Template()
      */
     public function renderCategoryAction()
@@ -125,4 +130,20 @@ class DefaultController extends Controller
     	
     	return $this->render('adClassifiedBundle:Default:category.html.twig',array('category' => $catCounted));
     }
+    
+    
+    
+    /**
+     * @Route("/category/renderOptions", name="ad_options")
+     * @Template()
+     */
+    public function renderOptionsAction()
+    {
+    	$em = $this->getDoctrine()->getManager();
+
+   		$category = $em->getRepository('adClassifiedBundle:Category')->childrenHierarchy();
+     
+   		return $this->render('adClassifiedBundle:Default:options.html.twig',array('category' => $category));
+    }
+    
 }

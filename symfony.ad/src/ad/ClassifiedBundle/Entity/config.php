@@ -34,8 +34,14 @@ class config
      * @ORM\Column(name="imageFormat", type="array")
      */
     private $imageFormat;
-
-
+	
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="resultsByPages", type="integer")
+     */
+    private $resultsByPages;
+    
     /**
      * Get id
      *
@@ -90,5 +96,28 @@ class config
     public function getImageFormat()
     {
         return $this->imageFormat;
+    }
+
+    /**
+     * Set resultsByPages
+     *
+     * @param integer $resultsByPages
+     * @return config
+     */
+    public function setResultsByPages($resultsByPages)
+    {
+        $this->resultsByPages = $resultsByPages;
+    
+        return $this;
+    }
+
+    /**
+     * Get resultsByPages
+     *
+     * @return integer 
+     */
+    public function getResultsByPages()
+    {
+        return $this->resultsByPages;
     }
 }

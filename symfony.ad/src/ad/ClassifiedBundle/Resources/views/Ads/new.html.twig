@@ -2,10 +2,9 @@
 
 {% block body %}
 
-<div class="span8 well centertext">
+<div class="span8 well centertext newadd">
 <h2>Enregistrer une nouvelle annonce</h1>
 	<form action="{{ path('ad_new_ads') }}" method="post" {{ form_enctype(form) }}>
-	{% form_theme form 'adClassifiedBundle:Form:fields.html.twig' %}
 		{{ form(form) }}
 	</form>
 </div>

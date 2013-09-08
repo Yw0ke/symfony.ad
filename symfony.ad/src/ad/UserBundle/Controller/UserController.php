@@ -34,12 +34,14 @@ class UserController extends Controller
 	{
     	$em = $this->getDoctrine()->getManager();
 			
+    	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    	
 		$users = $em->getRepository('adUserBundle:User')->findAllSorted();
 		
 		$paginator  = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(	$users,
 				$this->get('request')->query->get('page', 1)/*page number*/,
-				2/*limit per page*/
+				$config->getResultsByPages()/*limit per page*/
 		);
 	
 		return $this->container->get('templating')->renderResponse('adUserBundle:User:manage.html.twig', array(

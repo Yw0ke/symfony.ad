@@ -1,82 +1,134 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  	<!-- meta -->
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 	
- 	<!-- include -->
-  	{% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/style.css') }}" type="text/css" />
-	{% endblock %}
-	
-	
-    <title>{% block title %}ad{% endblock %}</title>
-  </head>
-  <body>
-  	<div class="container">
-	  	<header class="span12">
-	  		<div class="row">
-		  		<div class="span12" id="header_top">
-			  		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-				    	<p>Connecté en tant que {{ app.user.username }} - <a href="{{ path('ad_dashboard') }}">Dashboard</a> - <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></p>
-					{% else %}
-				    	<p>Bienvenue, Visiteur ! <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> <a href="{{ path('fos_user_security_login') }}">Connexion</a></p>
-					{% endif %}
-				</div>
-			</div>
-			<div class="row">
-				<div class="span12" id="header_main">
-					<h1>Acheter un bateau !</h1>
-		        	<p>Acheter, vendre, louer un bateau ou jet-ski</p>
-		        </div>
-		    </div>
-		    <div class="row">
-		        <nav class="span12 navbar">
-					<div class="navbar-inner">
-					  <div class="container">
-					    <ul class="nav">
-				            <li class="span2 main"><a href="{{ path('ad_index') }}">Acceuil</a></li>
-				         	<li class="divider-vertical sep"></li>
-				            <li class="span2 main dropdown">
-				            	<a class="dropdown-toggle" data-toggle="dropdown"  href="#">
-				            		Catégories<b class="caret"></b>
-				            	</a>
-				                <ul class="dropdown-menu span6">
-				                	{% render(controller("adClassifiedBundle:Default:renderCategory")) %}
-							    </ul>
-				            </li>
-				  			<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Acheter un bateau ?</a></li>
-				     	  	<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Actualité</a></li>
-				 			<li class="divider-vertical sep"></li>
-				            <li class="span2 main"><a href="">Votre publicité</a></li>
-							<li class="divider-vertical sep"></li>
-				            <li class="span3 sidespan"><div><a class="btn btn-medium btn-block btn-info" href="{{ path('ad_new_ads') }}">Poster une annonce</a></div></li>
-			         	</ul>
-			       	 </div>
-			       	</div>
-		    	</nav>
-		    </div>
-	  	</header>
-	  	<div class="span12 content">
+<!--[if lt IE 7]>      <html lang="fr" class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="fr" class="no-js lt-ie10 lt-ie9 lt-ie8 ie7"> <![endif]-->
+<!--[if IE 8]>         <html lang="fr" class="no-js lt-ie10 lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]>         <html lang="fr" class="no-js lt-ie10 ie9"> <![endif]-->
+<!--[if gt IE 9]><!--> <html lang="fr" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <!--[if IE 9]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+        
+        {% block title %}
+        	<title>Acheter un bateau</title>
+        {% endblock %}
+        
+        <meta name="description" content="Acheter, vendre, louer un bateau ou jet-ski">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		{% block stylesheets %}
+	        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/normalize.min.css') }}">
+	        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/main.css') }}">
+	        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/print.css') }}">
+	        <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/layout.css') }}">
+	        <!--[if lt IE 9]> <link rel="stylesheet" href="{{ asset('bundles/adclassified/css/ie.css') }}"> <![endif]-->
+		{% endblock %}
+		
+        <script src="{{ asset('bundles/adclassified/js/vendor/modernizr-2.6.2.min.js') }}"></script>
+    </head>
+    
+	<body>
+        <header id="header">
+            <section class="top">
+                <ul class="wrap">
+                	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                		<p>Connecté en tant que {{ app.user.username }}</p>
+                		<li><a href="{{ path('ad_dashboard') }}">Dashboard</a></li>
+                		<li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                	{% else %}
+                		<p>Bienvenue, Visiteur !</p>
+                		<li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+                		<li><a href="{{ path('fos_user_security_login') }}">Se connecter</a></li>
+                	{% endif %}
+                </ul>
+            </section>
+            
+			<div class="wrap">
+                <div class="cf">
+                    <div id="logo">
+                        <h1><a href="index.html"><img src="{{ asset('bundles/adclassified/img/logo-acheter-un-bateau.png') }}" alt="Acheter un bateau"></a></h1>
+                        <p>Acheter, vendre, louer un bateau ou jet-ski</p>
+                    </div>
+
+                    <div class="pub"><a href="#_"><img src="{{ asset('bundles/adclassified/img/pubs/pub-header.jpg') }}" alt="Publicité"></a></div>
+                </div>
+                
+                <nav id="main-nav">
+                    <ul class="level-1">
+                        <li><a href="{{ path('ad_index') }}" class="active">Accueil</a></li>
+                        <li>
+                            <span>Catégories</span>
+                            <ul class="level-2">
+                                {% render(controller("adClassifiedBundle:Default:renderCategory")) %}
+                            </ul>
+                        </li>
+                		<li><a href="page.html">Acheter un bateau ?</a></li>
+                        <li><a href="#_">Votre publicité</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <section id="search-bar">
+            <div class="wrap cf">
+                <form action="#_" class="cf" id="form_recherche">
+                    <input type="text" placeholder="Que recherchez-vous ?" id="search-bar-text" name="search-bar-text" required="required">
+                    <div class="custom-select">
+                        <select id="search-bar-category" name="search-bar-category">
+                            <option value='0' selected='selected'>Toutes les catégories</option>
+                            {% render(controller("adClassifiedBundle:Default:renderOptions")) %}
+        				</select>
+                    </div>
+                    <input type="submit" id="search-bar-submit" name="search-bar-submit" value="Rechercher">
+                </form>
+
+                <a href="{{ path('ad_new_ads') }}" class="border-button">Poster une annonce</a>
+            </div>
+        </section>
+        
+	  	<div id="content" class="wrap cf">
 		{% block body %}
 		
 		{% endblock %}
 		</div>
-		<footer class="span12 footer">
-			<p>footer</p>
-		</footer>
- 	</div>
+		<footer id="footer">
+            <div class="first-footer">
+                <div class="wrap cf">
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="page.html">Acheter un bateau ?</a></li>
+                        <li><a href="#_">CGU et CGV</a></li>
+                        <li><a href="#_">Votre publicité</a></li>
+                    </ul>
+
+                    <ul class="social cf">
+                        <li class="fb"><a href="#_">Facebook</a></li>
+                        <li class="twt"><a href="#_">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ultra-footer wrap">
+                <p>© 2013 Acheter un Bateau. Tous droits réservés.</p>
+                <ul class="baseline">
+                    <li><a href="#_">Acheter un bateau a Marseille</a></li>
+                    <li><a href="#_">Chambres d'hotes de charmes en pays de Pezenas / Agde</a></li>
+                    <li><a href="#_">Acheter en viager</a></li>
+                    <li><a href="#_">Agence Différente</a></li>
+                    <li><a href="#_">Annuaire Nautique voile et voyage OVNI-Club</a></li>
+                </ul>
+            </div>
+        </footer>
  	
- 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
- 	<script src="{{ asset('assets/js/bootstrap-dropdown.js') }}"></script>
-	{% block javascripts %}
+ 		<script src="{{ asset('bundles/adclassified/js/vendor/jquery-1.9.1.min.js') }}"></script>
+        <script src="{{ asset('bundles/adclassified/js/jquery.infieldlabel.min.js') }}"></script>
+        <script src="{{ asset('bundles/adclassified/js/jquery.carouFredSel-6.2.1-packed.js') }}"></script>
+        <script src="{{ asset('bundles/adclassified/js/easyResponsiveTabs.min.js') }}"></script>
+        <script src="{{ asset('bundles/adclassified/js/magnificPopup.min.js') }}"></script>
+        <script src="{{ asset('bundles/adclassified/js/main.js') }}"></script>
+ 	
+		{% block javascripts %}
 		
-	{% endblock %}
+		{% endblock %}
  
-  </body>
+	</body>
 </html>

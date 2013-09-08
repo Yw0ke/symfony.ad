@@ -1,0 +1,10 @@
+{% if category is defined %}
+	{% for cat in category %}
+		<option class="level-0" value="{{ cat.id }}">{{ cat.name }}</option>
+		{% if cat.__children is defined %}
+		{% for sscat in cat.__children %}
+			<option class="level-1" value="{{ sscat.id }}">&nbsp;&nbsp;&nbsp;{{ sscat.name }}</option>
+		{% endfor %}
+		{% endif %}
+	{% endfor %}
+{% endif %}

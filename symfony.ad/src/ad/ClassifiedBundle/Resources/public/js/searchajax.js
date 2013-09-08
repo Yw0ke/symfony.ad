@@ -1,5 +1,5 @@
 $("#form_recherche").submit(function(){
-    var motcle = $("#adsSearch_motcle").val();
+    var motcle = $("#search-bar-text").val();
     $.ajax({
         type: "POST",
         url: "/ads/search/",

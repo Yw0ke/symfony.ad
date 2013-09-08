@@ -70,9 +70,17 @@ class AdsController extends Controller
 			}
 				
 			$ads->setAttribute($attributes);
+			
+			$form->handleRequest($request);
+			
+			$validator = $this->get('validator');
+			$errorList = $validator->validate($ads);
+			
+			if (count($errorList) > 0) {
+				return $this->render('adClassifiedBundle:Ads:new.html.twig', array ('form' => $form->createView(),
+																					'errors' => $errorList));
+			}
 		}
-		
-		$form->handleRequest($request);
 		
 		if ($form->isValid()) {		
 				$em = $this->getDoctrine()->getManager();
@@ -106,14 +114,11 @@ class AdsController extends Controller
 				$config = $em->getRepository('adClassifiedBundle:config')->getConfig();
 				$imgconfig = $config->getImageFormat();
 				
-				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['zoom'][0], $imgconfig['zoom'][1]);
-				$img->save('uploads/pictures/zoom-'.$ads->getPictureName(), 80);
+				$img = Image::make('bundles/adclassified/img/annonce/'.$ads->getPictureName())->resize($imgconfig['carousel'][0], $imgconfig['carousel'][1]);
+				$img->save('bundles/adclassified/img/annonce/carousel-'.$ads->getPictureName(), 80);
 				
-				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['thumb'][0], $imgconfig['thumb'][1]);
-				$img->save('uploads/pictures/thumbnail-'.$ads->getPictureName(), 60);
-				
-				$img = Image::make('uploads/pictures/'.$ads->getPictureName())->resize($imgconfig['mini'][0], $imgconfig['mmini'][1]);
-				$img->save('uploads/pictures/mini-'.$ads->getPictureName(), 60);
+				$img = Image::make('bundles/adclassified/img/annonce/'.$ads->getPictureName())->resize($imgconfig['list'][0], $imgconfig['list'][1]);
+				$img->save('bundles/adclassified/img/annonce/list-'.$ads->getPictureName(), 60);
 				
 				return $this->redirect($this->generateUrl('ad_index'));
 		}
@@ -129,12 +134,13 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		
+		$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
 		$ads = $em->getRepository('adClassifiedBundle:Ads')->getAllAds();
 		
 		$paginator  = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(	$ads,
 				$this->get('request')->query->get('page', 1)/*page number*/,
-				2/*limit per page*/
+				$config->getResultsByPages()/*limit per page*/
 		);
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:manage.html.twig', array(
@@ -299,6 +305,7 @@ class AdsController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		
 		$request = $this->container->get('request');
+		$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
 		
 		$title = $request->request->get('title');		
 		$results = array();
@@ -317,7 +324,7 @@ class AdsController extends Controller
 		$paginator  = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(	$results,
 											$this->get('request')->query->get('page', 1)/*page number*/,
-											2/*limit per page*/
+											$config->getResultsByPages()/*limit per page*/
 		);
 		
 		$form = $this->container->get('form.factory')->create(new adsSearchType(), array('motcle' => $title));

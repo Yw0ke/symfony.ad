@@ -1,12 +1,13 @@
 
 {% for cat in category %}
-	<li class="span2 drpdwnli"><a href="/filter/{{ cat.slug }}">{{ cat.name }} {% if cat.nb %}({{ cat.nb }}){% endif %}</a>
-	{% if cat.__children %}
-	<ul>
-		{% for child in cat.__children %}
-		<li><a href="/filter/{{ child.slug }}">{{ child.name }} {% if child.nb %}({{ child.nb }}){% endif %}</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+	<li {% if loop.index0 is divisibleby(3) %}class="left"{% endif %}>
+		<a href="/filter/{{ cat.slug }}">{{ cat.name }} {% if cat.nb %}({{ cat.nb }}){% endif %}</a>
+		{% if cat.__children %}
+		<ul class="level-3">
+			{% for child in cat.__children %}
+			<li><a href="/filter/{{ child.slug }}">{{ child.name }} {% if child.nb %}({{ child.nb }}){% endif %}</a></li>
+			{% endfor %}
+		</ul>
+		{% endif %}
 	</li>
 {% endfor %}

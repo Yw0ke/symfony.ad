@@ -24,8 +24,9 @@ class LoadConfigData implements FixtureInterface, ContainerAwareInterface, Order
 		$manager = $this->container->get('doctrine')->getManager();
 		
 		$config = new config();
-		$config->setImageFormat(array('mini' => array(50, 50), 'zoom' => array(400, 200), 'thumb' => array(140, 100)));
+		$config->setImageFormat(array('carousel' => array(490, 300), 'list' => array(300, 190)));
 		$config->setWebsitePolicy('notfree');
+		$config->setResultsByPages('6');
 		
 		$manager->persist($config);
 		$manager->flush();

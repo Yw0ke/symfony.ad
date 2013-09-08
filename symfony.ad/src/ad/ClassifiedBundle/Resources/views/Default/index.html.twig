@@ -1,66 +1,78 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-<div class="row">
-	<div class="span4 search">
-	    <form class="navbar-form pull-left" id="form_recherche" action="{{ path('ad_search_ads') }}" method="post">
-			{{ form_widget(form.motcle) }}
-			<input class="btn" type="submit" value="Rechercher" />
-		</form>		
-	</div>
-	<div class="span8 prenium">
-		<ul>
-			{% for ad in prenium %}
-				<li class="span2">
-					<a href="/ads/details/{{ ad.id }}"><img src="/uploads/pictures/mini-{{ ad.pictureName }}"/></a>
-					<h4>{{ ad.title }}</h4>
-					<p>{{ ad.attribute.Price }}</p>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
+<div id="home-slider">
+	<ul>
+		{% for ad in prenium %}
+		<li>
+			<div class="illus">
+				<img src="{{ asset('bundles/adclassified/img/annonce/carousel-'~ad.pictureName) }}" alt="{{ ad.title }}">
+				<div class="frise"></div>
+			</div>
+			<div class="texte">
+				<h3>{{ ad.title }}</h3>
+				<div class="price">{{ ad.attribute.Price }} €</div>
+				<p>
+					{{ ad.attribute.Comment }}
+				</p>
+				<a href="/ads/details/{{ ad.id }}" class="button">Détails</a>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<div class="clear"></div>
+	<div class="pager"></div>
+
+	<img src="{{ asset('bundles/adclassified/img/a-la-une.png') }}" alt="À la Une" class="label">
 </div>
 
-<div class="span9 firstspan ajxrfrsh">
-	{% if pagination.items %}
-	<div class="span9 tabSort firstspan">
-		<ul class="nav">
-			<li class="span2 {% if (pagination.isSorted('ads.date') or app.request.get('sort') == null) %}sorted{% endif %}">{{ knp_pagination_sortable(pagination, 'Annonces récentes', 'ads.date') }}</li>
-			<li style="left:135px;" class="span2 {% if pagination.isSorted('ads.viewCount') %}sorted{% endif %}">{{ knp_pagination_sortable(pagination, 'Annonces populaires', 'ads.viewCount') }}</li>
-		</ul>
-	</div>
+<ul class="sort-bar">
+	
+	<li {% if (pagination.isSorted('ads.date') or app.request.get('sort') == null) %}class="active"{% endif %}>{{ knp_pagination_sortable(pagination, 'Publiés récemment', 'ads.date') }}</a></li>
+	<li {% if pagination.isSorted('ads.viewCount') %}class="active"{% endif %}>{{ knp_pagination_sortable(pagination, 'Les plus populaires', 'ads.viewCount') }}</a></li>
+	<li><a href="#_">Au hazard</a></li>
+</ul>
 
-	{% for ad in pagination %}
-	<div class="span9 firstspan well ad">
-		<div class="span2 adleft">
-			<a href="/ads/details/{{ ad.id }}"><img src="/uploads/pictures/thumbnail-{{ ad.pictureName }}" alt="Photo de l'annonce"/></a>
-		</div>	
-		<div class="span6 adsright">
-			<h3 class="span4"><a href="/ads/details/{{ ad.id }}">{{ ad.title }}</a></h3>
-			<div class="offset1 span1">
-				{{ ad.attribute.Price }}€
-			</div>
-			<div class="span4 admeta">
-				<a>{{ ad.categoryId.name }}</a>
-				<a>{{ ad.userId.username }}</a>
-				<p>{{ ad.date|date("d/m/Y") }}</p>
-			</div>
-			<div class="span4 comment">
-				<p>{{ ad.attribute.Comment }}			
-			</div>
-		</div>
-	</div>
 
-	{% endfor %}
-	<div class="navigation">
-    	{{ knp_pagination_render(pagination) }}
-	</div>
-	{% else %}
-	<div class="firstspan well">
-		<p>Il n'y as aucune annonce dans cette catégorie !</p>
+{% if pagination.items %}
+	<ul class="ads-list cf ajxrfrsh">
+		{% for ad in pagination %}
+		<li>
+			<a href="/ads/details/{{ ad.id }}" class="image-link">
+				<img src="{{ asset('bundles/adclassified/img/annonce/list-'~ad.pictureName) }}" alt="{{ ad.title }}">
+				<span class="price">{{ ad.attribute.Price }} €</span>
+				<span class="loupe"><span>Voir l'annonce</span></span>
+			</a>
+			<div>
+				<h3>{{ ad.title }}</h3>
+				<a href="/ads/details/{{ ad.id }}" class="button">Détails</a>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	
+	{% if knp_pagination_render(pagination)|length > 1 %}
+	<div class="pagination">
+		{{ knp_pagination_render(pagination) }}
 	</div>
 	{% endif %}
-</div>
+{% else %}
+<p>Il n'y as aucune annonce dans cette catégorie !</p>
+{% endif %}
+
+<section id="about-bloc">
+	<h3>Occasions bateaux : voiliers et bateaux d'occasion à la vente</h3>
+	<p>Vous êtes un passionné de sports nautiques, un professionnel de la mer, un mordu de voiliers et de navigation, ou un simple particulier à la recherche de sorties en mer en bateau d'agrément ?</p>
+	<p>Passez, ou consultez nos annonces d'achat-vente de <strong>bateaux d'occasion</strong>, bateaux à voile ou à moteur, <strong>bateaux neufs ou d'occasion</strong>. Mais vous pouvez également trouver des annonces de « <strong>places de port</strong> », des annonces d'accastillages ou de remorques de bateaux.</p>
+	<p><span>Déposez votre ou vos annonces de bateaux d'occasion et neufs GRATUITEMENT sur notre site !</span></p>
+	<p>Toutes les annonces restent visible pendant 12 mois, le dépôt d'annonces est illimité et gratuit sans aucuns frais cachés.</p>
+	<a href="#_" class="button">S'inscrire maintenant</a>
+</section>
+
+<section class="facebook-bloc">
+	<iframe src="http://www.facebook.com/plugins/likebox.php?id=154169577960601&amp;connections=10&amp;stream=false&amp;header=true"></iframe>
+</section>
+
 {% endblock %}
 
 

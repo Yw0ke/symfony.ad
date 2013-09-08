@@ -37,8 +37,8 @@ class Ads
      * @Assert\Length(
      *      min = "10",
      *      max = "50",
-     *      minMessage = "Un minimum de {{ limit }} caractères est requis",
-     *      maxMessage = "Une limite de {{ limit }} caractères est imposer"
+     *      minMessage = "Un minimum de {{ limit }} caractère est requis.|Un minimum de {{ limit }} caractères est requis.",
+     *      maxMessage = "Une limite de {{ limit }} caractère est imposer.|Un minimum de {{ limit }} caractères est imposer."
      * )
      */
     private $title;
@@ -80,95 +80,6 @@ class Ads
     
     /**
      * @var array
-     * 
-     * @Assert\Collection(
-     *     fields = {
-     *         "OwnerAdress" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-	 *			               @Assert\NotBlank(),
-	 *          		       @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte.")
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "OwnerCity" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank(),
-     *                         @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte.")
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "Price" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank(),
-     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte."),
-     *                         @Assert\Length(
-     *                             min = 3,
-     *                             max = 6,
-     *                             maxMessage = "Votre numero de téléphone est trop long !"
-     *                         )
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "OwnerType" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank()
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "OwnerZip" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank(),
-     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte.")
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "OwnerPhone" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank(),
-     *                         @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas correcte."),
-     *                         @Assert\Length(
-     *                             min = 10,
-     *                             max = 11,
-     *                             maxMessage = "Votre numero de téléphone est trop long !"
-     *                         )
-	 *          		   }
-     *         		   }
-     *             )
-     *         },
-     *         "Comment" = {
-     *             @Assert\Collection(
-     *                 fields = {
-     *                     "value" = {
-     *                         @Assert\NotBlank(),
-     *                         @Assert\Type(type="string", message="La valeur {{ value }} n'est pas correcte."),
-     *                         @Assert\Length(
-     *                             min = 10,
-     *                             max = 500,
-     *                             maxMessage = "Votre commentaire est trop long !"
-     *                         )
-	 *          		   }
-     *         		   }
-     *             )
-     *         }
-     *     })
-     * )
      */
     private $attribute;
     
@@ -246,7 +157,7 @@ class Ads
     protected function getUploadDir()
     {
     	// get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
-    	return 'uploads/pictures';
+    	return 'bundles/adclassified/img/annonce';
     }
      
     public function uploadPicture()
