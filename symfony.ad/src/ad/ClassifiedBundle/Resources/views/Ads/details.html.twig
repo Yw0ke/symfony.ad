@@ -1,42 +1,205 @@
 {% extends "::layout.html.twig" %}
 
+{% block breadcrumb %}
+<section class="breadcrumb wrap">
+	<div>
+		<a href="{{ path('ad_index') }}">Accueil</a>{% if category.parent is not null %}<a href="/filter/{{ category.parent.slug }}">{{ category.parent.name }}</a>{% endif %}<a href="/filter/{{ category.slug }}">{{ category.name }}</a><span>{{ ad.title }}</span>
+	</div>
+</section>
+{% endblock %}
+
 {% block body %}
 
-<div class="row centerbloc">
-	<section class="span9 annonce centertext">
-		<div class="row">
-			<div class="span3 bloc">
-				{{ ad.title }}
+<section class="main-content">
+	<h1>{{ ad.title }}</h1>
+	<p class="price">{{ ad.attribute.Price }} €</p>
+
+	<div id="annonce-slider">
+		<ul>
+			<li><a href="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName) }}" title="{{ ad.pictureName }}"><img src="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName) }}" alt="{{ ad.pictureName }}"></a></li>
+			{% if ad.pictureName1 is not null %}
+			<li><a href="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName1) }}" title="{{ ad.pictureName1 }}"><img src="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName1) }}" alt="{{ ad.pictureName1 }}"></a></li>
+			{% elseif ad.pictureName2 is not null %}
+			<li><a href="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName2) }}" title="{{ ad.pictureName2 }}"><img src="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName2) }}" alt="{{ ad.pictureName2 }}"></a></li>
+			{% elseif ad.pictureName2 is not null %}
+			<li><a href="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName3) }}" title="{{ ad.pictureName3 }}"><img src="{{ asset('bundles/adclassified/img/annonce/'~ad.pictureName3) }}" alt="{{ ad.pictureName3 }}"></a></li>
+			{% endif %}
+		</ul>
+		<div class="clear"></div>
+		<span class="nav prev">Précédente</span>
+		<span class="nav next">Suivante</span>
+	</div>
+
+	<div class="description">
+		<p>{{ ad.attribute.Comment }}</p>
+	</div>
+
+	<div id="technical-tabs">
+		<ul class="resp-tabs-list">
+			<li>Le vendeur</li>
+			<li>Le bateau</li>
+			<li>Le moteur</li>
+			<li>L'équipement</li>
+		</ul>
+		<div class="resp-tabs-container">
+			<div>
+				<p><span>Type de vendeur :</span> Professionnel</p>
+				<p><span>Nom du vendeur :</span> MARINEMEDSERVICES</p>
+				<p><span>Adresse :</span> c/o Chantier Naval Borg. 25 esplanade du Pharo.</p>
+				<p><span>Ville :</span> Marseille</p>
+				<p><span>Code postal :</span> 13007</p>
+				<p><span>Pays :</span> France</p>
+				<p><span>Téléphone :</span> 0626185999</p>
 			</div>
-			<div class="span1 bloc price">
-				{{ ad.attribute.Price }}
+			<div>
+				<p><span>Constructeur :</span> Quicksilver</p>
+				<p><span>Modèles (Exemple : Esteou 630) :</span> 555 Commander</p>
+				<p><span>Année :</span> 2009</p>
+				<p><span>Longueur (Sous la forme : 6.30m) :</span> 5.35</p>
+				<p><span>Largeur (Sous la forme : 2.30m) :</span> 2.21</p>
+				<p><span>Catégorie de navigation :</span> C</p>
+				<p><span>Année moteur :</span> 2009</p>
+			</div>
+			<div>
+				<p><span>Type moteur :</span> Hors-bord</p>
+				<p><span>Marque moteur :</span> Mercury</p>
+				<p><span>Modèle moteur :</span> F100 ELPT EFI</p>
+				<p><span>Puissance moteur (Sous la forme : Nombres de moteurs x Puissance cv) :</span> 1x100</p>
+				<p><span>Carburant moteur :</span> Essence</p>
+				<p><span>Nombres d'heures moteur :</span> 210</p>
+			</div>
+			<div>
+				<p><span>Equipement electronique :</span> Compas</p>
+				<p><span>Equipement exterieur :</span> Bain de soleil,Echelle de bain,Portes cannes,Taud</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="span9 bloc well photo">
-				<img src="/uploads/pictures/{{ ad.pictureName }}" alt="photo de l'annonce"/>
-			</div>
-			
-			
-			<div class="span9 bloc well vendeur">
-				<h4>Informations sur le vendeur</h4>
-				<ul>
-					<li><b>Type de vendeur</b> : {{ ad.attribute.OwnerType }}</li>
-					<li><b>Nom du vendeur</b> : {{ ad.userId.username }}</li>
-					<li><b>Adresse</b> : {{ ad.attribute.OwnerAdress }}</li>
-					<li><b>Ville</b> : {{ ad.attribute.OwnerCity }}</li>
-					<li><b>Code postal</b> : {{ ad.attribute.OwnerZip }}</li>
-					<li><b>Téléphone</b> : {{ ad.attribute.OwnerPhone }}</li>
-										
-				</ul>
+	</div>
+	
+	<p class="reference">Référence de l'annonce : <span>92751C457C3E3F59</span></p>
+	
+	<div class="tags">
+		<a href="#_">Marseille</a>
+		<a href="#_">Lorem</a>
+		<a href="#_">ipsum</a>
+		<a href="#_">doloret</a>
+		<a href="#_">amet</a>
+	</div>
+	
+	<aside>
+		<p class="title">2 commentaires</p>
+		<div class="commentaire">
+			<img src="{{ asset('bundles/adclassified/img/pictos/avatar.jpg') }}" alt="Photo de profil" class="avatar">
+			<div class="texte">
+				<p class="header">
+					<a href="#_">Michel</a> le 30 juillet 2013 à 12:50
+				</p>
+				<p>
+					Ce site est super, j'aime trop mon bateau, je suis content !<br>
+					Venez voir mon site <a href="#_">lesitedemichel.fr</a> !
+				</p>
 			</div>
 		</div>
+		<div class="commentaire">
+			<img src="{{ asset('bundles/adclassified/img/pictos/avatar.jpg') }}" alt="Photo de profil" class="avatar">
+			<div class="texte">
+				<p class="header">
+					<a href="#_">Michel</a> le 30 juillet 2013 à 12:50
+				</p>
+				<p>
+					Ce site est super, j'aime trop mon bateau, je suis content !<br>
+					Venez voir mon site <a href="#_">lesitedemichel.fr</a> !
+				</p>
+			</div>
+		</div>
+	
+		<p class="title">Laisser un commentaire</p>
+		<form action="#_" class="formulaire">
+			<div>
+				<label for="annonce-commentaire-name" class="infield">Nom*</label>
+				<input type="text" id="annonce-commentaire-name" name="annonce-commentaire-name" required="required">
+			</div>
+			<div>
+				<label for="annonce-commentaire-email" class="infield">Email*</label>
+				<input type="text" id="annonce-commentaire-email" name="annonce-commentaire-email" required="required">
+			</div>
+			<div>
+				<label for="annonce-commentaire-website" class="infield">Site web</label>
+				<input type="text" id="annonce-commentaire-website" name="annonce-commentaire-website">
+			</div>
+			<div>
+				<label for="annonce-commentaire-message" class="infield">Message*</label>
+				<textarea name="annonce-commentaire-message" id="annonce-commentaire-message" cols="30" rows="6" required="required"></textarea>
+			</div>
+			<input type="submit" name="annonce-commentaire-submit" id="annonce-commentaire-submit" value="Envoyer" class="border-button">
+		</form>
+	</aside>
+	
+	<aside>
+		<a href="#_"><img src="{{ asset('bundles/adclassified/img/pubs/pub-content.jpg') }}" alt="Publicité"></a>
+	</aside>
+</section>
+
+<aside class="left-sidebar">
+	<section class="bloc tabs">
+		<div class="select cf">
+			<p class="title active">Contact<span><img src="{{ asset('bundles/adclassified/img/pictos/fl-noire-b-tabs.png') }}" alt="Flèche"></span></p>
+			<p class="title">Annonceur<span><img src="{{ asset('bundles/adclassified/img/pictos/fl-noire-b-tabs.png') }}" alt="Flèche"></span></p>
+		</div>
+		
+		<div class="tab">
+			<p>Pour en savoir sur cette anonce, contactez l'annonceur avec le formulaire ci-dessous.</p>
+			<form action="#_" class="formulaire">
+				<div>
+					<label for="sidebar-name" class="infield">Nom</label>
+					<input type="text" id="sidebar-name" name="sidebar-name" required="required">
+				</div>
+				<div>
+					<label for="sidebar-email" class="infield">Email</label>
+					<input type="text" id="sidebar-email" name="sidebar-email" required="required">
+				</div>
+				<div>
+					<label for="sidebar-object" class="infield">Objet</label>
+					<input type="text" id="sidebar-object" name="sidebar-object" required="required">
+				</div>
+				<div>
+					<label for="sidebar-message" class="infield">Message</label>
+					<textarea name="sidebar-message" id="sidebar-message" cols="30" rows="6" required="required"></textarea>
+				</div>
+				<input type="submit" name="sidebar-submit" id="sidebar-submit" value="Envoyer" class="border-button">
+			</form>
+		</div>
+		
+		<div class="tab hidden">
+			<p>Informations à propos de l'auteur</p>
+			<div class="infos cf">
+				<img src="{{ asset('bundles/adclassified/img/pictos/avatar.jpg') }}" alt="Photo de profil" class="avatar">
+				<div class="texte">
+					<p>Publié par : <a href="#_">{{ ad.userId.username }}</a></p>
+					<p>Dernière connexion le <span>{{ ad.userId.lastLogin.date }}</span></p>
+				</div>
+			</div>
+
+			<p>Autres annonces de {{ ad.userId.username }}</p>
+			
+			{% render(controller("adUserBundle:User:findUserAds", { 'id' : ad.userId.id })) %}
+			
+		</div>
 	</section>
-	<section class="span4 sidespan">
-		{% render(controller("adClassifiedBundle:Message:newMessage")) %}
+
+	<section class="bloc">
+		<p class="title">Annonces populaires aujourd'hui</p>
+		
+		{% render(controller("adClassifiedBundle:Ads:findMostPopularAds")) %}
+		
 	</section>
-</div>
 
+	<section class="bloc pub">
+		<a href="#_"><img src="{{ asset('bundles/adclassified/img/pubs/pub-sidebar.jpg') }}" alt="Publicité"></a>
+	</section>
+</aside>
 
+{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/adclassified/css/magnificPopup.css') }}">
 {% endblock %}

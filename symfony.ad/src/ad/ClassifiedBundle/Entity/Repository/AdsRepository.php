@@ -198,7 +198,7 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.attributeId', 'attr');
 		$qb->leftJoin('ads.categoryId', 'c');
 		
-		if (!is_null($filter))	//Range de la recherche s'étend au sous-catégories.
+		if (!is_null($filter))	//Range de la recherche s'étend aux sous-catégories.
 		{
 			$cat = $em->getRepository('adClassifiedBundle:Category')->findCatBySlug($filter);
 			
@@ -294,7 +294,7 @@ class AdsRepository extends EntityRepository
 	 *
 	 * @return array(Ads)
 	 */
-	public function findByTitleLike($title)
+	public function findByTitleLike($title, $idcategory)
 	{
 		$em = $this->getEntityManager();
 		
@@ -307,6 +307,13 @@ class AdsRepository extends EntityRepository
 		$qb->leftJoin('v.attributeId', 'attr');
 		
 		$qb->where("ads.title like '%$title%'");
+		
+		if ($idcategory != 0)
+		{
+			$qb->andWhere("ads.categoryId = :idcategory");
+			
+			$qb->setParameter(':idcategory', $idcategory);
+		}
 		
 		$response = $qb->getQuery()->getResult();
 		
@@ -356,5 +363,47 @@ class AdsRepository extends EntityRepository
 		
 		return $response;
 		
+	}
+	
+	/**
+	 * Find all user's ads
+	 *
+	 * @return Ads
+	 */
+	public function findUsersAds($user)
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('ads');
+		$qb->from('adClassifiedBundle:Ads','ads');
+		$qb->where('ads.userId = :user');
+		
+		$qb->setParameter('user', $user);
+		
+		$response = $qb->getQuery()->getResult();
+		
+		return $response;
+	}
+	
+	/**
+	 * Get 10 most popular Ads
+	 *
+	 * @return Ads
+	 */
+	public function getPopularAds()
+	{
+		$em = $this->getEntityManager();
+	
+		$qb = $em->createQueryBuilder();
+		$qb->addSelect('ads');
+		$qb->from('adClassifiedBundle:Ads','ads');
+		$qb->orderBy('ads.viewCount', 'DESC');
+	
+		$qb->setMaxResults('10');
+		
+		$response = $qb->getQuery()->getResult();
+		
+		return $response;
 	}
 }

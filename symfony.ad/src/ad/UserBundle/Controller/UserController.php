@@ -98,7 +98,21 @@ class UserController extends Controller
 		}
 	}
 	
+	/**
+	 * @Route("/user/find/ads/{id}", name="ad_find_user_ads")
+	 */
+	public function findUserAdsAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
 	
+		$user = $em->getRepository('adUserBundle:User')->findById($id);
+		
+		$ads = $em->getRepository('adClassifiedBundle:Ads')->findUsersAds($user);
+		
+		return $this->container->get('templating')->renderResponse('adUserBundle:User:user_ads.html.twig', array(
+				'ads' => $ads
+		));
+	}
 	
 	
 	

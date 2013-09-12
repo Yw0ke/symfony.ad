@@ -1,0 +1,11 @@
+{% if ads is defined %}
+<ul>
+	{% for ad in ads %}
+		{% if ad.viewCount > 0 %}
+		<li><a href="/ads/details/{{ ad.id }}">{{ ad.title }} <span>({{ ad.viewCount }})</span></a></li>
+		{% endif %}
+	{% endfor %}
+</ul>
+{% else %}
+<p>Aucune annonce n'as était visité.</p>
+{% endif %}

@@ -19,19 +19,16 @@ class DefaultController extends Controller
 {
 	/**
 	 * @Route("/", name="ad_index")
-	 * @Route("/filter/{filter}", name="ad_index_filtered")
 	 * @Template()
 	 */
-    public function indexAction($filter = null)
+    public function indexAction()
     {
     	$em = $this->getDoctrine()->getManager();
-    	
-    	$form = $this->container->get('form.factory')->create(new adsSearchType());
-    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
     	
     	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
     	
     	$adsPnium = null;
+    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds(null);
     	
     	if ($config->getWebsitePolicy() == 'notfree')
     	{
@@ -46,11 +43,30 @@ class DefaultController extends Controller
     	);
     	
   		return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
-  																				'form' => $form->createView(),
   																				'prenium' => $adsPnium));
-    	}
+    }
     
-   
+    /**
+     * @Route("/filter/{filter}", name="ad_filtered")
+     * @Template()
+     */
+    public function filterAction($filter = null)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+    	
+    	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
+    	
+    	$paginator  = $this->get('knp_paginator');
+    	 
+    	$pagination = $paginator->paginate(	$ads,
+							    			$this->get('request')->query->get('page', 1)/*page number*/,
+							    			$config->getResultsByPages()/*limit per page*/
+							    			);
+    	 
+    	return $this->render('adClassifiedBundle:Default:filtered.html.twig',array('pagination' => $pagination));
+    }
     
  	/**
 	 * @Route("/dashboard/", name="ad_dashboard")

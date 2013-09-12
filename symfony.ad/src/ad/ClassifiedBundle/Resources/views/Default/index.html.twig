@@ -34,8 +34,8 @@
 </ul>
 
 
-{% if pagination.items %}
-	<ul class="ads-list cf ajxrfrsh">
+{% if pagination.items is not empty %}
+	<ul class="ads-list cf">
 		{% for ad in pagination %}
 		<li>
 			<a href="/ads/details/{{ ad.id }}" class="image-link">
@@ -57,7 +57,7 @@
 	</div>
 	{% endif %}
 {% else %}
-<p>Il n'y as aucune annonce dans cette catégorie !</p>
+<p>Il n'y as aucune annonce en ligne !</p>
 {% endif %}
 
 <section id="about-bloc">

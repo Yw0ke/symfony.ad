@@ -142,7 +142,7 @@
 
 /* COLUMNS */
 @media only screen and (max-width: 879px) {
-	.annonce .left-sidebar {
+	.left-sidebar {
 		margin-top: 40px;
 	}
 }
@@ -179,7 +179,8 @@
 	}
 
 	.ads-list li {
-		display: inline-block;
+		display: block;
+		float:left;
 		padding-left: 40px;
 		vertical-align: top;
 	}
@@ -405,7 +406,7 @@
 		display: none;
 	}
 
-	.annonce .main-content .resp-tabs-list li {
+	.main-content .resp-tabs-list li {
 		float: left;
 		display: block;
 		width: 25%;
@@ -417,20 +418,20 @@
 		cursor: pointer;
 		position: relative;
 	}
-	.annonce .main-content .resp-tabs-list li:first-child {
+	.main-content .resp-tabs-list li:first-child {
 		border-left: none;
 	}
 
-		.annonce .main-content .resp-tabs-list li:hover,
-		.annonce .main-content .resp-tabs-list li.resp-tab-active {
+		.main-content .resp-tabs-list li:hover,
+		.main-content .resp-tabs-list li.resp-tab-active {
 			color: #fff;
 			background: #5dade2;
 		}
 
-		.annonce .main-content .resp-tabs-list li.resp-tab-active {
+		.main-content .resp-tabs-list li.resp-tab-active {
 			cursor: default;
 		}
-		.annonce .main-content .resp-tabs-list li.resp-tab-active:after {
+		.main-content .resp-tabs-list li.resp-tab-active:after {
 			content: '';
 			display: block;
 			position: absolute;

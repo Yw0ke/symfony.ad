@@ -237,20 +237,18 @@ class AdsController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		
-		$message = new message();
-		
 		$ad = $em->getRepository("adClassifiedBundle:Ads")->findOneBy(array('id' => $id));
-	
-		$ads = $em->getRepository('adClassifiedBundle:Ads')->hydrateAd($ad);
 		
-		$ads = $ad->setViewCount($ad->getViewCount() +1);
+		$ad = $ad->setViewCount($ad->getViewCount() +1);
+		
+		$category = $ad->getCategoryId();
 		
 		$em->persist($ad);
 		$em->flush();
 		
 		return $this->container->get('templating')->renderResponse('adClassifiedBundle:Ads:details.html.twig', array(
 				'ad' => $ad,
-				'user' => $this->getUser()
+				'category' => $category
 		));
 	}
 	
@@ -305,12 +303,20 @@ class AdsController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		
 		$request = $this->container->get('request');
-		$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
+		$config = $em->getRepository('adClassifiedBundle:config')->getConfig();
 		
-		$title = $request->request->get('title');		
+		$title = $request->request->get('title');
+		$idcategory = $request->request->get('category');
+		$category = null;
+		
+		if ($idcategory != 0)
+		{
+			$category = $em->getRepository('adClassifiedBundle:Category')->findBy(array('id' => $idcategory));
+		}
+		
 		$results = array();
 		
-		$ad = $em->getRepository("adClassifiedBundle:Ads")->findByTitleLike($title);
+		$ad = $em->getRepository("adClassifiedBundle:Ads")->findByTitleLike($title, $idcategory);
 		
 		foreach ($ad as $ads)
 		{
@@ -320,6 +326,7 @@ class AdsController extends Controller
 			}
 		}
 		
+		$nbr = count($results);
 		
 		$paginator  = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(	$results,
@@ -327,19 +334,31 @@ class AdsController extends Controller
 											$config->getResultsByPages()/*limit per page*/
 		);
 		
-		$form = $this->container->get('form.factory')->create(new adsSearchType(), array('motcle' => $title));
 		
 		if ($request->request->get('ajax') == 'on')
 		{
 			return $this->render('adClassifiedBundle:Ads:search.html.twig',array('pagination' => $pagination,
-																				 'form' => $form->createView()));
+																				 'category' => $category[0],
+																				 'recherche' => $title,
+																				 'nbrResults' => $nbr));
 		}
 		else 
 		{
-			return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
-																					'form' => $form->createView()));
+			return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination));
 		}
 		
+	}
+	
+	/**
+	 * @Route("/ads/popular/", name="ad_popular_ads")
+	 */
+	public function findMostPopularAdsAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+	
+		$ads = $em->getRepository('adClassifiedBundle:Ads')->getPopularAds();
+		
+		return $this->render('adClassifiedBundle:Ads:popular.html.twig', array('ads' => $ads));
 	}
 }
 	

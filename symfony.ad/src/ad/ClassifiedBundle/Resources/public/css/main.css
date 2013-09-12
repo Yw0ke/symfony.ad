@@ -339,7 +339,8 @@ form.formulaire textarea:focus {
 /*          BREADCRUMB          */
 /********************************/
 .breadcrumb {
-	margin-top: 15px;
+	margin-bottom: 15px;
+	padding:0px;
 }
 
 .breadcrumb > div {
@@ -743,11 +744,11 @@ form.formulaire textarea:focus {
 /********************************/
 /*           ANNONCE            */
 /********************************/
-.annonce .main-content h1 {
+.main-content h1 {
 	margin-bottom: 0;
 }
 
-.annonce .main-content .price {
+.main-content .price {
 	padding-left: 20px;
 	margin-bottom: 15px;
 	font-size: 1.125em;
@@ -804,34 +805,34 @@ form.formulaire textarea:focus {
 			background-position: -40px 0;
 		}
 
-.annonce .main-content .description {
+.main-content .description {
 	margin: 25px 0;
 	color: #333;
 }
 
-	.annonce .main-content .description p {
+	.main-content .description p {
 		margin-bottom: 15px;
 	}
 
-.annonce .main-content .resp-tabs-container {
+.main-content .resp-tabs-container {
 	clear: both;
 	background: #fff;
 }
 
-.annonce .main-content .resp-tab-content {
+.main-content .resp-tab-content {
 	display: none;
 	padding: 15px 20px;
 }
 
-	.annonce .main-content .resp-tab-content p {
+	.main-content .resp-tab-content p {
 		font-size: .875em;
 	}
 
-		.annonce .main-content .resp-tab-content p span {
+		.main-content .resp-tab-content p span {
 			color: #333;
 		}
 
-.annonce .main-content .reference {
+.main-content .reference {
 	padding: 3px 8px 3px 28px;
 	border: 2px solid #333;
 	margin: 30px 0;
@@ -840,7 +841,7 @@ form.formulaire textarea:focus {
 	text-transform: uppercase;
 }
 
-	.annonce .main-content .reference span {
+	.main-content .reference span {
 		color: #3498db;
 		text-transform: none;
 	}

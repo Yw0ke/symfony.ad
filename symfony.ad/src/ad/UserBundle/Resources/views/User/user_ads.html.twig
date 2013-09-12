@@ -1,0 +1,9 @@
+{% if ads is defined %}
+<ul>
+	{% for ad in ads %}
+	<li><a href="/ads/details/{{ ad.id }}">{{ ad.title }}</a></li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>Aucune autre annonces de cet utilisateur.</p>
+{% endif %}
