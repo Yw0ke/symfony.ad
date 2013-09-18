@@ -1,11 +1,85 @@
 {% extends "::layout.html.twig" %}
 
-{% block body %}
+{% block breadcrumb %}
+<section class="breadcrumb wrap">
+	<div>
+		<a href="{{ path('ad_index') }}">Accueil</a><span>Poster une annonce</span>
+	</div>
+</section>
+{% endblock %}
 
-<div class="span8 well centertext newadd">
-<h2>Enregistrer une nouvelle annonce</h1>
-	<form action="{{ path('ad_new_ads') }}" method="post" {{ form_enctype(form) }}>
-		{{ form(form) }}
+{% block body %}
+<section class="form-content">
+
+<h1>Enregistrer une nouvelle annonce</h1>
+	<form class="newadd well" action="{{ path('ad_new_ads') }}" method="post" {{ form_enctype(form) }}>
+		
+		    {{ form_errors(form.title) }}
+		<div>
+		    {{ form_label(form.title) }}
+		    {{ form_widget(form.title) }}
+		</div>
+		    {{ form_errors(form.categoryId) }}
+		<div>
+			{{ form_label(form.categoryId) }}
+		    {{ form_widget(form.categoryId) }}
+		</div>
+		    {{ form_errors(form.pic) }}
+		<div>
+			{{ form_label(form.pic) }}
+		    {{ form_widget(form.pic) }}
+		</div>
+		    {{ form_errors(form.pic1) }}
+		<div>
+			{{ form_label(form.pic1) }}
+		    {{ form_widget(form.pic1) }}
+		</div>
+		    {{ form_errors(form.pic2) }}
+		<div>
+			{{ form_label(form.pic2) }}
+		    {{ form_widget(form.pic2) }}
+		</div>
+		    {{ form_errors(form.pic3) }}
+		<div>
+			{{ form_label(form.pic3) }}
+		    {{ form_widget(form.pic3) }}
+		</div>
+		    {{ form_errors(form.OwnerAdress) }}
+		<div>
+			{{ form_label(form.OwnerAdress) }}
+		    {{ form_widget(form.OwnerAdress) }}
+		</div>
+		    {{ form_errors(form.OwnerCity) }}
+		<div>
+			{{ form_label(form.OwnerCity) }}
+		    {{ form_widget(form.OwnerCity) }}
+		</div>
+		    {{ form_errors(form.Price) }}
+		<div>
+			{{ form_label(form.Price) }}
+		    {{ form_widget(form.Price) }}
+		</div>
+		    {{ form_errors(form.OwnerType) }}
+		<div id="ownertype">
+			{{ form_label(form.OwnerType) }}
+		    {{ form_widget(form.OwnerType) }}
+		</div>
+		    {{ form_errors(form.OwnerZip) }}
+		<div>
+			{{ form_label(form.OwnerZip) }}
+		    {{ form_widget(form.OwnerZip) }}
+		</div>
+			{{ form_errors(form.OwnerPhone) }}
+		<div>
+			{{ form_label(form.OwnerPhone) }}
+		    {{ form_widget(form.OwnerPhone) }}
+		</div>
+		    {{ form_errors(form.Comment) }}
+		<div id="commentform">
+			{{ form_label(form.Comment) }}
+		    {{ form_widget(form.Comment) }}
+		</div>
+		{{ form_rest(form) }}
 	</form>
 </div>
 

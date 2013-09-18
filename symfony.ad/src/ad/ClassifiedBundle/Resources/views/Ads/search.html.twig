@@ -50,7 +50,7 @@
 	</section>
 	{% elseif (category is not null) and (category.parent is not empty) %}
 	<section class="bloc sous-categories">
-		<p class="title">Catégories parentes</p>
+		<p class="title">Catégorie parente</p>
 		<ul>
 			<li><a href="/filter/{{category.parent.slug }}">{{category.parent.name }}</a></li>
 		</ul>

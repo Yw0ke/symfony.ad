@@ -40,6 +40,7 @@ class AdsController extends Controller
 		
 		$att = $em->getRepository("adClassifiedBundle:attribute")->findAll();
 		
+		
 		$mix = array();
 		
 		foreach ($att as $attribut)
@@ -344,7 +345,10 @@ class AdsController extends Controller
 		}
 		else 
 		{
-			return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination));
+			return $this->render('adClassifiedBundle:Default:index.html.twig',array('pagination' => $pagination,
+																				 	'category' => $category[0],
+																				 	'recherche' => $title,
+																					 'nbrResults' => $nbr));
 		}
 		
 	}

@@ -56,7 +56,10 @@ class DefaultController extends Controller
     	
     	$config = $config = $em->getRepository('adClassifiedBundle:config')->getConfig();
     	
+    	$category = $em->getRepository('adClassifiedBundle:Category')->findBy(array('slug' => $filter));
+    	
     	$ads = $em->getRepository('adClassifiedBundle:Ads')->getConfirmedAds($filter);
+    	$nbr = count($ads);
     	
     	$paginator  = $this->get('knp_paginator');
     	 
@@ -65,7 +68,18 @@ class DefaultController extends Controller
 							    			$config->getResultsByPages()/*limit per page*/
 							    			);
     	 
-    	return $this->render('adClassifiedBundle:Default:filtered.html.twig',array('pagination' => $pagination));
+    	return $this->render('adClassifiedBundle:Default:filtered.html.twig', array('pagination' => $pagination,
+																				   'category' => $category[0],
+																				   'nbrResults' => $nbr));
+    }
+    
+    /**
+     * @Route("/buyaboat", name="ad_buyaboat")
+     * @Template()
+     */
+    public function buyaboatAction()
+    {
+    	return $this->render('adClassifiedBundle:Default:bab.html.twig', array());
     }
     
  	/**

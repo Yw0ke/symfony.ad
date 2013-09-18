@@ -850,12 +850,12 @@ form.formulaire textarea:focus {
 /********************************/
 /*            PAGE              */
 /********************************/
-.page .page-content h2 {
+.page-content h2 {
 	margin-bottom: 20px;
 	color: #333;
 }
 
-.page .page-content p {
+.page-content p {
 	margin-bottom: 15px;
 }
 
@@ -919,6 +919,82 @@ form.formulaire textarea:focus {
 }
 
 
+/********************************/
+/*        FORMS                 */
+/********************************/
+
+.form-content h1{
+	color: #3498DB;
+    font-size: 1.125em;
+    text-align:center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.well{
+	background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin-bottom: 20px;
+    min-height: 20px;
+    padding: 19px;
+}
+
+.help-inline{
+	padding: 0px 5px 1px 5px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    display:inline-block;
+    position:absolute;
+    right:-250px;
+    width:350px;
+    text-align:center;
+}
+
+
+.login{
+	width:600px;
+	margin:0 auto;
+}
+
+.login div{
+	display:block;
+	height:25px;
+	width:350px;
+	margin:0 auto;
+}
+
+.login input{
+	float:right;
+}
+
+.login label{
+	display:block;
+	float:left;
+}
+
+#_submit{
+	float:none;
+	display:block;
+	margin:0 auto;
+}
+
+#rememberme{
+	width:175px;
+}
+
+#rememberme input{
+	margin-top:5px;
+}
 
 
 
@@ -928,12 +1004,62 @@ form.formulaire textarea:focus {
 
 
 
+.newadd{
+	width:800px;
+	margin:0 auto;
+	position:relative;
+}
 
+.newadd div{
+	display:block;
+	height:25px;
+	width:500px;
+	margin:0 auto;
+	margin-bottom:10px;
+}
 
+.newadd input, .newadd select, .newadd textarea{
+	float:right;
+	width:175px;
+}
 
+.newadd label{
+	display:block;
+	float:left;
+}
 
+#ownertype{
+	height:60px;
+}
 
+#ownertype .radio{
+	float:right;
+}
 
+#ownertype .radio input{
+	width:80px;
+	margin-top:5px;
+}
+
+#ownertype .radio {
+	clear:right;
+}
+
+#commentform{
+	height:80px;;
+}
+
+#commentform textarea{
+	margin-bottom:15px;
+	display:block;
+	height:60px;
+}
+
+#ad_classifiedbundle_adstype_Envoyer{
+	float:none;
+	display:block;
+	margin:0 auto;
+}
 
 
 

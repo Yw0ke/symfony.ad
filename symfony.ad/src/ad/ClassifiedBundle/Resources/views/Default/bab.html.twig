@@ -1,0 +1,83 @@
+{% extends "::layout.html.twig" %}
+
+{% block breadcrumb %}
+<section class="breadcrumb wrap">
+	<div>
+		<a href="{{ path('ad_index') }}">Accueil</a><span>Acheter un bateau ?</span>
+	</div>
+</section>
+{% endblock %}
+
+{% block body %}
+
+
+<section class="main-content">
+	<h1>Acheter un bateau ?</h1>
+
+	<div class="page-content">
+		<h2>À propos d'acheter-un-bateau.com !</h2>
+		<p>Acheter-un-bateau.com propose aux particuliers comme aux professionnels de déposer leurs annonces de bateaux d'occasion ou bateaux neuf facilement et surtout GRATUITEMENT sur un site rassemblant l'ensemble des outils marketing disponible actuellement sur le net. En déposant votre annonce de bateau occasion gratuitement sur notre site celle-ci sera visible par des milliers de personnes tous d'abord grâce au site, mais aussi à travers les réseaux sociaux qui sont devenus des références en matière de communication sur le web ! De plus Acheter un bateau permet de toucher une clientèle mondiale pouvant grandement accroitre le chiffre d'affaire des professionnels sans pour autant dépenser des centaines d'euros comme c'est le cas sur de nombreux autres sites.</p>
+		<p>Notre site accueil également un blog dans lequel sur demande nous pouvons effectuer une présentation de votre agence ou de votre bateaux ou encore un communiqué de presse, permettant ainsi d'accroitre votre visibilité sur internet. Nous proposons toujours dans le but d'augmenter la popularité de votre agence la mise en place de campagne publicitaire sur notre site à des prix défiant toutes concurrences ! Ici pas de chiffre à faire tourner la tête, nos espaces publicitaires coûtent tous en moyenne 50% de moins que la concurrence.</p>
+		<p>Acheter un bateau .com c'est des milliers d'annonces de bateaux occasion misent à jour en temps réel proposées à des centaines de clients tous les jours et tout ça GRATUITEMENT, alors rejoignez nous vite !</p>
+	</div>
+
+	<aside>
+		<p class="title">2 commentaires</p>
+		<div class="commentaire">
+			<img src="{{ asset('bundles/adclassified/img/pictos/avatar.jpg') }}" alt="Photo de profil" class="avatar">
+			<div class="texte">
+				<p class="header">
+					<a href="#_">Michel</a> le 30 juillet 2013 à 12:50
+				</p>
+				<p>
+					Ce site est super, j'aime trop mon bateau, je suis content !<br>
+					Venez voir mon site <a href="#_">lesitedemichel.fr</a> !
+				</p>
+			</div>
+		</div>
+		<div class="commentaire">
+			<img src="{{ asset('bundles/adclassified/img/pictos/avatar.jpg') }}" alt="Photo de profil" class="avatar">
+			<div class="texte">
+				<p class="header">
+					<a href="#_">Michel</a> le 30 juillet 2013 à 12:50
+				</p>
+				<p>
+					Ce site est super, j'aime trop mon bateau, je suis content !<br>
+					Venez voir mon site <a href="#_">lesitedemichel.fr</a> !
+				</p>
+			</div>
+		</div>
+
+		<p class="title">Laisser un commentaire</p>
+		<form action="#_" class="formulaire">
+			<div>
+				<label for="annonce-commentaire-name" class="infield">Nom*</label>
+				<input type="text" id="annonce-commentaire-name" name="annonce-commentaire-name" required="required">
+			</div>
+			<div>
+				<label for="annonce-commentaire-email" class="infield">Email*</label>
+				<input type="text" id="annonce-commentaire-email" name="annonce-commentaire-email" required="required">
+			</div>
+			<div>
+				<label for="annonce-commentaire-website" class="infield">Site web</label>
+				<input type="text" id="annonce-commentaire-website" name="annonce-commentaire-website">
+			</div>
+			<div>
+				<label for="annonce-commentaire-message" class="infield">Message*</label>
+				<textarea name="annonce-commentaire-message" id="annonce-commentaire-message" cols="30" rows="6" required="required"></textarea>
+			</div>
+			<input type="submit" name="annonce-commentaire-submit" id="annonce-commentaire-submit" value="Envoyer" class="border-button">
+		</form>
+	</aside>
+</section>
+
+<aside class="left-sidebar">
+	<section class="bloc">
+		<p class="title">Annonces populaires aujourd'hui</p>
+		
+		{% render(controller("adClassifiedBundle:Ads:findMostPopularAds")) %}
+		
+	</section>
+</aside>
+
+{% endblock %}

@@ -64,7 +64,7 @@
                                 {% render(controller("adClassifiedBundle:Default:renderCategory")) %}
                             </ul>
                         </li>
-                		<li><a href="page.html">Acheter un bateau ?</a></li>
+                		<li><a href="{{ path('ad_buyaboat') }}">Acheter un bateau ?</a></li>
                         <li><a href="#_">Votre publicité</a></li>
                     </ul>
                 </nav>
@@ -101,8 +101,8 @@
             <div class="first-footer">
                 <div class="wrap cf">
                     <ul class="footer-nav">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="page.html">Acheter un bateau ?</a></li>
+                        <li><a href="{{ path('ad_index') }}">Accueil</a></li>
+                        <li><a href="{{ path('ad_buyaboat') }}">Acheter un bateau ?</a></li>
                         <li><a href="#_">CGU et CGV</a></li>
                         <li><a href="#_">Votre publicité</a></li>
                     </ul>
@@ -115,7 +115,7 @@
             </div>
 
             <div class="ultra-footer wrap">
-                <p>© 2013 Acheter un Bateau. Tous droits réservés.</p>
+                <p>Ce site est une maquette en travaux réaliser sur Symfony 2 par HAMMOUTI Ilyas. Tous droits réservés.</p>
                 <ul class="baseline">
                     <li><a href="#_">Acheter un bateau a Marseille</a></li>
                     <li><a href="#_">Chambres d'hotes de charmes en pays de Pezenas / Agde</a></li>
